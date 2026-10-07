@@ -5,4 +5,5 @@ import Clay.Gaps.HistoryClock
 import Clay.Gaps.DirectionAlignment
 import Clay.Gaps.TwoDClock
 import Clay.Gaps.MissingInputs
+import Clay.Gaps.StretchingIntegral
 import Clay.Depletion.GeometricAlignment
