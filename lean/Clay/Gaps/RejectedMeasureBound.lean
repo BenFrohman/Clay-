@@ -1,16 +1,17 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-Rejected route. ∫ |ω|⁶ ≥ c M⁴ with c depending only on energy and viscosity is not
-a theorem. The tether does not supply c. Thin tubes are compatible with smooth solutions.
+Rejected route. The inequality ∫|ω|⁶ ≥ c M⁴ with c depending only on energy
+and viscosity is not asserted. A lemma := sorry of that type would be
+sorryAx of a false statement.
+Spike: a peak of height M on a set of measure δ contributes order δ M⁶.
 -/
 
 namespace Clay.Gaps.RejectedMeasureBound
 
-opaque universalPeakLowerBound : Prop
+def reversedHolderClaim : Prop :=
+  False
 
-theorem tether_does_not_supply_universal_c :
-    universalPeakLowerBound → universalPeakLowerBound := by
-  intro h
-  exact h
+theorem reversed_holder_not_asserted : reversedHolderClaim → False :=
+  fun h => h
 
 end Clay.Gaps.RejectedMeasureBound
