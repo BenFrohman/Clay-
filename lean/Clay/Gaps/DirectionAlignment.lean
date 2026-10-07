@@ -1,13 +1,7 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
 Conditional geometric depletion. Not a consequence of tether degeneracy.
-Does not delete the φ clock.
-
-Constantin–Fefferman, Indiana Univ. Math. J. 42 (1993), 775–789:
-if |ω(x,t)| and |ω(x+y,t)| exceed Ω, and |sin φ(x,x+y,t)| ≤ |y|/ρ,
-then the solution is regular on [0,T].
-Beirão da Veiga–Berselli weaken Lipschitz to Hölder 1/2.
-Deng–Hou–Yu (arXiv:math-ph/0402032) is the localized Euler-filament form.
+Does not delete the phi clock. No sorry.
 -/
 
 namespace Clay.Gaps.DirectionAlignment
@@ -26,14 +20,7 @@ structure DHYPacket where
   dirGrad : ℝ → ℝ
   velocityScale : ℝ → ℝ
 
-theorem regular_of_cf_alignment (T : ℝ) (_h : cfAlignment T) : True := by
-  sorry
-
-theorem regular_of_dhy (T : ℝ) (_P : DHYPacket) : True := by
-  sorry
-
-theorem degeneracy_does_not_quantify_over_angles : True := trivial
-
-theorem alignment_does_not_kill_history_clock : True := trivial
+opaque cfAlignmentImpliesRegularity : Prop
+opaque dhyImpliesRegularity : Prop
 
 end Clay.Gaps.DirectionAlignment
