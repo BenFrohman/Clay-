@@ -1,8 +1,9 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
 
-Mathlib is required at v4.16.0 so ℝ and interval integrals elaborate.
-formal-conjectures and openai/NavierStokesAndEuler stay URL pins, not dependencies.
+Mathlib v4.16.0. The scope/name slash form does not parse on Lake 5.0.0
+(unexpected token '/'). The git URL form does.
+formal-conjectures and openai/NavierStokesAndEuler stay URL pins.
 -/
 
 import Lake
@@ -14,7 +15,8 @@ package «Clay-» where
     ⟨`relaxedAutoImplicit, false⟩
   ]
 
-require «leanprover-community» / «mathlib» @ git «v4.16.0»
+require mathlib from git
+  "https://github.com/leanprover-community/mathlib4" @ "v4.16.0"
 
 @[default_target]
 lean_lib Clay where
