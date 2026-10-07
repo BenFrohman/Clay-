@@ -1,8 +1,9 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-Conditional geometric depletion. Not a consequence of tether degeneracy.
-Does not delete the phi clock. No sorry.
+Conditional geometric depletion. No sorry.
 -/
+
+import Mathlib.Data.Real.Basic
 
 namespace Clay.Gaps.DirectionAlignment
 

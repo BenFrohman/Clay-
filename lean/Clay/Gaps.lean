@@ -1,29 +1,28 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman.
-Skeleton only. These declarations are not theorems of Navier--Stokes.
+Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
+Skeleton. The two sorry theorems are open obligations, not Navier-Stokes theorems.
 -/
 
--- Intentionally free of `import Mathlib` so the file states the open obligations
--- without pretending to elaborate against a toolchain in this scaffold.
+import Mathlib.MeasureTheory.Integral.IntervalIntegral
+import Mathlib.Data.Real.Basic
 
 namespace Clay.Gaps
 
-/-- Gap A: the history integral of a positive equilibrium is not uniformly bounded. -/
+open MeasureTheory Set
+
 theorem history_integral_not_uniform
-    (y : Real → Real) (y_star : Real)
+    (y : ℝ → ℝ) (y_star : ℝ)
     (hpos : 0 < y_star)
     (hlim : ∀ ε > 0, ∃ T, ∀ t ≥ T, |y t - y_star| < ε) :
-    ¬ (∃ C, ∀ t ≥ 0, ∫ s in Set.Icc 0 t, (y s) ^ 2 ≤ C) := by
+    ¬ (∃ C, ∀ t ≥ 0, ∫ s in Icc 0 t, (y s) ^ 2 ≤ C) := by
   sorry
 
-/-- Gap B: an L^6 integral does not control L^∞ without a measure lower bound. -/
 theorem l6_does_not_control_linfty :
-    ¬ (∀ (M : Real) (vol : Real),
+    ¬ (∀ (M : ℝ) (vol : ℝ),
         0 < M → 0 < vol → vol ≤ 1 →
         M ^ 6 * vol ≥ M ^ 4) := by
   sorry
 
-/-- Statement (B) is not asserted here. -/
 theorem statement_B_open : True := trivial
 
 end Clay.Gaps

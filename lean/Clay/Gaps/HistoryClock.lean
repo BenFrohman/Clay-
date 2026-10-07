@@ -1,11 +1,13 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-The φ clock. The driver is a definition, not a theorem about Navier–Stokes.
-A steady positive vorticity makes the positive term grow like t^{3/2}.
-A 2D solution has constant direction and still feeds this clock.
+The driver is a definition, not a theorem about Navier-Stokes solutions.
 -/
 
+import Mathlib.MeasureTheory.Integral.IntervalIntegral
+
 namespace Clay.Gaps.HistoryClock
+
+open MeasureTheory intervalIntegral
 
 opaque Cabs : ℝ
 opaque kappa'' : ℝ

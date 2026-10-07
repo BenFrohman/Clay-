@@ -4,6 +4,8 @@ Geometric core, schematic. Π(u) = 0 is the defining property of the projection.
 Not an a priori estimate on ‖ω‖_∞. Does not mention vortex direction.
 -/
 
+import Mathlib.Data.Real.Basic
+
 namespace Clay.Tether
 
 opaque Velocity : Type

@@ -1,12 +1,13 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
 Named open obligation. Not a theorem.
-Beale–Kato–Majda (Comm. Math. Phys. 94, 1984) is a continuation theorem.
-On T³, unforced, the bound below is equivalent to Fefferman (B).
-A theorem := sorry would export Statement (B) under sorryAx.
 -/
 
+import Mathlib.MeasureTheory.Integral.IntervalIntegral
+
 namespace Clay.Gaps.BKMIntegral
+
+open MeasureTheory intervalIntegral
 
 opaque M : ℝ → ℝ
 opaque dataBound : ℝ → ℝ

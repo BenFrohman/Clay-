@@ -1,17 +1,8 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
 
-Statement (B) workspace. Comparators are pins, not Lake dependencies.
-Mathlib is required so that ℝ and interval integrals elaborate.
-It does not discharge StatementB.
-
-Do not require these into this build:
-
-* google-deepmind/formal-conjectures
-  FormalConjectures/Millennium/NavierStokes.lean — statement comparator only.
-* openai/NavierStokesAndEuler
-  Forced breakdown, Fefferman (C) and (D). Different Lean pin.
-  Compatible with unforced (B) staying open. Not a dependency.
+Mathlib is required at v4.16.0 so ℝ and interval integrals elaborate.
+formal-conjectures and openai/NavierStokesAndEuler stay URL pins, not dependencies.
 -/
 
 import Lake
@@ -23,7 +14,7 @@ package «Clay-» where
     ⟨`relaxedAutoImplicit, false⟩
   ]
 
-require "leanprover-community" / "mathlib" @ git "v4.16.0"
+require «leanprover-community» / «mathlib» @ git «v4.16.0»
 
 @[default_target]
 lean_lib Clay where
