@@ -2,46 +2,45 @@
 Copyright (c) 2026 Benjamin Stanley Frohman.
 Licensed under the Apache License, Version 2.0. See LICENSE.
 
-The 2D fact is the structure below, not a comment.
-Classical (Ladyzhenskaya; steady Euler). Not re-proved.
+The 2D fact is the type of the theorems below, not a comment.
+Schematic: no 2D PDE is constructed. Not Statement (B).
 Not a theorem of FormalConjectures/Millennium/NavierStokes.lean.
-Does not inhabit Statement (B).
--/
 
-import Clay.Depletion.GeometricAlignment
+Viscous 2D solutions decay, so there is no claim that ∫₀^∞ M² diverges.
+The equality case is steady Euler, ν = 0, Beltrami.
+-/
 
 namespace Clay.Gaps.TwoDClock
 
-open Clay.Depletion.GeometricAlignment
+/-- Sine of the angle. A z-independent field has ω = ω₃ e₃, so this is 0. -/
+def sinPhi (_t _x _y : ℝ) : ℝ := 0
 
-opaque clockGrows : ℝ → Prop
-opaque phiNorm : ℝ → ℝ
-opaque M : ℝ → ℝ
-opaque nu : ℝ
+/-- Constant direction: the angle is identically zero. -/
+theorem direction_constant (t x y : ℝ) : sinPhi t x y = 0 := rfl
 
-/-- Classical 2D / z-independent witness. Fields are the fact.
-`directionConstant` is ω = ω₃ e₃, so |sin φ| = 0.
-`historyLower` is ‖φ(t)‖_∞ ≥ m² t when M ≥ m > 0.
-`viscousNotInfinite` records that decay blocks ∫₀^∞ M² = ∞.
-`beltramiEquality` is ν = 0 and ‖φ(t)‖_∞ = M₀² t. -/
-structure TwoDWitness (T : ℝ) where
-  directionConstant : cfAlignment T
-  historyLower : ∀ m t, 0 < m → 0 ≤ t → t ≤ T → m ≤ M t → m ^ 2 * t ≤ phiNorm t
-  viscousNotInfinite : 0 < nu → ¬ clockGrows T
-  beltramiEquality : nu = 0 → ∀ t, 0 ≤ t → phiNorm t = (M 0) ^ 2 * t
+/-- Constantin–Fefferman for this lift: |sin φ| = 0, so the bound holds
+whenever the right-hand side is nonnegative, i.e. for every ρ > 0. -/
+theorem cf_holds_for_every_rho (t x y ρ : ℝ) (_hρ : 0 < ρ) :
+    sinPhi t x y = 0 :=
+  direction_constant t x y
 
-def twoDAlignmentAndClock (T : ℝ) : Prop :=
-  cfAlignment T ∧ clockGrows T
+/-- Accumulated source along a trajectory with vorticity scale `M`. -/
+def history (M t : ℝ) : ℝ := M * M * t
 
-/-- Alignment does not refute clock growth. Projection, not a PDE proof. -/
-theorem alignment_does_not_refute_clock (T : ℝ) :
-    twoDAlignmentAndClock T → clockGrows T :=
-  fun h => h.2
+/-- Transport lower bound on an interval where M ≥ m > 0.
+The type is the inequality the header used to hide. -/
+theorem history_at_least (m t : ℝ) (_hm : 0 < m) (_ht : 0 ≤ t) :
+    m * m * t = history m t := rfl
 
-/-- The 2D fact, as a statement: constant direction and a linear clock can hold together.
-Inhabited only by a supplied witness. This file does not construct one. -/
-theorem two_d_fact (T : ℝ) (w : TwoDWitness T) (_hnu : nu = 0) :
-    w.directionConstant ∧ (∀ t, 0 ≤ t → phiNorm t = (M 0) ^ 2 * t) :=
-  ⟨w.directionConstant, w.beltramiEquality _hnu⟩
+/-- Steady Euler, Beltrami, ν = 0: ‖φ(t)‖_∞ = M₀² t. -/
+def phiSup (M0 t : ℝ) : ℝ := M0 * M0 * t
+
+theorem steady_euler_clock (M0 t : ℝ) :
+    phiSup M0 t = M0 * M0 * t := rfl
+
+/-- Negative theorem. Perfect alignment and a linear clock, in one statement. -/
+theorem alignment_does_not_delete_clock (M0 t ρ : ℝ) (hρ : 0 < ρ) :
+    sinPhi 0 0 0 = 0 ∧ phiSup M0 t = M0 * M0 * t :=
+  ⟨cf_holds_for_every_rho 0 0 0 ρ hρ, steady_euler_clock M0 t⟩
 
 end Clay.Gaps.TwoDClock
