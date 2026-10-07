@@ -1,0 +1,99 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}{Definition}
+\begin{document}
+\title{Geometric boundaries of the Frohmanian symplectic tether\\
+formal tracking of the Navier--Stokes millennium problem}
+\author{Benjamin Stanley Frohman\\ Independent researcher}
+\date{October 2026}
+\maketitle
+
+\begin{abstract}
+This note records the boundary of the Frohmanian symplectic tether as applied to
+Fefferman statement (B), unforced Navier--Stokes on $\mathbb{T}^3$.
+The tether is a schematic metric correction built so that $B(F,H)\equiv 0$.
+That identity does not supply the a priori estimate required for global regularity.
+A steady two-dimensional Beltrami field has constant vorticity direction and a
+clock $\lVert\phi(t)\rVert_{L^\infty}=M_0^2 t$, while $\int_0^T M_0\,dt=M_0 T$
+remains finite. Time-history Lyapunov functionals do not close the
+Beale--Kato--Majda integral. Statement (B) remains open.
+\end{abstract}
+
+\section{Geometric core}
+The intended setting is the coadjoint orbit of volume-preserving diffeomorphisms
+of $\mathbb{T}^3$. The tether is a bilinear correction $B(F,G)$ using an
+$L^2$-orthogonal projection $\Pi_u$ with $\Pi_u(u)=0$.
+If $\delta H/\delta\omega=u$, the kernel is built to vanish:
+\[
+B(F,H)\equiv 0.
+\]
+In \texttt{lean/Clay/Tether.lean} this is a structure field, not a constructed
+bilinear form on $\mathbb{T}^3$, and not a proof that a symplectic extension
+preserves the Euler equation as a PDE.
+The identity contributes nothing on the kinetic energy, so it does not estimate
+$\alpha=\xi\cdot\nabla u\cdot\xi$.
+
+\section{The history clock}
+The auxiliary field used in earlier drafts satisfies
+\[
+\partial_t\phi+u\cdot\nabla\phi=\lvert\omega\rvert^2,\qquad \phi(0,x)=0,
+\]
+so $\lVert\phi(t)\rVert_{L^\infty}\le\int_0^t M(s)^2\,ds$ along characteristics,
+with $M(t)=\lVert\omega(t)\rVert_{L^\infty}$.
+
+On a steady Euler field with $\nu=0$, $\omega=\omega_3 e_3$, and $M\equiv M_0$,
+the same transport equation gives the equality case
+\[
+\lVert\phi(t)\rVert_{L^\infty}=M_0^2 t.
+\]
+This is a classical fact, cited, not constructed in Lean.
+\texttt{TwoDClock.lean} models it by defining \texttt{sinPhi} to be $0$ and
+\texttt{phiSup} to be $M_0^2 t$, then closing by \texttt{rfl}.
+A majorant whose positive term reads $\int_0^t M^2$ grows on a solution that is
+already regular. The clock is the wrong quantity. It is not a divergent
+Beale--Kato--Majda integral: on a finite interval both
+$\int_0^T M_0\,dt=M_0 T$ and $\int_0^T M_0^2\,dt=M_0^2 T$ are finite.
+
+\section{Alignment does not delete the clock}
+Constantin--Fefferman assumes $\lvert\sin\varphi\rvert\le\lvert y\rvert/\rho$
+where both vorticity magnitudes exceed a threshold.
+The same $z$-independent field has $\xi$ constant, so $\sin\varphi=0$ and the
+bound holds for every $\rho>0$, while the clock is still $M_0^2 t$.
+Alignment controls $\alpha$ through the Biot--Savart kernel.
+The clock integrates $\lvert\omega\rvert^2$ and does not read $\xi$.
+Deriving the angle bound from $B(F,H)\equiv 0$ is a type error:
+the bracket quantifies over functionals, the angle bound over $\xi(x)-\xi(y)$.
+Proving the angle bound for every smooth divergence-free $u_0$ is statement (B)
+again.
+
+\section{Beale--Kato--Majda}
+The criterion asks for
+\[
+\int_0^T M(t)\,dt<\infty
+\]
+for every finite $T$, for every smooth divergence-free finite-energy initial
+datum, with force zero, and then parabolic regularity.
+The two-dimensional steady case satisfies it.
+A linearly growing clock does not imply that this integral diverges, and the
+tether does not prove that it stays finite in three dimensions.
+\texttt{bkmIntegralFinite} is an opaque proposition.
+Defining it as false would be a blowup claim this note does not make.
+
+No instantaneous weight is extracted from the tether.
+Energy, helicity, and the Casimirs are preserved by the field the degeneracy
+keeps, which is why they do not absorb $\alpha$.
+The scale-critical norm $\lVert\omega\rVert_{L^{3/2}}$, and the variable
+$Z=\lvert\omega\rvert^{-1/4}\omega$ of Shahmurov (arXiv:2605.01873),
+are not corollaries of $\Pi_u(u)=0$. That paper claims no unconditional
+three-dimensional regularity theorem.
+
+Statement (B) remains open.
+Forced statements (C) and (D) are a different claim and are not adjudicated here.
+\texttt{FormalConjectures/Millennium/NavierStokes.lean} is a URL pin, not a
+Lake dependency.
+
+\end{document}
