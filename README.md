@@ -8,7 +8,9 @@ Private workspace for Fefferman statement (B): unforced 3D incompressible Navier
 
 **This repository is not a completed Clay resolution.**
 
-See `STATUS.md` for the referee finding on the Section 10 bootstrap (history-integral gap and concentration gap), the relation to the September 2026 forced-breakdown claims of statements (C) and (D), and reusable modules in `BenFrohman/NS_Millennium_Proof` and Mathlib.
+- `lean/Clay/Gaps/TwoDClock.lean` — the 2D fact: constant direction, so Constantin–Fefferman holds, and the history integral still grows like $m^2 t$ wherever $M\ge m>0$. Steady Euler equality case $\|\phi(t)\|_\infty=M_0^2 t$.
+- `lean/Clay/Gaps/MissingInputs.lean` — BKM integral, metriplectic/L2 gap, CZ/BMO gap, spike obstruction, holographic rejection. None closes Statement (B).
+- `latex/two_d_fact.tex` — the same inputs in LaTeX.
+- `COMPARATOR.md` — `FormalConjectures/Millennium/NavierStokes.lean`. Not a dependency.
 
-- `latex/section10_gaps.tex` — the stated Lyapunov inequality with both gaps marked. Compiles with `pdflatex`.
-- `lean/Clay/` — schematic gap ledger. Statement (B) is a `Prop`, not a theorem. Do not read it as a regularity proof.
+See `STATUS.md` for the Section 10 referee finding.

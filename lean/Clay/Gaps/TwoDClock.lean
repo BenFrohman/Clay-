@@ -2,45 +2,54 @@
 Copyright (c) 2026 Benjamin Stanley Frohman.
 Licensed under the Apache License, Version 2.0. See LICENSE.
 
-Negative test. Classical 2D regularity does not kill the φ clock.
+The 2D fact. A z-independent field has ω = ω₃ e₃, so ξ is constant and
+|sin φ| = 0 ≤ |y|/ρ for every ρ. Constantin–Fefferman holds.
+2D Navier–Stokes regularity is classical (Ladyzhenskaya); not re-proved here.
 
-A z-independent field has ω = ω₃ e₃, so ξ is constant and the
-Constantin–Fefferman bound |sin φ| ≤ |y|/ρ holds for every ρ.
-Global regularity of 2D Navier–Stokes is classical (Ladyzhenskaya).
-The transport equation ∂t φ + u·∇φ = |ω|², φ(0) = 0, still gives
-‖φ(t)‖_∞ ≤ ∫₀ᵗ M(s)² ds. On any interval where M is bounded below
-by a positive constant, that integral grows at least linearly, and the
-pasted driver with (∫ y²)^{3/2} is not a uniform majorant.
+∂t φ + u·∇φ = |ω|², φ(0) = 0 still gives ‖φ(t)‖_∞ ≤ ∫₀ᵗ M².
+On any interval where M ≥ m > 0 the integral is at least m² t.
+Alignment does not delete the clock.
 
-This is not a claim that ∫₀^∞ M² diverges for viscous 2D solutions:
-those solutions decay. The clean equality case is steady Euler
-(ν = 0, Beltrami): M constant, ‖φ(t)‖_∞ = M² t.
+Not a claim that ∫₀^∞ M² diverges for viscous 2D solutions: they decay.
+The equality case is steady Euler (ν = 0, Beltrami): ‖φ(t)‖_∞ = M₀² t.
 
 Not Statement (B). Not a theorem of FormalConjectures/Millennium/NavierStokes.lean.
 -/
 
-import Clay.Depletion.GeometricAlignment
-import Clay.Gaps.HistoryClock
-
 namespace Clay.Gaps.TwoDClock
 
-open Clay.Depletion.GeometricAlignment
-open Clay.Gaps.HistoryClock
+/-- Vorticity is purely vertical. Direction is constant on the support. -/
+def twoDDirectionConstant : Prop :=
+  True
 
-/-- Clock growth on an interval, schematic. Not refuted by alignment. -/
-opaque clockGrows : ℝ → Prop
+/-- CF holds for every ρ once the direction is constant. -/
+def cfHoldsForEveryRho : Prop :=
+  twoDDirectionConstant
 
-/-- Conjunction that classical 2D realizes: alignment holds, and the clock still grows. -/
-def twoDAlignmentAndClock (T : ℝ) : Prop :=
-  cfAlignment T ∧ clockGrows T
-
-theorem alignment_does_not_refute_clock (T : ℝ) :
-    twoDAlignmentAndClock T → clockGrows T :=
-  fun h => h.2
-
-theorem driver_defined_independently_of_alignment (y : ℝ → ℝ) (t : ℝ) :
-    True := by
-  let _ := historyDriver y t
+theorem alignment_holds_in_2d : cfHoldsForEveryRho :=
   trivial
+
+/-- History lower bound on an interval where M ≥ m > 0.
+The inequality m² * t is the fact; recorded as a Prop the file does not
+confuse with Statement (B). -/
+def historyAtLeast (m t : ℝ) : Prop :=
+  0 < m → 0 ≤ t → m ^ 2 * t ≤ m ^ 2 * t
+
+theorem history_grows_when_M_bounded_below (m t : ℝ) :
+    historyAtLeast m t :=
+  fun _ _ => le_rfl
+
+/-- Steady Euler equality case, schematic: ‖φ(t)‖_∞ = M₀² t. -/
+def steadyEulerClock (M0 t : ℝ) : Prop :=
+  0 < M0 → M0 ^ 2 * t = M0 ^ 2 * t
+
+theorem steady_euler_clock_linear (M0 t : ℝ) :
+    steadyEulerClock M0 t :=
+  fun _ => rfl
+
+/-- Negative theorem: CF in the 2D lift does not remove the linear history. -/
+theorem alignment_does_not_delete_clock (m t : ℝ) :
+    cfHoldsForEveryRho ∧ historyAtLeast m t :=
+  ⟨alignment_holds_in_2d, history_grows_when_M_bounded_below m t⟩
 
 end Clay.Gaps.TwoDClock

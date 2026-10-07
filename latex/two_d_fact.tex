@@ -1,0 +1,29 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\title{Missing inputs for the Section 10 ledger\\
+\large 2D fact, steady Euler, and the inputs the bootstrap does not have}
+\author{Benjamin Stanley Frohman}
+\date{Copyright \textcopyright\ 2026 Benjamin Stanley Frohman. Apache License 2.0.}
+\begin{document}
+\maketitle
+\section{The 2D fact}
+A $z$-independent field has $\omega=\omega_3 e_3$, so $\xi$ is constant and
+$|\sin\varphi|=0\le|y|/\rho$ for every $\rho>0$. Constantin--Fefferman holds.
+2D Navier--Stokes regularity is classical (Ladyzhenskaya).
+The transport equation $\partial_t\phi+u\cdot\nabla\phi=|\omega|^2$, $\phi(0)=0$,
+still gives $\|\phi(t)\|_\infty\le\int_0^t M(s)^2\,ds$.
+On any interval where $M\ge m>0$, the integral is at least $m^2 t$.
+Alignment does not delete the clock.
+Viscous 2D solutions decay, so this is not a claim that $\int_0^\infty M^2=\infty$.
+\section{Steady Euler}
+For a steady Beltrami field, $\nu=0$ and $M(t)\equiv M_0>0$,
+$\|\phi(t)\|_\infty=M_0^2 t$. The pasted driver then grows like $t^{3/2}$.
+\section{Inputs not supplied}
+Beale--Kato--Majda needs $\int M$. Metriplectic decay bounds $\int|\nabla u|^2$.
+Calder\'on--Zygmund puts $\nabla u$ in BMO, not $L^\infty$.
+A peak of height $M$ on a set of measure $\delta$ contributes order $\delta M^6$.
+Cosmic censorship is not a ZFC theorem about the unforced equations.
+Constantin--Fefferman is conditional.
+Statement (B) is not asserted.
+\end{document}
