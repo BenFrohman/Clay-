@@ -1,0 +1,95 @@
+{
+  "schema": "titan-audit-v1.0",
+  "repository": "BenFrohman/Clay-",
+  "doi": "10.5281/zenodo.23653013",
+  "author": "Benjamin Stanley Frohman",
+  "orcid": "0009-0006-7068-3718",
+  "license": "Apache-2.0",
+  "timestamp_cdt": "2026-10-25T19:10:00-05:00",
+  "lean_module_count": 13,
+  "sorry_count": 0,
+  "modules": [
+    {
+      "file": "lean/Clay/Depletion/GeometricAlignment.lean",
+      "sha256": "4d7125ee4bc187118470f1b75e7868b7461a6819bfc1f3b5b3ff9c2314b5c3a0",
+      "declarations": 5,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps/BKMIntegral.lean",
+      "sha256": "19cea215acbc7903c60bb5498a2de78f758680c129f85c387f673fdeaf3bf2f4",
+      "declarations": 5,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps/ConditionalRiccati.lean",
+      "sha256": "b3c47df1a1cbeb43b65cd44d544947e6c8159afa4f0430b159d9c3f141dfd36f",
+      "declarations": 3,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps/DirectionAlignment.lean",
+      "sha256": "3395eae5672c02735691ae5a711816174d7789b075d07c623616bfcae6cee98e",
+      "declarations": 7,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps/HistoryClock.lean",
+      "sha256": "b134ea98037b29fa629a47210ba9d010a67a7c77496dc21a1779aa9a413e81c1",
+      "declarations": 5,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps/MissingInputs.lean",
+      "sha256": "010aed7022d8fcd7e6186d9fb6c1c51f798b54a72366e4481921a1fd18fb4491",
+      "declarations": 7,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps/RejectedMeasureBound.lean",
+      "sha256": "da60d8abc07fa028c36a99942d39ec618d56821fa19c2aa16c539a521d3cdf51",
+      "declarations": 2,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps/StretchingIntegral.lean",
+      "sha256": "a1b919459c9bf774ef14dd07cc5f7d223c3412cf782d0ed7dc26d2c89fadb067",
+      "declarations": 2,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps/TwoDClock.lean",
+      "sha256": "09bf6a419006c185e6878bb7552cc1af83a74da672812b77724a5c82b917279d",
+      "declarations": 8,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Gaps.lean",
+      "sha256": "99171b435e416ff6d682dc6e6b77c7f5762ba8270affde42d10f17a43749ef49",
+      "declarations": 2,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay/Tether.lean",
+      "sha256": "2e562a881a4d654a6efa9d6e8ffaa574e5b19c4c355711f69d301a3ddfb70fab",
+      "declarations": 9,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/Clay.lean",
+      "sha256": "1d60fd986c2b3aba252d31c7fb708d13ee7516fcab193d874bdf4e866ddaf095",
+      "declarations": 0,
+      "sorry_tokens": 0
+    },
+    {
+      "file": "lean/lakefile.lean",
+      "sha256": "3d3b19f370345872e16a13cac35646056a90efb11b714938da25d70702ff9a2b",
+      "declarations": 0,
+      "sorry_tokens": 0
+    }
+  ],
+  "verdict": "PASS_ZERO_SORRY_HONEST_BOUNDARY",
+  "payload_sha256": "0ae1707c19a6faaf962230fadfa9b728f3d216c6581b71e0a9eddd8b9eef7300",
+  "ed25519_key_fingerprint": "b428fb72676f1c52",
+  "ed25519_signature": "bc6ccd64e0fe3dc3be0a66e0a2d367aa2cdb177502f8005fcb984cd3cb99416eabb28e058cb4bead1daa78fe36db0b7cdf81f69e5474f3b950adfeb1941d1e00"
+}

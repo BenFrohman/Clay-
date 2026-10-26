@@ -1,0 +1,98 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+
+\title{\textbf{Geometric Boundaries of the Frohmanian Symplectic Tether: Formal Tracking of the 2D Clock Test and Open Analytic Inputs for Fefferman Statement (B)}}
+\author{Benjamin Stanley Frohman\\
+\small ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718} \quad|\quad
+GitHub: \href{https://github.com/BenFrohman/Clay-}{\texttt{BenFrohman/Clay-}}\\
+\small Dedicated 1-to-1 Zenodo DOI: \href{https://doi.org/10.5281/zenodo.23653013}{\texttt{10.5281/zenodo.23653013}}}
+\date{Earliest Commit Provenance: 2026-10-07 06:16:45 AM CDT (UTC-5)\\
+Siloed Archival Edition: October 25, 2026 (America/Chicago CDT)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Standalone formal boundary ledger (`lean/Clay/*.lean`, `latex/geometric\_boundaries.tex`, `latex/section10\_gaps.tex`, `latex/two\_d\_fact.tex`, `COMPARATOR.md`, `STATUS.md`) analyzing the exact analytic boundary between algebraic symplectic-tether identities (Pi(u)=0, \{F,E\}=0) and unforced global smoothness on T\textasciicircum{}3 (Fefferman Statement B). Includes the 2D clock test showing that constant vortex direction (sin phi = 0) coexists with linear growth ||phi(t)||\_infty = M\_0\textasciicircum{}2 t on steady Euler equilibria.
+\end{abstract}
+
+\section{Scope, Scientific Honesty, and Non-Claim Boundary}
+Explicitly titled and structured as a boundary and gap ledger (`STATUS.md: not a Clay resolution`), isolating the open analytic obligations (unforced BKM stretching integral finiteness) without using `sorry`.
+
+\begin{itemize}
+  \item \textbf{Repository:} \texttt{https://github.com/BenFrohman/Clay-}
+  \item \textbf{Dedicated 1-to-1 Zenodo DOI:} \texttt{10.5281/zenodo.23653013}
+  \item \textbf{Earliest Git Commit SHA:} \texttt{9e61806681bfce3f0edee28293d22a6a711f0780} (2026-10-07 06:16:45 AM CDT (UTC-5))
+  \item \textbf{License \& Copyright:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman. Licensed under the Apache License, Version 2.0.
+\end{itemize}
+
+\section{Technical Overview \& Repository Specification}
+Author: Benjamin Stanley Frohman
+
+Copyright (c) 2026 Benjamin Stanley Frohman
+
+License: Apache License, Version 2.0. See [LICENSE](LICENSE).
+
+Private workspace for Fefferman statement (B): unforced 3D incompressible Navier--Stokes on \$\textbackslash\{\}mathbb\{T\}\textasciicircum{}3\$.
+
+**This repository is not a completed Clay resolution.**
+
+- `lean/Clay/Gaps/TwoDClock.lean` — the 2D fact: constant direction, so Constantin–Fefferman holds, and the history integral still grows like \$m\textasciicircum{}2 t\$ wherever \$M\textbackslash\{\}ge m>0\$. Steady Euler equality case \$\textbackslash\{\}|\textbackslash\{\}phi(t)\textbackslash\{\}|\_\textbackslash\{\}infty=M\_0\textasciicircum{}2 t\$.
+
+- `lean/Clay/Gaps/MissingInputs.lean` — BKM integral, metriplectic/L2 gap, CZ/BMO gap, spike obstruction, holographic rejection. None closes Statement (B).
+
+- `latex/two\_d\_fact.tex` — the same inputs in LaTeX.
+
+- `COMPARATOR.md` — `FormalConjectures/Millennium/NavierStokes.lean`. Not a dependency.
+
+See `STATUS.md` for the Section 10 referee finding.
+
+\section{Cryptographic Provenance \& File Inventory}
+Every source artifact in \texttt{BenFrohman/Clay-} is audited via \texttt{titan-audit}
+(\texttt{audit/TITAN\_AUDIT\_CERTIFICATE.json}) and sealed under a deterministic SHA-256 Merkle tree via
+\texttt{sealguard} (\texttt{PROVENANCE\_MERKLE\_ROOT.json}) signed with Ed25519 key fingerprint
+\texttt{b428fb72676f1c52}.
+
+\begin{center}
+\small
+\begin{tabular}{p{0.52\textwidth}rr}
+\toprule
+\textbf{Repository Path} & \textbf{Size} & \textbf{SHA-256 Prefix} \\
+\midrule
+\texttt{AUTHORS.md} & 267 B & \texttt{d571bad8bbfeca08...} \\
+\texttt{COMPARATOR.md} & 1198 B & \texttt{a899cda8bd5c7160...} \\
+\texttt{LICENSE} & 11355 B & \texttt{9da72c2bee4f20ba...} \\
+\texttt{NOTICE} & 317 B & \texttt{80e5fa3638d62d2a...} \\
+\texttt{README.md} & 903 B & \texttt{d173785a4df45954...} \\
+\texttt{STATUS.md} & 2491 B & \texttt{252aae1e3a6a7243...} \\
+\texttt{latex/geometric\_boundaries.tex} & 5056 B & \texttt{952c5705ca8851c5...} \\
+\texttt{latex/section10\_gaps.tex} & 2314 B & \texttt{c43c9ac50665ba92...} \\
+\texttt{latex/two\_d\_fact.tex} & 1490 B & \texttt{b969949b2b80c90d...} \\
+\texttt{lean/Clay/Depletion/GeometricAlignment.lean} & 490 B & \texttt{4d7125ee4bc18711...} \\
+\texttt{lean/Clay/Gaps/BKMIntegral.lean} & 511 B & \texttt{19cea215acbc7903...} \\
+\texttt{lean/Clay/Gaps/ConditionalRiccati.lean} & 693 B & \texttt{b3c47df1a1cbeb43...} \\
+\texttt{lean/Clay/Gaps/DirectionAlignment.lean} & 633 B & \texttt{3395eae5672c0273...} \\
+\texttt{lean/Clay/Gaps/HistoryClock.lean} & 662 B & \texttt{b134ea98037b29fa...} \\
+\texttt{lean/Clay/Gaps/MissingInputs.lean} & 795 B & \texttt{010aed7022d8fcd7...} \\
+\texttt{lean/Clay/Gaps/RejectedMeasureBound.lean} & 531 B & \texttt{da60d8abc07fa028...} \\
+\texttt{lean/Clay/Gaps/StretchingIntegral.lean} & 765 B & \texttt{a1b919459c9bf774...} \\
+\texttt{lean/Clay/Gaps/TwoDClock.lean} & 935 B & \texttt{09bf6a419006c185...} \\
+\texttt{lean/Clay/Gaps.lean} & 422 B & \texttt{99171b435e416ff6...} \\
+\texttt{lean/Clay/Tether.lean} & 1031 B & \texttt{2e562a881a4d654a...} \\
+\texttt{lean/Clay.lean} & 477 B & \texttt{1d60fd986c2b3aba...} \\
+\texttt{lean/lakefile.lean} & 577 B & \texttt{3d3b19f370345872...} \\
+\texttt{lean/lean-toolchain} & 25 B & \texttt{b3f7d43e005c36e7...} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vfill
+\noindent\rule{\textwidth}{0.4pt}\\
+\footnotesize
+\textbf{Attribution \& Licensing Notice:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman (ORCID: \texttt{0009-0006-7068-3718}).
+Licensed under the Apache License, Version 2.0.
+\end{document}

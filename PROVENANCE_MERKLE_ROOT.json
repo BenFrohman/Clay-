@@ -1,0 +1,170 @@
+{
+  "schema": "sealguard-merkle-provenance-v1.0",
+  "repository": "BenFrohman/Clay-",
+  "doi": "10.5281/zenodo.23653013",
+  "author": "Benjamin Stanley Frohman",
+  "orcid": "0009-0006-7068-3718",
+  "license": "Apache-2.0",
+  "timestamp_cdt": "2026-10-25T19:10:00-05:00",
+  "merkle_root_sha256": "a8352277015c4827030f0b4bf6d8793a63fec3bc5855735713c8d646171c2d5f",
+  "ed25519_key_fingerprint": "b428fb72676f1c52",
+  "ed25519_signature": "1abd6a1eaf0adda5fb80dca44408105c0f5927a3ab65aa4eb7b7e1afe0788dfb74e8a660f82bf4082316018a6543b9cfde2e5ca9e8dd4f3b4e2b0dbc3adace0a",
+  "leaf_count": 31,
+  "leaves": [
+    {
+      "path": ".zenodo.json",
+      "sha256": "db5fb161642a12085add06f21304f3f9e9b0e08ac5e9b1472404323f89ee0913",
+      "bytes": 1570
+    },
+    {
+      "path": "AUTHORS.md",
+      "sha256": "1732529c9d516b14378c2ea60b7a29a9dd01385bb5f302efa163c42b3dceb130",
+      "bytes": 320
+    },
+    {
+      "path": "CITATION.cff",
+      "sha256": "90b1132cf6417293367afba7926c143b4f9847e552b674db6509e9e062b7e787",
+      "bytes": 625
+    },
+    {
+      "path": "COMPARATOR.md",
+      "sha256": "a899cda8bd5c716092bd8f1292f1d70ae08ebf79043faa232ccdea7916b8605b",
+      "bytes": 1198
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "ec43eec7417d548fb78a8dc50830f1d854b91a89c2daf0d4e957601515c15e87",
+      "bytes": 10773
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "c580286e7429e6c7213a43740b1464494677131d872f62385c2834b3043c4aa0",
+      "bytes": 572
+    },
+    {
+      "path": "README.md",
+      "sha256": "a8500e3f88af822ba4b78e7d28721bacb5ed06541546c5327e8d84e1e9a38ef2",
+      "bytes": 2052
+    },
+    {
+      "path": "STATUS.md",
+      "sha256": "252aae1e3a6a7243254a949876f54fd90cbc1e9ee2e2d3539fc8008ab3e60e8f",
+      "bytes": 2491
+    },
+    {
+      "path": "audit/TITAN_AUDIT_CERTIFICATE.json",
+      "sha256": "aaac4ae5edba7e1798d90cf2b741831be8a6cf6473b515e16005cb6461ffc526",
+      "bytes": 3188
+    },
+    {
+      "path": "latex/geometric_boundaries.pdf",
+      "sha256": "6f33b816746dea02367848dda0095d9cafe551eb0cd00a91c8a3c25c97c27848",
+      "bytes": 52477
+    },
+    {
+      "path": "latex/geometric_boundaries.tex",
+      "sha256": "952c5705ca8851c560d680bd2991377f5934db407968102bbd73a73047b97a61",
+      "bytes": 5056
+    },
+    {
+      "path": "latex/section10_gaps.pdf",
+      "sha256": "ca79bb75bccc0d691564f67cf1d95762fc4e3654c0f7445faaa53894f320bb1a",
+      "bytes": 40759
+    },
+    {
+      "path": "latex/section10_gaps.tex",
+      "sha256": "c43c9ac50665ba92c8839e50f194ccbf0a0033d2beab9ad6a2c89643259fcff6",
+      "bytes": 2314
+    },
+    {
+      "path": "latex/two_d_fact.pdf",
+      "sha256": "22e89d60f6707c27d708e64e5bcb6ae85348fe8a622961296a0c9a90c3e32b06",
+      "bytes": 32232
+    },
+    {
+      "path": "latex/two_d_fact.tex",
+      "sha256": "b969949b2b80c90d5de01e96281957f51004b4ec768382d02436c0e157ea321e",
+      "bytes": 1490
+    },
+    {
+      "path": "lean/Clay/Depletion/GeometricAlignment.lean",
+      "sha256": "4d7125ee4bc187118470f1b75e7868b7461a6819bfc1f3b5b3ff9c2314b5c3a0",
+      "bytes": 490
+    },
+    {
+      "path": "lean/Clay/Gaps/BKMIntegral.lean",
+      "sha256": "19cea215acbc7903c60bb5498a2de78f758680c129f85c387f673fdeaf3bf2f4",
+      "bytes": 511
+    },
+    {
+      "path": "lean/Clay/Gaps/ConditionalRiccati.lean",
+      "sha256": "b3c47df1a1cbeb43b65cd44d544947e6c8159afa4f0430b159d9c3f141dfd36f",
+      "bytes": 693
+    },
+    {
+      "path": "lean/Clay/Gaps/DirectionAlignment.lean",
+      "sha256": "3395eae5672c02735691ae5a711816174d7789b075d07c623616bfcae6cee98e",
+      "bytes": 633
+    },
+    {
+      "path": "lean/Clay/Gaps/HistoryClock.lean",
+      "sha256": "b134ea98037b29fa629a47210ba9d010a67a7c77496dc21a1779aa9a413e81c1",
+      "bytes": 662
+    },
+    {
+      "path": "lean/Clay/Gaps/MissingInputs.lean",
+      "sha256": "010aed7022d8fcd7e6186d9fb6c1c51f798b54a72366e4481921a1fd18fb4491",
+      "bytes": 795
+    },
+    {
+      "path": "lean/Clay/Gaps/RejectedMeasureBound.lean",
+      "sha256": "da60d8abc07fa028c36a99942d39ec618d56821fa19c2aa16c539a521d3cdf51",
+      "bytes": 531
+    },
+    {
+      "path": "lean/Clay/Gaps/StretchingIntegral.lean",
+      "sha256": "a1b919459c9bf774ef14dd07cc5f7d223c3412cf782d0ed7dc26d2c89fadb067",
+      "bytes": 765
+    },
+    {
+      "path": "lean/Clay/Gaps/TwoDClock.lean",
+      "sha256": "09bf6a419006c185e6878bb7552cc1af83a74da672812b77724a5c82b917279d",
+      "bytes": 935
+    },
+    {
+      "path": "lean/Clay/Gaps.lean",
+      "sha256": "99171b435e416ff6d682dc6e6b77c7f5762ba8270affde42d10f17a43749ef49",
+      "bytes": 422
+    },
+    {
+      "path": "lean/Clay/Tether.lean",
+      "sha256": "2e562a881a4d654a6efa9d6e8ffaa574e5b19c4c355711f69d301a3ddfb70fab",
+      "bytes": 1031
+    },
+    {
+      "path": "lean/Clay.lean",
+      "sha256": "1d60fd986c2b3aba252d31c7fb708d13ee7516fcab193d874bdf4e866ddaf095",
+      "bytes": 477
+    },
+    {
+      "path": "lean/lakefile.lean",
+      "sha256": "3d3b19f370345872e16a13cac35646056a90efb11b714938da25d70702ff9a2b",
+      "bytes": 577
+    },
+    {
+      "path": "lean/lean-toolchain",
+      "sha256": "b3f7d43e005c36e7980721171c8809899ec3c0bc338f35568f54606beb7149a8",
+      "bytes": 25
+    },
+    {
+      "path": "paper/Clay_Technical_Monograph_2026.pdf",
+      "sha256": "9f2bb9d01568c185cc7f6ee0f322e54a64021ef2c69c0898337d13c4a59f3405",
+      "bytes": 49580
+    },
+    {
+      "path": "paper/Clay_Technical_Monograph_2026.tex",
+      "sha256": "0a2384c69b4e30c0f877dde77aeee518c82a324f877c8ef99d423c09211dc4c6",
+      "bytes": 5870
+    }
+  ]
+}

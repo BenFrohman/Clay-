@@ -1,9 +1,8 @@
 # Authors
 
-Benjamin Stanley Frohman
+- **Benjamin Stanley Frohman**
+  - ORCID: [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718)
+  - GitHub: [@BenFrohman](https://github.com/BenFrohman)
+  - Role: Sole Author, Architect, and Copyright Holder
 
-- GitHub: BenFrohman
-- Copyright holder and licensor of this repository
-- License: Apache License, Version 2.0 (see LICENSE)
-
-Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved under the Apache License, Version 2.0.
+Copyright (c) 2026 Benjamin Stanley Frohman. Licensed under the Apache License, Version 2.0.

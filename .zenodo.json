@@ -1,0 +1,28 @@
+{
+  "title": "Geometric Boundaries of the Frohmanian Symplectic Tether: Formal Tracking of the 2D Clock Test and Open Analytic Inputs for Fefferman Statement (B)",
+  "upload_type": "publication",
+  "description": "Standalone formal boundary ledger (`lean/Clay/*.lean`, `latex/geometric_boundaries.tex`, `latex/section10_gaps.tex`, `latex/two_d_fact.tex`, `COMPARATOR.md`, `STATUS.md`) analyzing the exact analytic boundary between algebraic symplectic-tether identities (Pi(u)=0, {F,E}=0) and unforced global smoothness on T^3 (Fefferman Statement B). Includes the 2D clock test showing that constant vortex direction (sin phi = 0) coexists with linear growth ||phi(t)||_infty = M_0^2 t on steady Euler equilibria. Explicitly titled and structured as a boundary and gap ledger (`STATUS.md: not a Clay resolution`), isolating the open analytic obligations (unforced BKM stretching integral finiteness) without using `sorry`. Copyright (c) 2026 Benjamin Stanley Frohman. Licensed under the Apache License, Version 2.0.",
+  "creators": [
+    {
+      "name": "Frohman, Benjamin Stanley",
+      "orcid": "0009-0006-7068-3718"
+    }
+  ],
+  "license": "Apache-2.0",
+  "access_right": "open",
+  "keywords": [
+    "3D incompressible Navier-Stokes",
+    "Fefferman Statement (B)",
+    "Beale-Kato-Majda criterion",
+    "2D clock test",
+    "Constantin-Fefferman direction alignment",
+    "Lean 4 boundary ledger"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/BenFrohman/Clay-",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
