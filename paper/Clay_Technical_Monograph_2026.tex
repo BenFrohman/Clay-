@@ -5,51 +5,78 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
 
-\title{\textbf{Geometric Boundaries of the Frohmanian Symplectic Tether: Formal Tracking of the 2D Clock Test and Open Analytic Inputs for Fefferman Statement (B)}}
+\title{\textbf{Fefferman Statement (B) on $\mathbb{T}^3$: A Precise Lean Formalization, a Kernel-Checked Reduction, and the Boundaries of the Frohmanian Symplectic Tether}}
 \author{Benjamin Stanley Frohman\\
 \small ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718} \quad|\quad
 GitHub: \href{https://github.com/BenFrohman/Clay-}{\texttt{BenFrohman/Clay-}}\\
 \small Dedicated 1-to-1 Zenodo DOI: \href{https://doi.org/10.5281/zenodo.23653013}{\texttt{10.5281/zenodo.23653013}}}
 \date{Earliest Commit Provenance: 2026-10-07 06:16:45 AM CDT (UTC-5)\\
-Siloed Archival Edition: October 25, 2026 (America/Chicago CDT)}
+Revised edition: October 31, 2026 (America/Chicago, UTC$-5$)}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Standalone formal boundary ledger (`lean/Clay/*.lean`, `latex/geometric\_boundaries.tex`, `latex/section10\_gaps.tex`, `latex/two\_d\_fact.tex`, `COMPARATOR.md`, `STATUS.md`) analyzing the exact analytic boundary between algebraic symplectic-tether identities (Pi(u)=0, \{F,E\}=0) and unforced global smoothness on T\textasciicircum{}3 (Fefferman Statement B). Includes the 2D clock test showing that constant vortex direction (sin phi = 0) coexists with linear growth ||phi(t)||\_infty = M\_0\textasciicircum{}2 t on steady Euler equilibria.
+This monograph records, in Lean~4 against Mathlib, a precise formal statement of Fefferman's Statement~(B) on global smoothness of the unforced incompressible Navier--Stokes equations on $\mathbb{T}^3=\mathbb{R}^3/\mathbb{Z}^3$, together with an exact ledger of the analytic inputs that the Frohmanian symplectic tether does \emph{not} supply. Statement~(B) is \emph{not} proved here. What is proved is a reduction: Statement~(B) follows from the classical local theory with the Beale--Kato--Majda continuation criterion and from the open hypothesis that the Beale--Kato--Majda integral is finite on every finite interval of existence. We also record the two-dimensional clock test: constant vortex direction ($\sin\varphi\equiv 0$) coexists with linear growth $\|\phi(t)\|_{L^\infty}=M_0^2\,t$ on steady Euler equilibria.
 \end{abstract}
 
-\section{Scope, Scientific Honesty, and Non-Claim Boundary}
-Explicitly titled and structured as a boundary and gap ledger (`STATUS.md: not a Clay resolution`), isolating the open analytic obligations (unforced BKM stretching integral finiteness) without using `sorry`.
+\section{Scope and non-claim boundary}
+This repository is a boundary and gap ledger. It is \textbf{not} a resolution of the Clay Millennium Problem. Every open input is a named proposition in Lean; none is assumed as an axiom, and no proof uses \texttt{sorry}. The axiom audit reports only \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. The active continuation of this programme, in which the remaining gap is decomposed into finer named statements, is \href{https://github.com/BenFrohman/periodic-ns-classical-continuation}{\texttt{BenFrohman/periodic-ns-classical-continuation}}.
 
 \begin{itemize}
-  \item \textbf{Repository:} \texttt{https://github.com/BenFrohman/Clay-}
-  \item \textbf{Dedicated 1-to-1 Zenodo DOI:} \texttt{10.5281/zenodo.23653013}
-  \item \textbf{Earliest Git Commit SHA:} \texttt{9e61806681bfce3f0edee28293d22a6a711f0780} (2026-10-07 06:16:45 AM CDT (UTC-5))
-  \item \textbf{License \& Copyright:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman. Licensed under the Apache License, Version 2.0.
+  \item \textbf{Repository:} \url{https://github.com/BenFrohman/Clay-}
+  \item \textbf{Concept DOI:} \href{https://doi.org/10.5281/zenodo.23653013}{\texttt{10.5281/zenodo.23653013}}
+  \item \textbf{Earliest commit:} \texttt{9e61806681bfce3f0edee28293d22a6a711f0780} (2026-10-07, 06:16:45 CDT, UTC$-5$)
+  \item \textbf{License:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman. Apache License, Version~2.0.
 \end{itemize}
 
-\section{Technical Overview \& Repository Specification}
-Author: Benjamin Stanley Frohman
+\section{Statement (B)}
+Following the official problem description of Fefferman~\cite{Fef}, fix $\nu>0$ and let $u^\circ$ be a smooth, divergence-free vector field on $\mathbb{R}^3$ with $u^\circ(x+e_j)=u^\circ(x)$ for $j=1,2,3$. Take $f\equiv 0$.
 
-Copyright (c) 2026 Benjamin Stanley Frohman
+\begin{quote}
+\textbf{Statement (B).} There exist smooth functions $p(x,t)$, $u_i(x,t)$ on $\mathbb{R}^3\times[0,\infty)$ such that
+\[
+\partial_t u_i+\sum_{j=1}^3 u_j\,\partial_j u_i = \nu\,\Delta u_i-\partial_i p,\qquad \operatorname{div}u=0,\qquad u(x,0)=u^\circ(x),
+\]
+and $u$, $p$ are $1$-periodic in each spatial coordinate.
+\end{quote}
 
-License: Apache License, Version 2.0. See [LICENSE](LICENSE).
+In Lean this is the proposition \texttt{Clay.StatementB.FeffermanStatementB} (file \texttt{lean/Clay/StatementB.lean}). Space is $\mathbb{R}^3$ realised as Euclidean space on $\mathrm{Fin}\,3$; partial derivatives are Fréchet derivatives along the standard basis; the time derivative is taken within $[0,\infty)$; smoothness is $C^\infty$ on $[0,\infty)\times\mathbb{R}^3$. No component of the statement is opaque or trivial.
 
-Private workspace for Fefferman statement (B): unforced 3D incompressible Navier--Stokes on \$\textbackslash\{\}mathbb\{T\}\textasciicircum{}3\$.
+\section{The proved reduction}
+Write $\omega=\operatorname{curl}u$. Consider the propositions
+\begin{itemize}
+  \item \texttt{PeriodicMaximalSolutionWithBKM} (classical; Kato, Fujita--Kato, Beale--Kato--Majda~\cite{BKM}; not yet formalized): for all admissible data there are $T^\ast\in(0,\infty]$ and a smooth solution on $[0,T^\ast)$ such that $T^\ast<\infty$ implies $\int_0^{T^\ast}\|\omega(t)\|_{L^\infty}\,dt=\infty$;
+  \item \texttt{PeriodicBKMIntegrability} (\textbf{open}; the Clay core): every smooth solution on a finite interval $[0,T)$ satisfies $\int_0^{T}\|\omega(t)\|_{L^\infty}\,dt<\infty$.
+\end{itemize}
 
-**This repository is not a completed Clay resolution.**
+\newtheorem{theorem}{Theorem}
+\begin{theorem}[\texttt{feffermanStatementB\_of\_bkm}, kernel-checked]
+\texttt{PeriodicMaximalSolutionWithBKM} and \texttt{PeriodicBKMIntegrability} together imply Statement~(B).
+\end{theorem}
 
-- `lean/Clay/Gaps/TwoDClock.lean` — the 2D fact: constant direction, so Constantin–Fefferman holds, and the history integral still grows like \$m\textasciicircum{}2 t\$ wherever \$M\textbackslash\{\}ge m>0\$. Steady Euler equality case \$\textbackslash\{\}|\textbackslash\{\}phi(t)\textbackslash\{\}|\_\textbackslash\{\}infty=M\_0\textasciicircum{}2 t\$.
+\begin{theorem}[\texttt{bkmIntegralFinite\_of\_holographic}, kernel-checked]
+If $\|\omega(t)\|_{L^\infty}$ is bounded on every finite interval of existence, then \texttt{PeriodicBKMIntegrability} holds.
+\end{theorem}
 
-- `lean/Clay/Gaps/MissingInputs.lean` — BKM integral, metriplectic/L2 gap, CZ/BMO gap, spike obstruction, holographic rejection. None closes Statement (B).
+The second hypothesis of the first theorem is open and is equivalent in strength to Statement~(B) itself. Consequently the reduction does not prove Statement~(B).
 
-- `latex/two\_d\_fact.tex` — the same inputs in LaTeX.
+\section{Ledger of missing inputs}
+The file \texttt{lean/Clay/Gaps/MissingInputs.lean} states each former placeholder as a precise proposition:
+\begin{itemize}
+  \item \texttt{metriplecticControlsEnstrophyL2}: $\sup_{[0,T)}\int_{\mathbb{T}^3}|\omega|^2<\infty$ for every solution on a finite interval (open);
+  \item \texttt{czGivesBMONotLinf}: no constant $C$ gives $\|\nabla v\|_{L^\infty}\le C\|\operatorname{curl}v\|_{L^\infty}$ for smooth periodic divergence-free $v$ (classical, not formalized);
+  \item \texttt{spikeObstruction}: no constant $C$ gives $\|f\|_{L^\infty}\le C\|f\|_{L^6(\mathbb{T}^3)}$ for smooth periodic $f$ (classical, not formalized);
+  \item \texttt{holographicNotAZFCBound}: the uniform ceiling $\sup_{[0,T)}\|\omega\|_{L^\infty}<\infty$ (open);
+  \item \texttt{depletedStretching}: $\omega\cdot S\omega\le C|\omega|^2$ uniformly on finite intervals (open).
+\end{itemize}
+The former trivial definitions are retained under the suffix \texttt{\_placeholder} and marked deprecated. Kernel-checked elementary results include the identity $\Pi_u u=0$ for the pointwise tether projection, the unboundedness of the history integral $m^2t$ for $m>0$, and the conditional Riccati rearrangement.
 
-- `COMPARATOR.md` — `FormalConjectures/Millennium/NavierStokes.lean`. Not a dependency.
-
-See `STATUS.md` for the Section 10 referee finding.
+\begin{thebibliography}{9}
+\bibitem{Fef} C.~L. Fefferman, \emph{Existence and smoothness of the Navier--Stokes equation}, in: The Millennium Prize Problems, Clay Mathematics Institute, 2006, pp.~57--67.
+\bibitem{BKM} J.~T. Beale, T.~Kato, A.~Majda, \emph{Remarks on the breakdown of smooth solutions for the 3-D Euler equations}, Comm. Math. Phys. \textbf{94} (1984), 61--66.
+\bibitem{CF} P.~Constantin, C.~Fefferman, \emph{Direction of vorticity and the problem of global regularity for the Navier--Stokes equations}, Indiana Univ. Math. J. \textbf{42} (1993), 775--789.
+\end{thebibliography}
 
 \section{Cryptographic Provenance \& File Inventory}
 Every source artifact in \texttt{BenFrohman/Clay-} is audited via \texttt{titan-audit}

@@ -6,12 +6,26 @@ sorryAx of a false statement.
 Spike: a peak of height M on a set of measure δ contributes order δ M⁶.
 -/
 
+import Clay.Gaps.MissingInputs
+
+noncomputable section
+
 namespace Clay.Gaps.RejectedMeasureBound
 
-def reversedHolderClaim : Prop :=
-  False
+open Clay.StatementB Clay.Gaps.MissingInputs
+open scoped ENNReal NNReal
 
-theorem reversed_holder_not_asserted : reversedHolderClaim → False :=
+/-- The rejected reversed-Hölder claim, stated concretely: a constant `c > 0`
+with `c ‖f‖_∞⁴ ≤ ∫_{𝕋³} |f|⁶` for all smooth periodic `f`. False (scaling
+`f ↦ λ f`, `λ → 0`); the refutation is not formalized here, so it is not used. -/
+def reversedHolderClaim : Prop :=
+  ∃ c : ℝ≥0, 0 < c ∧ ∀ f : E3 → ℝ, ContDiff ℝ ⊤ f → IsPeriodic f →
+    c * (⨆ x, (‖f x‖₊ : ℝ≥0∞)) ^ 4 ≤ ∫⁻ x in unitCube, (‖f x‖₊ : ℝ≥0∞) ^ 6
+
+/-- Deprecated: the old placeholder, literally `False`. -/
+def reversedHolderClaim_placeholder : Prop := False
+
+theorem reversed_holder_not_asserted : reversedHolderClaim_placeholder → False :=
   fun h => h
 
 end Clay.Gaps.RejectedMeasureBound

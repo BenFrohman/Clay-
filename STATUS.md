@@ -4,13 +4,15 @@ Author: Benjamin Stanley Frohman
 Copyright (c) 2026 Benjamin Stanley Frohman
 License: Apache License, Version 2.0
 
-Private workspace. Statement (B) of Fefferman (unforced global smoothness on T^3) is not proved by the material in this repository.
+Private workspace. Statement (B) of Fefferman (unforced global smoothness on $\mathbb{T}^3$) is not proved by the material in this repository.
 
 ## Module split
 
-- `lean/Clay/Tether.lean` — `tether_degeneracy` is `P.kills u`, i.e. Π(u) = 0. `tether_bracket_preservation` is the structure field `B F KineticEnergy = 0`. Schematic. They do not bound M(t) or α = ξ·∇u·ξ, and they are not a derivation of the bilinear form on T^3.
+- `lean/Clay/Tether.lean` — `tether_degeneracy` is `P.kills u`, i.e. Π(u) = 0. `tether_bracket_preservation` is the structure field `B F KineticEnergy = 0`; `tetherProj_self` proves $\Pi_u u=0$ for the pointwise projection. They do not bound M(t) or α = ξ·∇u·ξ, and they are not a derivation of the bilinear form on $\mathbb{T}^3$.
 - `lean/Clay/Gaps/TwoDClock.lean` — `sinPhi` is defined to be 0 and `phiSup` is defined to be `M0 * M0 * t`, closed by `rfl`. This models constant direction beside a linear clock. It does not construct a 2D solution or a Beltrami field.
-- `lean/Clay/Gaps/BKMIntegral.lean` — `StatementB` is a `Prop`. `bkmIntegralFinite` is opaque, not `False`.
+- `lean/Clay/StatementB.lean` — `FeffermanStatementB` is a precise `Prop` (official Clay text). Proved: `feffermanStatementB_of_bkm` (from `PeriodicMaximalSolutionWithBKM`, classical but unformalized, and `PeriodicBKMIntegrability`, open).
+- `lean/Clay/Gaps/BKMIntegral.lean` — `StatementB := FeffermanStatementB`. `bkmIntegralFinite := PeriodicBKMIntegrability`, concrete and open, not `False`.
+- No `opaque`, no `True` placeholders in active definitions (old ones kept as deprecated `*_placeholder`). The build at 5cbd65b failed in `Tether.lean` and `ConditionalRiccati.lean`; both are repaired.
 
 The `rfl` file does not rewrite the tether identities. `Tether.lean` does not import `TwoDClock`.
 
@@ -31,3 +33,7 @@ The bootstrap does not close. The auxiliary field satisfies ∂t φ + u·∇φ =
 ## External
 
 `FormalConjectures/Millennium/NavierStokes.lean` is a URL pin, not a Lake dependency. `openai/NavierStokesAndEuler` is a forced (C)/(D) claim, not this argument. This repository does not adjudicate (C)/(D).
+
+Continuation: [BenFrohman/periodic-ns-classical-continuation](https://github.com/BenFrohman/periodic-ns-classical-continuation).
+
+**Final status:** not a Clay resolution. Statement (B) is stated, not proved.

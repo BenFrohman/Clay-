@@ -1,20 +1,25 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-Conditional depletion. Not a closure of Statement (B).
+Conditional depletion, concrete. Not a closure of Statement (B).
+Same content as `Clay.Gaps.DirectionAlignment`; kept as its own namespace.
 -/
 
-import Mathlib.Data.Real.Basic
+import Clay.Gaps.DirectionAlignment
+
+noncomputable section
 
 namespace Clay.Depletion.GeometricAlignment
 
-opaque Omega : ℝ
-opaque rho : ℝ
-opaque sinPhi : ℝ → ℝ → ℝ → ℝ
+open Clay.StatementB
 
-def cfAlignment (T : ℝ) : Prop :=
-  0 < Omega ∧ 0 < rho ∧
-    ∀ t x y, 0 ≤ t ∧ t ≤ T → sinPhi t x y ≤ |y| / rho
+def sinPhi (u : ℝ → E3 → E3) (t : ℝ) (x y : E3) : ℝ :=
+  Clay.Gaps.DirectionAlignment.sinPhi u t x y
 
-opaque cfAlignmentImpliesRegularity : Prop
+def cfAlignment (u : ℝ → E3 → E3) (Omega rho T : ℝ) : Prop :=
+  Clay.Gaps.DirectionAlignment.cfAlignment u Omega rho T
+
+/-- Named classical theorem (Constantin–Fefferman 1993), not formalized. -/
+def cfAlignmentImpliesRegularity : Prop :=
+  Clay.Gaps.DirectionAlignment.cfAlignmentImpliesRegularity
 
 end Clay.Depletion.GeometricAlignment
