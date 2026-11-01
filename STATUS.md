@@ -12,7 +12,8 @@ Statement (B) of Fefferman (unforced global smoothness on $\mathbb{T}^3$) is not
 - `lean/Clay/Gaps/TwoDClock.lean` — `sinPhi` is defined to be 0 and `phiSup` is defined to be `M0 * M0 * t`, closed by `rfl`. This models constant direction beside a linear clock. It does not construct a 2D solution or a Beltrami field.
 - `lean/Clay/StatementB.lean` — `FeffermanStatementB` is a precise `Prop` (official Clay text). Proved: `feffermanStatementB_of_bkm` (from `PeriodicMaximalSolutionWithBKM`, classical but unformalized, and `PeriodicBKMIntegrability`, open).
 - `lean/Clay/Gaps/BKMIntegral.lean` — `StatementB := FeffermanStatementB`. `bkmIntegralFinite := PeriodicBKMIntegrability`, concrete and open, not `False`.
-- No `opaque`, no `True` placeholders in active definitions (old ones kept as deprecated `*_placeholder`). The build at 5cbd65b failed in `Tether.lean` and `ConditionalRiccati.lean`; both are repaired.
+- No `opaque`, no `True` placeholders: the deprecated `*_placeholder := True` definitions and `missing_inputs_are_recorded` were removed from `MissingInputs.lean` on owner instruction (git history keeps them). The five gaps are real Props: `metriplecticControlsEnstrophyL2`, `holographicNotAZFCBound`, `depletedStretching` (open); `czGivesBMONotLinf`, `spikeObstruction` (classical, not formalized).
+- `lean/Clay/Gaps/TwoDPlanar.lean` — **proved** `curl_planar`: for $v$ invariant along $e_3$ with $v_3=0$, $\omega_1=\omega_2=0$ (no differentiability hypothesis). Coined names: `IsPlanar`, `fderiv_dir_eq_zero`, `curl_planar`. The build at 5cbd65b failed in `Tether.lean` and `ConditionalRiccati.lean`; both are repaired.
 
 The `rfl` file does not rewrite the tether identities. `Tether.lean` does not import `TwoDClock`.
 

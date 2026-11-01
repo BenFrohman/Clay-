@@ -7,6 +7,7 @@ import Clay.Gaps.StretchingIntegral
 import Clay.Depletion.GeometricAlignment
 import Clay.Gaps.BKMIntegral
 import Clay.Gaps.TwoDClock
+import Clay.Gaps.TwoDPlanar
 open Clay
 #print axioms StatementB.feffermanStatementB_of_bkm
 #print axioms StatementB.bkmIntegralFinite_of_vortSup_le
@@ -18,3 +19,4 @@ open Clay
 #print axioms Gaps.HistoryClock.driver_not_asserted_of_solutions
 #print axioms Tether.tetherProj_self
 #print axioms Gaps.ConditionalRiccati.conditional_riccati
+#print axioms Gaps.TwoDPlanar.curl_planar

@@ -7,7 +7,7 @@ smooth periodic Navier–Stokes solutions on 𝕋³ (see `Clay.StatementB`).
 Statement (B) is open. None of these Props is asserted.
 Proved here: `holographicNotAZFCBound → bkmIntegralFinite`, and
 `bkmIntegralFinite → (local theory) → Statement (B)`.
-The former `:= True` placeholders survive as `*_placeholder` (deprecated).
+The former `:= True` placeholders have been removed; git history keeps them.
 -/
 
 import Clay.StatementB
@@ -79,25 +79,5 @@ gives Statement (B). Both hypotheses are named; the first is open. -/
 theorem statementB_of_bkmIntegralFinite (hloc : PeriodicMaximalSolutionWithBKM)
     (h : bkmIntegralFinite) : FeffermanStatementB :=
   feffermanStatementB_of_bkm hloc h
-
-/-! Deprecated placeholders (kept, not deleted). They carry no content. -/
-
-/-- Deprecated: old placeholder, `True`. Use `metriplecticControlsEnstrophyL2`. -/
-def metriplecticControlsEnstrophyL2_placeholder : Prop := True
-/-- Deprecated: old placeholder, `True`. Use `czGivesBMONotLinf`. -/
-def czGivesBMONotLinf_placeholder : Prop := True
-/-- Deprecated: old placeholder, `True`. Use `spikeObstruction`. -/
-def spikeObstruction_placeholder : Prop := True
-/-- Deprecated: old placeholder, `True`. Use `holographicNotAZFCBound`. -/
-def holographicNotAZFCBound_placeholder : Prop := True
-/-- Deprecated: old placeholder, `True`. Use `depletedStretching`. -/
-def depletedStretching_placeholder : Prop := True
-
-/-- Deprecated: records only that the old placeholders were `True`. -/
-theorem missing_inputs_are_recorded :
-    metriplecticControlsEnstrophyL2_placeholder ∧ czGivesBMONotLinf_placeholder ∧
-      spikeObstruction_placeholder ∧ holographicNotAZFCBound_placeholder ∧
-      depletedStretching_placeholder :=
-  ⟨trivial, trivial, trivial, trivial, trivial⟩
 
 end Clay.Gaps.MissingInputs

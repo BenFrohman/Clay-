@@ -4,6 +4,8 @@ Geometric core, concrete. Π_u(u) = 0 is proved for the pointwise projection
 perpendicular to the local velocity (the Aug 10 "Frohmanian Symplectic Tether"
 form). Not an a priori estimate on the vorticity maximum. Does not mention
 vortex direction. Strictly geometric; no regularity claim.
+SCHEMATIC: `Tether.B` and `OrthProj.kills` are data, not derived from `NSOn`;
+only `perpProj_self` and `tetherProj_self` are theorems about actual fields.
 -/
 
 import Clay.StatementB

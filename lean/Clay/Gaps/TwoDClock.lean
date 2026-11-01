@@ -1,6 +1,8 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-The 2D fact is the type of the theorems. Schematic, not a constructed Beltrami field.
+SCHEMATIC MODEL ONLY (rfl). The 2D fact is the type of the theorems; not a
+constructed solution or Beltrami field. The real kernel-checked planar statement
+is `Clay.Gaps.TwoDPlanar.curl_planar` (vorticity parallel to e₃).
 -/
 
 import Mathlib.Data.Real.Basic
