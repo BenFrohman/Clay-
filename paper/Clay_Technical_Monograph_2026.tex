@@ -9,9 +9,9 @@
 \author{Benjamin Stanley Frohman\\
 \small ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718} \quad|\quad
 GitHub: \href{https://github.com/BenFrohman/Clay-}{\texttt{BenFrohman/Clay-}}\\
-\small Dedicated 1-to-1 Zenodo DOI: \href{https://doi.org/10.5281/zenodo.23653012}{\texttt{10.5281/zenodo.23653012}}}
+\small Concept DOI (all versions): \href{https://doi.org/10.5281/zenodo.23653012}{\texttt{10.5281/zenodo.23653012}}}
 \date{Earliest Commit Provenance: 2026-10-07 06:16:45 AM CDT (UTC-5)\\
-Revised edition: October 31, 2026 (America/Chicago, UTC$-5$)}
+Revised edition: November 1, 2026 (America/Chicago, UTC$-6$). Not peer reviewed.}
 
 \begin{document}
 \maketitle
@@ -21,7 +21,7 @@ This monograph records, in Lean~4 against Mathlib, a precise formal statement of
 \end{abstract}
 
 \section{Scope and non-claim boundary}
-This repository is a boundary and gap ledger. It is \textbf{not} a resolution of the Clay Millennium Problem. Every open input is a named proposition in Lean; none is assumed as an axiom, and no proof uses \texttt{sorry}. The axiom audit reports only \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. The active continuation of this programme, in which the remaining gap is decomposed into finer named statements, is \href{https://github.com/BenFrohman/periodic-ns-classical-continuation}{\texttt{BenFrohman/periodic-ns-classical-continuation}}.
+This repository is a boundary and gap ledger. It is \textbf{not} a resolution of the Clay Millennium Problem. Every open input is a named proposition in Lean; none is assumed as an axiom, and no proof uses \texttt{sorry}. The axiom audit (\texttt{lean/AxiomReport.lean}, output in \texttt{AXIOMS.md}) reports only \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. The active continuation of this programme, in which the remaining gap is decomposed into finer named statements, is \href{https://github.com/BenFrohman/periodic-ns-classical-continuation}{\texttt{BenFrohman/periodic-ns-classical-continuation}}.
 
 \begin{itemize}
   \item \textbf{Repository:} \url{https://github.com/BenFrohman/Clay-}
@@ -72,50 +72,21 @@ The file \texttt{lean/Clay/Gaps/MissingInputs.lean} states each former placehold
 \end{itemize}
 The former trivial definitions have been removed; the repository history retains them. For planar fields $v=(v_1(x_1,x_2),v_2(x_1,x_2),0)$ the vorticity is proved parallel to $e_3$. Kernel-checked elementary results include the identity $\Pi_u u=0$ for the pointwise tether projection, the unboundedness of the history integral $m^2t$ for $m>0$, and the conditional Riccati rearrangement.
 
+\section{Build and axiom status}
+\textbf{Proved (kernel-checked).} \texttt{lake build} of the full \texttt{Clay} library (root module and all 13 submodules) succeeds on Lean/Mathlib v4.16.0. The axiom report lists 60 theorem declarations (including compiler-generated auxiliary lemmas), none using \texttt{sorryAx}, and none using an axiom beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. The substantive kernel-checked results are \texttt{feffermanStatementB\_of\_bkm}, \texttt{statementB\_of\_bkmIntegralFinite}, \texttt{bkmIntegralFinite\_of\_holographic}, \texttt{bkmIntegralFinite\_of\_vortSup\_le}, the two-dimensional clock results \texttt{steady\_euler\_clock}, \texttt{alignment\_does\_not\_delete\_clock}, \texttt{clock\_fails\_on\_aligned\_2d\_solutions}, the planar-vorticity lemma \texttt{curl\_planar}, the tether identities \texttt{tether\_degeneracy}, \texttt{tether\_bracket\_preservation}, and the integer rearrangement \texttt{conditional\_riccati}. This is a machine check of the Lean statements, not peer review.
+
+\textbf{Conditional on.} \texttt{PeriodicMaximalSolutionWithBKM} (classical, not formalized here), \texttt{PeriodicBKMIntegrability} (open), and, for \texttt{conditional\_riccati}, \texttt{CorrectedMaxRate} (open). Finer decompositions of the open input (for example tame $H^s$ and log-Sobolev BKM bounds) belong to the continuation repository and are not formalized here.
+
+\textbf{Open.} \texttt{PeriodicBKMIntegrability}; every item of the ledger above marked open; and therefore Statement~(B) itself. The Clay Millennium Problem is not solved by this work.
+
 \begin{thebibliography}{9}
 \bibitem{Fef} C.~L. Fefferman, \emph{Existence and smoothness of the Navier--Stokes equation}, in: The Millennium Prize Problems, Clay Mathematics Institute, 2006, pp.~57--67.
 \bibitem{BKM} J.~T. Beale, T.~Kato, A.~Majda, \emph{Remarks on the breakdown of smooth solutions for the 3-D Euler equations}, Comm. Math. Phys. \textbf{94} (1984), 61--66.
 \bibitem{CF} P.~Constantin, C.~Fefferman, \emph{Direction of vorticity and the problem of global regularity for the Navier--Stokes equations}, Indiana Univ. Math. J. \textbf{42} (1993), 775--789.
 \end{thebibliography}
 
-\section{Cryptographic Provenance \& File Inventory}
-Every source artifact in \texttt{BenFrohman/Clay-} is audited via \texttt{titan-audit}
-(\texttt{audit/TITAN\_AUDIT\_CERTIFICATE.json}) and sealed under a deterministic SHA-256 Merkle tree via
-\texttt{sealguard} (\texttt{PROVENANCE\_MERKLE\_ROOT.json}) signed with Ed25519 key fingerprint
-\texttt{b428fb72676f1c52}.
-
-\begin{center}
-\small
-\begin{tabular}{p{0.52\textwidth}rr}
-\toprule
-\textbf{Repository Path} & \textbf{Size} & \textbf{SHA-256 Prefix} \\
-\midrule
-\texttt{AUTHORS.md} & 267 B & \texttt{d571bad8bbfeca08...} \\
-\texttt{COMPARATOR.md} & 1198 B & \texttt{a899cda8bd5c7160...} \\
-\texttt{LICENSE} & 11355 B & \texttt{9da72c2bee4f20ba...} \\
-\texttt{NOTICE} & 317 B & \texttt{80e5fa3638d62d2a...} \\
-\texttt{README.md} & 903 B & \texttt{d173785a4df45954...} \\
-\texttt{STATUS.md} & 2491 B & \texttt{252aae1e3a6a7243...} \\
-\texttt{latex/geometric\_boundaries.tex} & 5056 B & \texttt{952c5705ca8851c5...} \\
-\texttt{latex/section10\_gaps.tex} & 2314 B & \texttt{c43c9ac50665ba92...} \\
-\texttt{latex/two\_d\_fact.tex} & 1490 B & \texttt{b969949b2b80c90d...} \\
-\texttt{lean/Clay/Depletion/GeometricAlignment.lean} & 490 B & \texttt{4d7125ee4bc18711...} \\
-\texttt{lean/Clay/Gaps/BKMIntegral.lean} & 511 B & \texttt{19cea215acbc7903...} \\
-\texttt{lean/Clay/Gaps/ConditionalRiccati.lean} & 693 B & \texttt{b3c47df1a1cbeb43...} \\
-\texttt{lean/Clay/Gaps/DirectionAlignment.lean} & 633 B & \texttt{3395eae5672c0273...} \\
-\texttt{lean/Clay/Gaps/HistoryClock.lean} & 662 B & \texttt{b134ea98037b29fa...} \\
-\texttt{lean/Clay/Gaps/MissingInputs.lean} & 795 B & \texttt{010aed7022d8fcd7...} \\
-\texttt{lean/Clay/Gaps/RejectedMeasureBound.lean} & 531 B & \texttt{da60d8abc07fa028...} \\
-\texttt{lean/Clay/Gaps/StretchingIntegral.lean} & 765 B & \texttt{a1b919459c9bf774...} \\
-\texttt{lean/Clay/Gaps/TwoDClock.lean} & 935 B & \texttt{09bf6a419006c185...} \\
-\texttt{lean/Clay/Gaps.lean} & 422 B & \texttt{99171b435e416ff6...} \\
-\texttt{lean/Clay/Tether.lean} & 1031 B & \texttt{2e562a881a4d654a...} \\
-\texttt{lean/Clay.lean} & 477 B & \texttt{1d60fd986c2b3aba...} \\
-\texttt{lean/lakefile.lean} & 577 B & \texttt{3d3b19f370345872...} \\
-\texttt{lean/lean-toolchain} & 25 B & \texttt{b3f7d43e005c36e7...} \\
-\bottomrule
-\end{tabular}
-\end{center}
+\section{Provenance hashes}
+Source files are fingerprinted with SHA-256 (\texttt{provenance/PROVENANCE\_HASHES.json}) and a Merkle root (\texttt{provenance/PROVENANCE\_MERKLE\_ROOT.json}), signed with Ed25519 key fingerprint \texttt{b428fb72676f1c52}. These are file-integrity fingerprints of an earlier snapshot only; they are not a certificate of correctness or review. The authoritative correctness check is the build and axiom report above, rerun by CI on every push.
 
 \vfill
 \noindent\rule{\textwidth}{0.4pt}\\
