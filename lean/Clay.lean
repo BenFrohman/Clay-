@@ -11,6 +11,7 @@ import Clay.Gaps.RejectedMeasureBound
 import Clay.Gaps.HistoryClock
 import Clay.Gaps.DirectionAlignment
 import Clay.Gaps.TwoDClock
+import Clay.Gaps.TwoDPlanar
 import Clay.Gaps.MissingInputs
 import Clay.Gaps.StretchingIntegral
 import Clay.Depletion.GeometricAlignment
