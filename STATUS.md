@@ -4,7 +4,7 @@ Author: Benjamin Stanley Frohman
 Copyright (c) 2026 Benjamin Stanley Frohman
 License: Apache License, Version 2.0
 
-Private workspace. Statement (B) of Fefferman (unforced global smoothness on $\mathbb{T}^3$) is not proved by the material in this repository.
+Statement (B) of Fefferman (unforced global smoothness on $\mathbb{T}^3$) is not proved by the material in this repository.
 
 ## Module split
 
@@ -26,7 +26,7 @@ Viscous 2D solutions decay (Ladyzhenskaya, cited, not re-proved). There is no cl
 
 No history-free weight is extracted from the tether. B(F,H) = 0 contributes nothing to the evolution of the energy, so it does not absorb α. The scale-critical field Z = |ω|^{-1/4} ω is not a corollary of Π(u) = 0.
 
-## Referee finding (Section 10)
+## Finding on Section 10 (author's own review)
 
 The bootstrap does not close. The auxiliary field satisfies ∂t φ + u·∇φ = |ω|^2, so ‖φ(t)‖_∞ ≤ ∫_0^t M(s)^2 ds. A positive equilibrium makes that integral grow like t, and the pasted driver like t^{3/2}. The autonomous ODE y' = C y^2 - κ'' y^3 is not a majorant. Hölder does not give ∫ |ω|^6 ≥ c M^4 without a lower bound on the measure of the peak set. Metriplectic decay controls ∫ |∇u|^2, not ∫ M. Cosmic censorship is not a ZFC theorem about these equations.
 

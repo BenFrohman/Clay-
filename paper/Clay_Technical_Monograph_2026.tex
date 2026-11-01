@@ -79,8 +79,8 @@ The former trivial definitions are retained under the suffix \texttt{\_placehold
 \end{thebibliography}
 
 \section{Cryptographic Provenance \& File Inventory}
-Every source artifact in \texttt{BenFrohman/Clay-} is audited via \texttt{titan-audit}
-(\texttt{audit/TITAN\_AUDIT\_CERTIFICATE.json}) and sealed under a deterministic SHA-256 Merkle tree via
+Every source artifact in \texttt{BenFrohman/Clay-} is hashed via \texttt{titan-audit}
+(provenance hashes, \texttt{provenance/PROVENANCE\_HASHES.json}; integrity fingerprints, not a certificate of correctness) and sealed under a deterministic SHA-256 Merkle tree via
 \texttt{sealguard} (\texttt{PROVENANCE\_MERKLE\_ROOT.json}) signed with Ed25519 key fingerprint
 \texttt{b428fb72676f1c52}.
 

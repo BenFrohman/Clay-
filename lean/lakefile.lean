@@ -21,4 +21,4 @@ require mathlib from git
 @[default_target]
 lean_lib Clay where
   roots := #[`Clay]
-  globs := #[.submodules `Clay]
+  globs := #[.andSubmodules `Clay]
