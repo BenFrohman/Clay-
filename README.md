@@ -1,6 +1,6 @@
 # Clay-
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23653013.svg)](https://doi.org/10.5281/zenodo.23653013) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23653012.svg)](https://doi.org/10.5281/zenodo.23653012) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 Author: Benjamin Stanley Frohman
 Copyright (c) 2026 Benjamin Stanley Frohman
@@ -35,7 +35,7 @@ See `STATUS.md` for the Section 10 referee finding.
 ---
 ## Archival DOI & Cryptographic Provenance
 
-- **Dedicated 1-to-1 Zenodo DOI:** [10.5281/zenodo.23653013](https://doi.org/10.5281/zenodo.23653013)
+- **Dedicated 1-to-1 Zenodo DOI:** [10.5281/zenodo.23653012](https://doi.org/10.5281/zenodo.23653012)
 - **Author:** Benjamin Stanley Frohman (ORCID: [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718))
 - **License:** Apache License, Version 2.0 (`Copyright (c) 2026 Benjamin Stanley Frohman`)
 - **Earliest Commit Provenance:** `9e61806681bfce3f0edee28293d22a6a711f0780` (2026-10-07 06:16:45 AM CDT (UTC-5))
