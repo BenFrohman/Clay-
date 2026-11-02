@@ -10,7 +10,7 @@ Research workspace for Fefferman statement (B): unforced 3D incompressible Navie
 
 **This repository is not a completed Clay resolution.** Statement (B) is stated precisely but is not proved.
 
-**Continuation:** the active programme, which decomposes the remaining gap into finer named statements, is [BenFrohman/periodic-ns-classical-continuation](https://github.com/BenFrohman/periodic-ns-classical-continuation).
+**Continuation:** the active programme, which decomposes the remaining gap into finer named statements, is [BenFrohman/periodic-ns-classical-continuation](https://github.com/BenFrohman/periodic-ns-classical-continuation). Its named statements (the Frohmanian Tether Hypothesis (A)/(B), `FrohmanianDirectionCoercivity`, the line-field form of (B), the viscous-term decomposition) are **open or conditional**; only its individually proved lemmas (for example the planar `sinShear` obstruction) are proved. Naming: [`NAMING.md`](NAMING.md).
 
 ## The main result, stated (not proved)
 
@@ -41,7 +41,7 @@ the reduction `feffermanStatementB_of_bkm`; `bkmIntegralFinite_of_vortSup_le`; `
 **Conditional on** (named `Prop` hypotheses, never `axiom`):
 - `PeriodicMaximalSolutionWithBKM`: classical local existence plus the Beale–Kato–Majda criterion; standard in the literature, **not formalized** here.
 - `PeriodicBKMIntegrability`: finiteness of the BKM integral for every smooth periodic datum. This is **open**; it is the core of the Clay problem.
-- `CorrectedMaxRate` (hypothesis of `conditional_riccati`): **open**.
+- `CorrectedMaxRate` (hypothesis of `conditional_riccati`): an **open hypothesis**, not a classical result. It is a max-rate law of Riccati / κ-matching type, `M·rate ≤ M(C M − κ M²)`, i.e. $\dot M \le C M-\kappa M^2$ at the vorticity maximum. The argument proposed for it is **refuted**: at the maximum the stretching term is quadratic, $\omega\cdot S\omega\le C_{CZ}M^2$ (up to the logarithmic loss), with nothing producing a $-\kappa M^2$ damping in unmodified Navier–Stokes, so the coefficient matching fails. `conditional_riccati` is only the integer rearrangement of this hypothesis (`ring`).
 
 **Open** (stated, not asserted): `PeriodicBKMIntegrability`, `metriplecticControlsEnstrophyL2`, `holographicNotAZFCBound`,
 `depletedStretching`, `stretchingIntegralFinite`, `criticalNormBounded`. Classical but not formalized: `czGivesBMONotLinf`, `spikeObstruction`,
@@ -75,4 +75,4 @@ See [`NAMING.md`](NAMING.md) for the canonical names (Frohmanian Tether Hypothes
 **Final status:** Statement (B) is precisely stated and reduced, kernel-checked, to the open Prop `PeriodicBKMIntegrability` plus the classical local theory; it is not proved. Not a Clay resolution.
 
 
-**PDF note:** the PDF in `paper/` predates the 2026-11-01 revision of the `.tex` source (no TeX toolchain was available when this revision was made). The `.tex` file is authoritative; rebuild the PDF from it.
+**PDF note:** the PDFs were rebuilt from the `.tex` sources with Tectonic 0.17.0 on 2026-11-02.
