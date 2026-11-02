@@ -42,6 +42,8 @@ Dates for May/June items are folder labels, not server timestamps; git history s
 
 ## Rules
 
+- An open statement is a **Hypothesis**; no paper or README calls an open piece a "Law" or a "Theorem". `CorrectedMaxRate` (a refuted max-rate argument) is an open hypothesis.
+
 - Only the newest repo (`periodic-ns-classical-continuation`) carries the canonical Lean names, as
   aliases; the legacy names stay and nothing is deleted.
 - Older repos and Zenodo versions keep their code names as historical records and point here.
