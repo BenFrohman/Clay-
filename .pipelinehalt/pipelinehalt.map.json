@@ -1,0 +1,19 @@
+{
+  "claims": {
+    "theorem-1": {
+      "lean": [
+        "feffermanStatementB_of_bkm",
+        "PeriodicMaximalSolutionWithBKM",
+        "PeriodicBKMIntegrability"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "theorem-2": {
+      "lean": [
+        "bkmIntegralFinite_of_holographic",
+        "PeriodicBKMIntegrability"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    }
+  }
+}
