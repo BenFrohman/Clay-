@@ -65,7 +65,7 @@ CI (`.github/workflows/lean.yml`) runs these on every push and fails on `sorryAx
 ---
 ## Archival DOI & Cryptographic Provenance
 
-- **Zenodo DOI (all versions):** [10.5281/zenodo.23653012](https://doi.org/10.5281/zenodo.23653012). This concept DOI resolves to the latest archived version (v1.1.1). The v1.0.0 snapshot (commit `00fee0f`) has its own version DOI, 10.5281/zenodo.23653013.
+- **Zenodo DOI (all versions):** [10.5281/zenodo.23653012](https://doi.org/10.5281/zenodo.23653012). This concept DOI resolves to the latest archived version. The current paper version has DOI [10.5281/zenodo.23940667](https://doi.org/10.5281/zenodo.23940667). The v1.0.0 snapshot (commit `00fee0f`) has its own version DOI, 10.5281/zenodo.23653013.
 - **Author:** Benjamin Stanley Frohman (ORCID: [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718))
 - **License:** Apache License, Version 2.0 (`Copyright (c) 2026 Benjamin Stanley Frohman`)
 - **Earliest Commit Provenance:** `9e61806681bfce3f0edee28293d22a6a711f0780` (2026-10-07 06:16:45 AM CDT (UTC-5))
