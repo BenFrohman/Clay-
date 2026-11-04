@@ -34,6 +34,10 @@ Open named Props (not asserted): `PeriodicBKMIntegrability`, `metriplecticContro
 
 See `STATUS.md` for the Section 10 finding.
 
+## Note: Clay-CD folded in
+
+See `docs/note_clay_cd_not_certified.md` and `lean/Clay/Notes/NotBlowup.lean` (two definitional identities, illustration only).
+
 ## Status summary
 
 **Proved** (kernel-checked, standard axioms only; full list in `AXIOMS.md`):

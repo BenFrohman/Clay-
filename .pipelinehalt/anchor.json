@@ -1,0 +1,23 @@
+{
+  "title": "\\textbf{Fefferman Statement (B) on $\\mathbb{T",
+  "source": "paper/Clay_Technical_Monograph_2026.tex",
+  "claims": [
+    {
+      "id": "theorem-1",
+      "number": "Theorem 1",
+      "statement": "\\texttt{PeriodicMaximalSolutionWithBKM} and \\texttt{PeriodicBKMIntegrability} together imply Statement~(B).",
+      "kind": "theorem",
+      "source": "paper/Clay_Technical_Monograph_2026.tex:54",
+      "title": "\\texttt{feffermanStatementB\\_of\\_bkm}, kernel-checked"
+    },
+    {
+      "id": "theorem-2",
+      "number": "Theorem 2",
+      "statement": "If $\\|\\omega(t)\\|_{L^\\infty}$ is bounded on every finite interval of existence, then \\texttt{PeriodicBKMIntegrability} holds.",
+      "kind": "theorem",
+      "source": "paper/Clay_Technical_Monograph_2026.tex:58",
+      "title": "\\texttt{bkmIntegralFinite\\_of\\_holographic}, kernel-checked"
+    }
+  ],
+  "clarifications": {}
+}
