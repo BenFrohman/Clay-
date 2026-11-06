@@ -45,4 +45,20 @@ def dhyImpliesRegularity : Prop :=
     (∃ (P : DHYPacket) (C : ℝ), ∀ t, 0 ≤ t → P.dirGrad t * P.length t ≤ C ∧
         P.velocityScale t * P.curvature t * P.length t ≤ C) → BKMIntegralFinite u T
 
+
+/-- Semantic regression for the existing abstract packet interface, not a DHY PDE
+criterion: the packet is unrelated to `u`, so its four functions can all be zero.
+Consequently the current named proposition repackages the entire open BKM input.
+A genuine geometric criterion needs solution-linked vortex lines and estimates. -/
+theorem abstract_dhy_criterion_iff_periodicBKMIntegrability :
+    dhyImpliesRegularity ↔ PeriodicBKMIntegrability := by
+  constructor
+  · intro h ν hν u0 u p T hu0 hT hsol
+    apply h ν hν u0 u p T hu0 hT hsol
+    refine ⟨⟨fun _ => 0, fun _ => 0, fun _ => 0, fun _ => 0⟩, 0, ?_⟩
+    intro t ht
+    constructor <;> simp
+  · intro h ν hν u0 u p T hu0 hT hsol _
+    exact h ν hν u0 u p T hu0 hT hsol
+
 end Clay.Gaps.DirectionAlignment
