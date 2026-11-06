@@ -19,7 +19,7 @@
 GitHub: \href{https://github.com/BenFrohman/Clay-}{\lean{BenFrohman/Clay-}}\\
 \small Concept DOI (all versions): \href{https://doi.org/10.5281/zenodo.23653012}{\texttt{10.5281/zenodo.23653012}}\\ \small This version DOI: \href{https://doi.org/10.5281/zenodo.23940667}{\texttt{10.5281/zenodo.23940667}}}
 \date{Earliest Commit Provenance: 2026-10-07 06:16:45 AM CDT (UTC-5)\\
-Revised edition: November 1, 2026 (America/Chicago, UTC$-6$). Not peer reviewed.}
+Revised edition: November 6, 2026 (America/Chicago, UTC$-6$). Not peer reviewed.}
 
 \begin{document}
 \maketitle
@@ -87,7 +87,7 @@ The file \lean{lean/Clay/Gaps/MissingInputs.lean} states each former placeholder
 The former trivial definitions have been removed; the repository history retains them. For planar fields $v=(v_1(x_1,x_2),v_2(x_1,x_2),0)$ the vorticity is proved parallel to $e_3$. Kernel-checked elementary results include the identity $\Pi_u u=0$ for the pointwise tether projection, the unboundedness of the history integral $m^2t$ for $m>0$, and the conditional Riccati rearrangement.
 
 \section{Build and axiom status}
-\textbf{Proved (kernel-checked).} \texttt{lake build} of the full \texttt{Clay} library (root module and all 14 submodules, including the note \texttt{Clay.Notes.NotBlowup}) succeeds on Lean/Mathlib v4.16.0. The axiom report lists 62 theorem declarations (including compiler-generated auxiliary lemmas), none using \texttt{sorryAx}, and none using an axiom beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. The substantive kernel-checked results are \texttt{feffermanStatementB\_of\_bkm}, \texttt{statementB\_of\_bkmIntegralFinite}, \texttt{bkmIntegralFinite\_of\_holographic}, \texttt{bkmIntegralFinite\_of\_vortSup\_le}, the two-dimensional clock results \texttt{steady\_euler\_clock}, \texttt{alignment\_does\_not\_delete\_clock}, \texttt{clock\_fails\_on\_aligned\_2d\_solutions}, the planar-vorticity lemma \texttt{curl\_planar}, the tether identities \texttt{tether\_degeneracy}, \texttt{tether\_bracket\_preservation}, and the integer rearrangement \texttt{conditional\_riccati}. This is a machine check of the Lean statements, not peer review.
+\textbf{Proved (kernel-checked).} \texttt{lake build} of the full \texttt{Clay} library (root module and all 14 submodules, including the note \texttt{Clay.Notes.NotBlowup}) succeeds on Lean/Mathlib v4.16.0. The axiom report lists 63 theorem declarations (including compiler-generated auxiliary lemmas), none using \texttt{sorryAx}, and none using an axiom beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. The substantive kernel-checked results are \lean{feffermanStatementB_of_bkm}, \lean{statementB_of_bkmIntegralFinite}, \lean{bkmIntegralFinite_of_holographic}, \lean{bkmIntegralFinite_of_vortSup_le}, the two-dimensional clock results \lean{steady_euler_clock}, \lean{alignment_does_not_delete_clock}, \lean{clock_fails_on_aligned_2d_solutions}, the planar-vorticity lemma \lean{curl_planar}, the tether identities \lean{tether_degeneracy}, \lean{tether_bracket_preservation}, and the integer rearrangement \lean{conditional_riccati}. This is a machine check of the Lean statements, not peer review.
 
 \textbf{Conditional on.} The global-existence reduction takes \lean{PeriodicMaximalSolutionWithBKM} (classical local theory and continuation, not proved here) and \lean{PeriodicBKMIntegrability} (the still-undischarged BKM integrability assumption) as arguments. Neither is supplied by the reduction.
 
@@ -98,6 +98,16 @@ The separate declaration \lean{conditional_riccati} is an algebraic implication 
 and the theorem rewrites its right-hand side as $CM^2-\kappa M^3$. Here \texttt{rate} is an integer variable, not a time derivative. No real-valued trajectory, differential inequality, vorticity maximum principle, or connection of this predicate to Navier--Stokes is proved. An analytical max-rate law and its PDE bridge remain separate missing inputs; this rearrangement does not supply them. Finer decompositions of the open BKM input belong to the continuation repository and are not formalized here.
 
 \textbf{Open.} \lean{PeriodicBKMIntegrability}; every item of the ledger above marked open; and therefore Statement~(B) itself. The Clay Millennium Problem is not solved by this work.
+
+\paragraph{An abstract criterion is not an additional analytic input.}
+The new semantic regression
+\lean{abstract_dhy_criterion_iff_periodicBKMIntegrability}
+proves that the current \lean{dhyImpliesRegularity} proposition is equivalent to
+\lean{PeriodicBKMIntegrability}: its existential packet has no connection to the
+solution and can have all four functions identically zero. This is a diagnosis
+of the abstract interface, not a proof of a Deng--Hou--Yu geometric criterion or
+of BKM integrability. An actual geometric criterion must bind its packet to
+vortex lines of the solution and justify the required quantitative estimates.
 
 \section{Provenance hashes}
 Source files are fingerprinted with SHA-256 (\lean{provenance/PROVENANCE_HASHES.json}) and a Merkle root (\lean{provenance/PROVENANCE_MERKLE_ROOT.json}), signed with Ed25519 key fingerprint \lean{b428fb72676f1c52}. These are file-integrity fingerprints of an earlier snapshot only; they are not a certificate of correctness or review. The authoritative correctness check is the build and axiom report above, rerun by CI on every push.

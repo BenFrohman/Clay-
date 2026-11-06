@@ -1,6 +1,7 @@
 % Copyright 2026 Benjamin Stanley Frohman (ORCID 0009-0006-7068-3718). Apache License 2.0.
 \documentclass{article}
 \usepackage{amsmath,amssymb}
+\emergencystretch=2em
 \title{Section 10 bootstrap, with the two open gaps marked}
 \author{Benjamin Stanley Frohman}
 \date{October 2026}
@@ -13,22 +14,41 @@ Assume a smooth divergence-free solution of unforced 3D incompressible Navier--S
 \[
 \partial_t\phi+u\cdot\nabla\phi=|\omega|^2,\qquad \phi(0,x)=0.
 \]
-Along characteristics, $\|\phi(t)\|_{L^\infty}\le\int_0^t M(s)^2\,ds$. This upper bound is linear in $t$ whenever $M$ is bounded below by a positive constant. It is not a uniform constant on $[0,\infty)$.
+Along characteristics, $\|\phi(t)\|_{L^\infty}\le\int_0^t M(s)^2\,ds$. For constant $M(s)=M_0>0$, the right-hand side equals $M_0^2t$; more generally a positive lower bound on $M$ makes that right-hand side grow at least linearly. This does not itself give a lower bound on $\phi$, and it is not a uniform constant on $[0,\infty)$.
 
 \paragraph{Pointwise stretching.}
-At an interior maximum of $|\omega_\varepsilon|^2$ the viscous pairing is non-positive, and Calder\'on--Zygmund gives a bound of the schematic form
+At an interior maximum of $|\omega_\varepsilon|^2$ the viscous pairing is non-positive. The pointwise algebraic stretching estimate is
 \[
-|\omega_\varepsilon\cdot((\omega_\varepsilon\cdot\nabla)u)|\le C_{\mathrm{CZ}}(3)\,M_\varepsilon(t)^2,
+|\omega_\varepsilon\cdot((\omega_\varepsilon\cdot\nabla)u)|
+\le M_\varepsilon(t)^2\,\|\nabla u(t)\|_{L^\infty}.
 \]
-up to the standard logarithmic correction in the Beale--Kato--Majda estimate. The pure quadratic bound without a logarithm is the classical CZ estimate on $\nabla u$ in BMO, not a closed $L^\infty$ bound.
+The strain factor $\|\nabla u(t)\|_{L^\infty}$ is essential and is not a universal constant. Calder\'on--Zygmund theory gives BMO rather than a closed $L^\infty$ estimate from bounded vorticity. A logarithmic Beale--Kato--Majda estimate also involves a higher-regularity norm; it does not justify dropping the strain factor. A PDE evolution estimate for mollified vorticity additionally requires control of the mollification commutators.
 
 \paragraph{Lyapunov inequality, as stated.}
 \[
 \frac{dS_\varepsilon}{dt}\le C_{\mathrm{abs}}\bigl(1+M_\varepsilon(t)^3\|\phi_\varepsilon\|_{L^\infty}^{3/2}\bigr)-\kappa'\int_{\mathbb{T}^3}|\omega_\varepsilon|^6\,d\lambda.
 \]
-\textbf{Gap A.} Substituting the history bound makes the prefactor grow like $t^{3/2}$ if $M_\varepsilon$ remains positive. The comparison equation is not the autonomous ODE $y'=Cy^2-\kappa''y^3$.
+\textbf{Gap A.} For constant positive $M_\varepsilon$, substituting the history bound introduces a factor proportional to $t^{3/2}$ rather than a time-independent constant. In general this substitution alone does not justify the autonomous comparison ODE $y'=Cy^2-\kappa''y^3$.
 
 \textbf{Gap B.} The relation $\int|\omega_\varepsilon|^6\ge c M_\varepsilon^4$ does not follow from H\"older. H\"older supplies $\|\omega_\varepsilon\|_6\le M_\varepsilon$ on a unit-volume torus. A lower bound requires a lower bound on the measure of $\{|\omega_\varepsilon|\gtrsim M_\varepsilon\}$.
+
+\paragraph{A conditional analytic sufficient condition.}
+For the unmollified smooth solution, put $q=|\omega|^2$ and
+$S=(\nabla u+(\nabla u)^T)/2$. The vorticity equation gives
+\[
+(\partial_t+u\cdot\nabla-\nu\Delta)q
+=2\omega\cdot S\omega-2\nu|\nabla\omega|^2.
+\]
+Set $a(t)=\sup_x\max\{\omega\cdot S\omega/|\omega|^2,0\}$, taking the
+quotient to be zero where $\omega=0$. If the additional hypothesis
+$A=\int_0^T a(t)\,dt<\infty$ holds, the maximum principle implies
+\[
+M(t)\le M(0)\exp\!\left(\int_0^t a(s)\,ds\right),\qquad
+\int_0^T M(t)\,dt\le T M(0)e^A<\infty.
+\]
+This is a conditional classical analytic implication, not a Lean-formalized
+PDE estimate here. The solution-derived bound $A<\infty$ is not supplied
+by the tether or by the integer Riccati rearrangement and remains an open input.
 
 \paragraph{What would close (B).}
 A proof must produce $\int_0^T M(t)\,dt<\infty$ for every finite $T$, for every smooth divergence-free finite-energy $u^\circ$, with $f\equiv 0$, and then invoke Beale--Kato--Majda plus parabolic regularity. Neither the tether degeneracy identity $B(F,H)\equiv 0$ nor a holographic analogy supplies that integral bound.
