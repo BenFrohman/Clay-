@@ -2,9 +2,9 @@
 Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
 Algebraic rearrangement on Int (closed by `ring`).
 The minus sign is a hypothesis. Does not inhabit StatementB. No sorry.
-`CorrectedMaxRate` is an OPEN hypothesis (a Riccati / kappa-matching max-rate law,
-dM/dt <= C M - kappa M^2), not a classical result. The argument proposed for it is refuted:
-stretching at the maximum is quadratic, <= C_CZ M^2, so the coefficient matching fails.
+`CorrectedMaxRate` is an integer inequality, not a differential max-rate law.
+`rate` is an Int variable; no trajectory or PDE interpretation is constructed.
+Any link to an analytical vorticity estimate is an additional, unproved input.
 -/
 
 import Mathlib.Tactic.Ring
