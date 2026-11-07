@@ -17,7 +17,7 @@
 \author{Benjamin Stanley Frohman\\
 \small ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718} \quad|\quad
 GitHub: \href{https://github.com/BenFrohman/Clay-}{\lean{BenFrohman/Clay-}}\\
-\small Concept DOI (all versions): \href{https://doi.org/10.5281/zenodo.23653012}{\texttt{10.5281/zenodo.23653012}}\\ \small This version DOI: \href{https://doi.org/10.5281/zenodo.23940667}{\texttt{10.5281/zenodo.23940667}}}
+\small Concept DOI (all versions): \href{https://doi.org/10.5281/zenodo.23653012}{\texttt{10.5281/zenodo.23653012}}\\ \small Previously archived version DOI: \href{https://doi.org/10.5281/zenodo.23940667}{\texttt{10.5281/zenodo.23940667}}}
 \date{Earliest Commit Provenance: 2026-10-07 06:16:45 AM CDT (UTC-5)\\
 Revised edition: November 6, 2026 (America/Chicago, UTC$-6$). Not peer reviewed.}
 
@@ -34,7 +34,7 @@ This repository is a boundary and gap ledger. It is \textbf{not} a resolution of
 \begin{itemize}
   \item \textbf{Repository:} \url{https://github.com/BenFrohman/Clay-}
   \item \textbf{Concept DOI:} \href{https://doi.org/10.5281/zenodo.23653012}{\texttt{10.5281/zenodo.23653012}}
-  \item \textbf{This version DOI:} \href{https://doi.org/10.5281/zenodo.23940667}{\texttt{10.5281/zenodo.23940667}}
+  \item \textbf{Previously archived version DOI:} \href{https://doi.org/10.5281/zenodo.23940667}{\texttt{10.5281/zenodo.23940667}}
   \item \textbf{Earliest commit:} \texttt{9e61806681bfce3f0edee28293d22a6a711f0780} (2026-10-07, 06:16:45 CDT, UTC$-5$)
   \item \textbf{License:} Copyright \textcopyright\ 2026 Benjamin Stanley Frohman. Apache License, Version~2.0.
 \end{itemize}
@@ -87,7 +87,7 @@ The file \lean{lean/Clay/Gaps/MissingInputs.lean} states each former placeholder
 The former trivial definitions have been removed; the repository history retains them. For planar fields $v=(v_1(x_1,x_2),v_2(x_1,x_2),0)$ the vorticity is proved parallel to $e_3$. Kernel-checked elementary results include the identity $\Pi_u u=0$ for the pointwise tether projection, the unboundedness of the history integral $m^2t$ for $m>0$, and the conditional Riccati rearrangement.
 
 \section{Build and axiom status}
-\textbf{Proved (kernel-checked).} \texttt{lake build} of the full \texttt{Clay} library (root module and all 14 submodules, including the note \texttt{Clay.Notes.NotBlowup}) succeeds on Lean/Mathlib v4.16.0. The axiom report lists 63 theorem declarations (including compiler-generated auxiliary lemmas), none using \texttt{sorryAx}, and none using an axiom beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. The substantive kernel-checked results are \lean{feffermanStatementB_of_bkm}, \lean{statementB_of_bkmIntegralFinite}, \lean{bkmIntegralFinite_of_holographic}, \lean{bkmIntegralFinite_of_vortSup_le}, the two-dimensional clock results \lean{steady_euler_clock}, \lean{alignment_does_not_delete_clock}, \lean{clock_fails_on_aligned_2d_solutions}, the planar-vorticity lemma \lean{curl_planar}, the tether identities \lean{tether_degeneracy}, \lean{tether_bracket_preservation}, and the integer rearrangement \lean{conditional_riccati}. This is a machine check of the Lean statements, not peer review.
+\textbf{Proved (kernel-checked).} Fresh source typechecks of the full \texttt{Clay} library (root module and all 15 submodules, including the note \texttt{Clay.Notes.NotBlowup}) and the solution-linked regression file pass on Lean v4.16.0 against pinned cached dependency artifacts. This records project-source checking, not a fresh rebuild of all dependencies. The axiom report lists 113 theorem declarations (including compiler-generated auxiliary lemmas), none using \texttt{sorryAx}, and none using an axiom beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. The substantive kernel-checked results are \lean{feffermanStatementB_of_bkm}, \lean{statementB_of_bkmIntegralFinite}, \lean{bkmIntegralFinite_of_holographic}, \lean{bkmIntegralFinite_of_vortSup_le}, the two-dimensional clock results \lean{steady_euler_clock}, \lean{alignment_does_not_delete_clock}, \lean{clock_fails_on_aligned_2d_solutions}, the planar-vorticity lemma \lean{curl_planar}, the tether identities \lean{tether_degeneracy}, \lean{tether_bracket_preservation}, and the integer rearrangement \lean{conditional_riccati}. This is a machine check of the Lean statements, not peer review.
 
 \textbf{Conditional on.} The global-existence reduction takes \lean{PeriodicMaximalSolutionWithBKM} (classical local theory and continuation, not proved here) and \lean{PeriodicBKMIntegrability} (the still-undischarged BKM integrability assumption) as arguments. Neither is supplied by the reduction.
 
@@ -109,6 +109,42 @@ of the abstract interface, not a proof of a Deng--Hou--Yu geometric criterion or
 of BKM integrability. An actual geometric criterion must bind its packet to
 vortex lines of the solution and justify the required quantitative estimates.
 
+\subsection*{A solution-linked, nondegenerate vortex-line implementation}
+The module \lean{Clay.Depletion.SolutionLinkedVortexLines} now supplies a
+\lean{Packet u T} tied to the actual \lean{curl (u t)}. It records moving endpoints,
+parameterized curves joining them, actual normalized-vorticity tangents,
+nonvanishing along active segments, measurable observed endpoint magnitudes,
+and an actual bound on the integral of the direction divergence. At nonzero
+peak vorticity this implementation additionally requires positive segment
+length: it is an explicitly nondegenerate specialization of the spatial setting
+of Deng--Hou--Yu Theorem~1~\cite{DHY}, not a transcription of every degenerate
+case. The paper's moving-segment Theorem~2 is for Euler and is not transferred
+to viscous Navier--Stokes here.
+
+\textbf{Proved.} The tangent has norm one wherever vorticity is nonzero. A
+zero-length packet forces the actual vorticity to vanish everywhere at that
+time; any nonzero actual vorticity forces positive packet length. The actual
+zero solution satisfies \lean{NSOn}, admits a packet, and passes the endpoint
+and BKM regressions. Given separately the pointwise spatial comparison and
+finite observed endpoint integral, the new theorem proves
+\[
+  \Omega(t)\le K|\omega(t,x(t))|
+  \le Ke^C|\omega(t,y(t))|,\qquad
+  \int_0^T\Omega(t)\,dt\le Ke^C\int_0^T|\omega(t,y(t))|\,dt<\infty.
+\]
+This is a conditional integral consequence, not an implemented geometric
+regularity criterion. Neither endpoint-integral finiteness nor BKM finiteness
+is hidden in the packet fields.
+
+\textbf{Unproved.} \lean{SpatialBridgeObligation} is a named proposition only,
+with no supplied proof or added axiom. It asks for the spatial chain-rule and
+fundamental-theorem argument deriving endpoint comparison from
+$\operatorname{div}\omega=0$, the actual vortex-line tangent, and the integrated
+$\operatorname{div}\xi$ bound. Constructing suitable packets with uniform bounds
+and proving endpoint-integral finiteness for arbitrary solutions also remain
+open inputs. The old free-packet equivalence remains a diagnostic, not the
+interpretation of this new solution-linked data.
+
 \section{Provenance hashes}
 Source files are fingerprinted with SHA-256 (\lean{provenance/PROVENANCE_HASHES.json}) and a Merkle root (\lean{provenance/PROVENANCE_MERKLE_ROOT.json}), signed with Ed25519 key fingerprint \lean{b428fb72676f1c52}. These are file-integrity fingerprints of an earlier snapshot only; they are not a certificate of correctness or review. The authoritative correctness check is the build and axiom report above, rerun by CI on every push.
 
@@ -116,6 +152,7 @@ Source files are fingerprinted with SHA-256 (\lean{provenance/PROVENANCE_HASHES.
 \bibitem{Fef} C.~L. Fefferman, \emph{Existence and smoothness of the Navier--Stokes equation}, in: The Millennium Prize Problems, Clay Mathematics Institute, 2006, pp.~57--67.
 \bibitem{BKM} J.~T. Beale, T.~Kato, A.~Majda, \emph{Remarks on the breakdown of smooth solutions for the 3-D Euler equations}, Comm. Math. Phys. \textbf{94} (1984), 61--66.
 \bibitem{CF} P.~Constantin, C.~Fefferman, \emph{Direction of vorticity and the problem of global regularity for the Navier--Stokes equations}, Indiana Univ. Math. J. \textbf{42} (1993), 775--789.
+\bibitem{DHY} J.~Deng, T.~Y.~Hou, X.~Yu, \emph{Geometric Properties and Non-blowup of 3-D Incompressible Euler Flow}, \url{https://arxiv.org/abs/math-ph/0402032}, Theorem~1 and Lemma~1; Theorem~2 concerns Euler flow.
 \end{thebibliography}
 
 \vfill

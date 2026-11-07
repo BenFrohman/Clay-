@@ -7,7 +7,14 @@ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
-Author: Benjamin Stanley Frohman (ORCID: https://orcid.org/0009-0006-7068-3718)
+Author: Frohman, Benjamin Stanley (ORCID: https://orcid.org/0009-0006-7068-3718)
 Repository: https://github.com/BenFrohman/Clay-
 Zenodo DOI (all versions): https://doi.org/10.5281/zenodo.23653012 (v1.0.0 snapshot: 10.5281/zenodo.23653013)
 Earliest Commit Provenance: 9e61806681bfce3f0edee28293d22a6a711f0780 (2026-10-07 06:16:45 AM CDT (UTC-5))
+
+2026-11-06 update: solution-linked vortex-line data, conditional endpoint comparison
+consequences, nonvacuity regressions, and reproducibility tooling. No existing
+license grant is replaced. Existing third-party notices must be retained.
+Lean, Mathlib and transitive dependencies retain their own authorship and licenses.
+Proof audits and hashes identify checked statements and file integrity; they are
+not peer review, independent trusted proof certificates, or a Clay resolution.
