@@ -19,3 +19,5 @@ import Clay.StatementB
 import Clay.Gaps
 import Clay.Gaps.ConditionalRiccati
 import Clay.Notes.NotBlowup
+
+import Clay.Depletion.SolutionLinkedVortexLines
