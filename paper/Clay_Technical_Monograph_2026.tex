@@ -87,7 +87,7 @@ The file \lean{lean/Clay/Gaps/MissingInputs.lean} states each former placeholder
 The former trivial definitions have been removed; the repository history retains them. For planar fields $v=(v_1(x_1,x_2),v_2(x_1,x_2),0)$ the vorticity is proved parallel to $e_3$. Kernel-checked elementary results include the identity $\Pi_u u=0$ for the pointwise tether projection, the unboundedness of the history integral $m^2t$ for $m>0$, and the conditional Riccati rearrangement.
 
 \section{Build and axiom status}
-\textbf{Proved (kernel-checked).} Fresh source typechecks of the full \texttt{Clay} library (root module and all 15 submodules, including the note \texttt{Clay.Notes.NotBlowup}) and the solution-linked regression file pass on Lean v4.16.0 against pinned cached dependency artifacts. This records project-source checking, not a fresh rebuild of all dependencies. The axiom report lists 113 theorem declarations (including compiler-generated auxiliary lemmas), none using \texttt{sorryAx}, and none using an axiom beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. The substantive kernel-checked results are \lean{feffermanStatementB_of_bkm}, \lean{statementB_of_bkmIntegralFinite}, \lean{bkmIntegralFinite_of_holographic}, \lean{bkmIntegralFinite_of_vortSup_le}, the two-dimensional clock results \lean{steady_euler_clock}, \lean{alignment_does_not_delete_clock}, \lean{clock_fails_on_aligned_2d_solutions}, the planar-vorticity lemma \lean{curl_planar}, the tether identities \lean{tether_degeneracy}, \lean{tether_bracket_preservation}, and the integer rearrangement \lean{conditional_riccati}. This is a machine check of the Lean statements, not peer review.
+\textbf{Proved (kernel-checked).} Incremental source checks of the actual spatial bridge, rebuilt library root and regression file pass on Lean v4.16.0 against pinned cached dependency artifacts; unchanged modules reuse previously checked objects. This is not a fresh rebuild of all dependencies. The full-library axiom report in \texttt{AXIOMS.md} lists 125 theorem declarations (including generated auxiliaries), 236 audited declarations, and no nonstandard axiom. The substantive kernel-checked results are \lean{feffermanStatementB_of_bkm}, \lean{statementB_of_bkmIntegralFinite}, \lean{bkmIntegralFinite_of_holographic}, \lean{bkmIntegralFinite_of_vortSup_le}, the two-dimensional clock results \lean{steady_euler_clock}, \lean{alignment_does_not_delete_clock}, \lean{clock_fails_on_aligned_2d_solutions}, the planar-vorticity lemma \lean{curl_planar}, the tether identities \lean{tether_degeneracy}, \lean{tether_bracket_preservation}, and the integer rearrangement \lean{conditional_riccati}. This is a machine check of the Lean statements, not peer review.
 
 \textbf{Conditional on.} The global-existence reduction takes \lean{PeriodicMaximalSolutionWithBKM} (classical local theory and continuation, not proved here) and \lean{PeriodicBKMIntegrability} (the still-undischarged BKM integrability assumption) as arguments. Neither is supplied by the reduction.
 
@@ -125,25 +125,34 @@ to viscous Navier--Stokes here.
 zero-length packet forces the actual vorticity to vanish everywhere at that
 time; any nonzero actual vorticity forces positive packet length. The actual
 zero solution satisfies \lean{NSOn}, admits a packet, and passes the endpoint
-and BKM regressions. Given separately the pointwise spatial comparison and
-finite observed endpoint integral, the new theorem proves
+and BKM regressions. The actual spatial comparison is now derived from existing
+NSOn smoothness and the packet. Given separately the finite observed endpoint
+integral, the new theorem proves
 \[
   \Omega(t)\le K|\omega(t,x(t))|
   \le Ke^C|\omega(t,y(t))|,\qquad
   \int_0^T\Omega(t)\,dt\le Ke^C\int_0^T|\omega(t,y(t))|\,dt<\infty.
 \]
-This is a conditional integral consequence, not an implemented geometric
-regularity criterion. Neither endpoint-integral finiteness nor BKM finiteness
-is hidden in the packet fields.
+This is a conditional geometric-to-BKM criterion, not a proof of global
+regularity. Neither endpoint-integral finiteness nor BKM finiteness is hidden
+in the packet fields.
 
-\textbf{Unproved.} \lean{SpatialBridgeObligation} is a named proposition only,
-with no supplied proof or added axiom. It asks for the spatial chain-rule and
-fundamental-theorem argument deriving endpoint comparison from
-$\operatorname{div}\omega=0$, the actual vortex-line tangent, and the integrated
-$\operatorname{div}\xi$ bound. Constructing suitable packets with uniform bounds
-and proving endpoint-integral finiteness for arbitrary solutions also remain
-open inputs. The old free-packet equivalence remains a diagnostic, not the
-interpretation of this new solution-linked data.
+\textbf{Spatial bridge proved.} The new module
+\lean{Clay.Depletion.ActualSpatialBridge} supplies
+\lean{spatialBridgeObligation_proved}, an inhabitant of the exact original
+\lean{SpatialBridgeObligation}. Spatial C2 regularity is derived by restricting
+NSOn's existing joint smoothness to a time slice. Symmetry of actual mixed
+partials gives $\operatorname{div}(\operatorname{curl}u)=0$; product and chain
+rules give the log-vorticity derivative along the actual unit tangent. FTC and
+exponentiation then establish the endpoint comparison, without assuming that
+comparison or adding a calculus regularity hypothesis.
+
+\textbf{Still unproved.} Constructing suitable measurable packets with uniform
+geometric bounds and proving their actual endpoint time integrals finite for
+arbitrary solutions remain open. The theorem
+\lean{bkmIntegralFinite_of_NSOn_and_endpoint} retains this last integral as an
+explicit argument. Thus Statement (B) is not proved. The old free-packet
+equivalence remains a diagnostic, not the interpretation of the linked data.
 
 \section{Provenance hashes}
 Source files are fingerprinted with SHA-256 (\lean{provenance/PROVENANCE_HASHES.json}) and a Merkle root (\lean{provenance/PROVENANCE_MERKLE_ROOT.json}), signed with Ed25519 key fingerprint \lean{b428fb72676f1c52}. These are file-integrity fingerprints of an earlier snapshot only; they are not a certificate of correctness or review. The authoritative correctness check is the build and axiom report above, rerun by CI on every push.

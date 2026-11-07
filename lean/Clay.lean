@@ -21,3 +21,5 @@ import Clay.Gaps.ConditionalRiccati
 import Clay.Notes.NotBlowup
 
 import Clay.Depletion.SolutionLinkedVortexLines
+
+import Clay.Depletion.ActualSpatialBridge

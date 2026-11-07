@@ -48,23 +48,33 @@ All new declarations are included in the existing full-library axiom audit.
 `SolutionLinkedRegression.lean`, invoked by CI, retains the universal zero-
 length rejection, actual zero-solution acceptance and standard-axiom checks.
 
-## Exact unproved bridge (not an axiom)
+## Actual spatial bridge: now proved
 
-`SpatialBridgeObligation` is a Prop declaration only. It says that on the actual
-smooth finite NS solutions, each linked packet yields SpatialComparison.
-No theorem or inhabitant of this Prop is supplied. Its missing proof consists of:
+`ActualSpatialBridge.lean` proves the exact existing `SpatialBridgeObligation`.
+It does not replace the target or add a regularity supplement:
 
-1. derive spatial C1 vorticity and div(curl u)=0 from actual NSOn smoothness;
-2. along the nonzero unit-speed curve, apply the chain rule to obtain
-   d/ds log|omega(gamma(s))| = -div xi(gamma(s));
-3. justify the fundamental theorem of calculus along the segment and exponentiate
-   the actual integrated-divergence bound to compare the two endpoint magnitudes.
+1. `spatialC2_of_NSOn` restricts the existing joint `ContDiffOn` hypothesis
+   to a fixed-time spatial slice, including time zero.
+2. `pd_pd_comm` derives equality of actual mixed partials from C2 smoothness;
+   `div_curl_eq_zero` proves actual div(curl u)=0 by cancellation.
+3. `curl_differentiable_of_C2` and `norm_direction_derivative` use actual
+   differentiability, normalization and the product rule to obtain the norm
+   derivative in the actual normalized-curl direction.
+4. `logDerivativeAlong_of_spatialC2` combines this with the packet tangent
+   equation and nonvanishing to prove the actual log-vorticity differential
+   equation along the curve.
+5. `spatialComparison_of_logDerivativeAlong` applies FTC to the actual
+   integrated divergence and exponentiates its bound. The intermediate
+   `LogDerivativeAlong` premise is derived, not assumed, in the final theorem.
+6. `spatialComparison_of_NSOn` and `spatialBridgeObligation_proved` discharge
+   the original spatial target without assumed comparison or new calculus premises.
+7. `bkmIntegralFinite_of_NSOn_and_endpoint` uses the proved comparison and
+   the separately supplied actual endpoint integral to deduce BKM finiteness.
 
-This is the spatial Lemma 1 / equation (3.2) argument used in the paper's
-Theorem 1, which applies to Euler AND Navier--Stokes. It is much narrower than
-BKM integrability: it has no temporal integral or regularity conclusion.
-The paper's moving-segment Theorem 2 relies on Euler transport and is NOT
-transferred to viscous NS by this implementation.
+The argument uses only spatial smoothness from NSOn; the momentum equation,
+positive viscosity and velocity incompressibility are not needed for the identity
+that div(curl)=0. It is the spatial Lemma 1 / equation (3.2) argument in DHY
+Theorem 1, not an Euler transport argument. No Euler-only Theorem 2 is transferred.
 
 ## Still needed for a regularity argument
 
@@ -72,7 +82,7 @@ The packet type does not include endpoint-integral finiteness or BKM finiteness.
 EndpointIntegralFinite is a separate, unproved-for-general-data hypothesis as
 in the cited theorem. Constructing suitable measurable packets for arbitrary
 solutions, proving their uniform geometric bounds, and proving their actual
-endpoint integrals finite also remain unsupplied. Even completing the spatial
-bridge would not discharge these global analytic obligations or solve Statement B.
+endpoint integrals finite also remain unsupplied. Completing the spatial
+bridge does not discharge these global analytic obligations or solve Statement B.
 
 No added axiom, sorry, changed established theorem, or claimed Millennium solution.

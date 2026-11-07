@@ -11,7 +11,7 @@ This implements geometric data tied to the actual `curl (u t)`, unlike the
 legacy free `DHYPacket`. It specializes the spatial setting of Theorem 1 in
 Deng--Hou--Yu, arXiv:math-ph/0402032, to nondegenerate segments at nonzero
 near-maximal vorticity. The endpoint-integrability hypothesis is separate.
-The geometric-to-spatial-comparison bridge remains an explicit unproved Prop.
+The geometric-to-spatial-comparison bridge is proved in `ActualSpatialBridge`.
 The paper's moving-segment Theorem 2 is Euler-only and is NOT imported here.
 -/
 
@@ -94,10 +94,10 @@ def SpatialComparison {u : ℝ → E3 → E3} {T : ℝ≥0∞} (P : Packet u T) 
     (‖curl (u t) (P.peak t)‖₊ : ℝ≥0∞) ≤
       ENNReal.ofReal (Real.exp P.distortionBound) * endpointMagnitude u T P.endpoint t
 
-/-- UNPROVED spatial bridge obligation: derive the exponential endpoint
-comparison from actual smooth-solution geometry. This is a named proposition,
-not an axiom, theorem, or implemented sufficient criterion. It is the spatial
-Lemma 1 / equation (3.2) component of DHY Theorem 1, NOT Euler Theorem 2. -/
+/-- Named spatial bridge target, proved without additional hypotheses by
+`spatialBridgeObligation_proved` in `ActualSpatialBridge`. This declaration is
+a proposition, not an axiom. It is the spatial Lemma 1 / equation (3.2) component
+of DHY Theorem 1, NOT Euler Theorem 2. -/
 def SpatialBridgeObligation : Prop :=
   ForAllFiniteSolutions fun u _ T => ∀ P : Packet u T, SpatialComparison P
 
