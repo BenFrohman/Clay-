@@ -23,5 +23,13 @@ example (T : ℝ≥0∞) : BKMIntegralFinite (fun _ _ => (0 : E3)) T :=
 
 #print axioms bkmIntegralFinite_of_spatialComparison_and_endpoint
 #print axioms zeroPacket_BKMIntegralFinite
--- A Prop declaration only: no proof of this bridge has been supplied.
+-- The exact original bridge target now has a proof, with standard axioms only.
 #check SpatialBridgeObligation
+
+#check spatialBridgeObligation_proved
+#print axioms spatialBridgeObligation_proved
+#print axioms bkmIntegralFinite_of_NSOn_and_endpoint
+example : SpatialBridgeObligation := spatialBridgeObligation_proved
+example (T : ℝ≥0∞) : BKMIntegralFinite (fun _ _ => (0 : E3)) T :=
+  bkmIntegralFinite_of_NSOn_and_endpoint (zero_NSOn 1 (lifespanSet T))
+    (zeroPacket T) (zeroPacket_endpointIntegralFinite T)

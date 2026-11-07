@@ -68,12 +68,16 @@ measurable actual endpoint/control quantities. A zero-length profile forces
 actual curl to vanish everywhere; the actual zero NS solution is still admitted.
 The old abstract diagnostic is retained unchanged.
 
-The proved BKM consequence takes BOTH spatial endpoint comparison and finite
-endpoint integral as explicit hypotheses. Neither is inferred merely from packet
-existence. `SpatialBridgeObligation` is an **unproved Prop**, not an axiom or a
-proved sufficient geometric criterion. This implements a nondegenerate spatial
-specialization of DHY Theorem 1; it does **not** transfer Euler-only Theorem 2
-to viscous NS. See [proved/unproved scope](docs/SOLUTION_LINKED_VORTEX_LINES.md).
+The new [actual spatial bridge](lean/Clay/Depletion/ActualSpatialBridge.lean)
+proves the exact `SpatialBridgeObligation` from existing `NSOn` smoothness and
+the linked packet: spatial C2 regularity, div(curl)=0, the actual log-vorticity
+chain rule, FTC, and exponentiation. No additional smoothness or assumed
+`SpatialComparison` is needed. `bkmIntegralFinite_of_NSOn_and_endpoint` now
+deduces BKM finiteness from an actual NS solution, its packet, and a separately
+finite actual endpoint integral. Constructing suitably bounded packets and proving
+that endpoint integral finite for arbitrary solutions remain open. This is not
+a global regularity proof and does not transfer Euler-only Theorem 2 to NS.
+See [proved/unproved scope](docs/SOLUTION_LINKED_VORTEX_LINES.md).
 
 ## Build
 
