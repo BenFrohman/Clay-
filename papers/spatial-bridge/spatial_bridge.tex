@@ -1,0 +1,772 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{xurl}
+\input{leanlisting}
+\usepackage[colorlinks,linkcolor=leankw,citecolor=leankw,urlcolor=leankw]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\lean}[1]{{\upshape\path{#1}}}
+\newcommand{\leanu}[1]{\textnormal{\texttt{#1}}}
+% \declref{declaration}{repository file}{line}: machine-checked by check_refs.py
+\newcommand{\declref}[3]{\textnormal{\lean{#1} (\lean{#2}:#3)}}
+\newenvironment{leanblock}{\par\smallskip\noindent\rule{\linewidth}{0.4pt}\par\noindent\begin{minipage}{\linewidth}\raggedright\ttfamily\small}{\end{minipage}\par\noindent\rule{\linewidth}{0.4pt}\par\smallskip}
+\newcommand{\kw}[1]{\textcolor{leankw}{\textbf{#1}}}
+\Urlmuskip=0mu\relax
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Ennr}{[0,\infty]}
+\DeclareMathOperator{\curl}{curl}
+\renewcommand{\div}{\operatorname{div}}
+\emergencystretch=3em
+\sloppy
+
+\newcommand{\mainsha}{43653aab3b51269a71a713ccbc4d892869bbe497}
+\newcommand{\proofsha}{60e7ed0}
+
+\title{\textbf{A Kernel-Checked Spatial Bridge for Vortex-Line Comparison:\\
+Lean~4 Formalization of the Deng--Hou--Yu Spatial Identity\\
+for Smooth Periodic Navier--Stokes Fields}}
+\author{Frohman, Benjamin Stanley\\
+\small ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}\quad|\quad
+\href{mailto:frohmanbenjamin@gmail.com}{\texttt{frohmanbenjamin@gmail.com}}\\
+\small Repository: \href{https://github.com/BenFrohman/Clay-}{\lean{https://github.com/BenFrohman/Clay-}}}
+\date{November 9, 2026 (America/Chicago, UTC$-6$). Preprint; not peer reviewed.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We describe a Lean~4/Mathlib formalization, merged in the public repository
+\lean{BenFrohman/Clay-} at commit \texttt{43653aa}, of the \emph{spatial} half
+of Theorem~1 of Deng, Hou and Yu (DHY): along a nonvanishing vortex-line
+segment from a point $x$ to a point $y$, the vorticity magnitudes satisfy
+$|\omega(x)|\le e^{C}|\omega(y)|$ whenever
+$\bigl|\int_0^{L}(\div\xi)(\gamma(s))\,ds\bigr|\le C$, where
+$\xi=\omega/|\omega|$. The library proves the named target
+\lean{SpatialBridgeObligation} for every packet of solution-linked
+vortex-line data over every smooth periodic Navier--Stokes solution in the
+repository's encoding, with no assumed comparison, regularity supplement or
+integrability premise. The proof derives spatial $C^2$ regularity from the
+solution hypothesis, mixed-partial symmetry, $\div\curl=0$, a product-rule
+identity for $|\omega|$ and $\xi$, a logarithmic chain rule along the curve,
+and the fundamental theorem of calculus. As a consequence the library proves
+that finiteness of the time integral of the endpoint vorticity implies
+finiteness of the Beale--Kato--Majda integral. All of the theorems are checked
+by the Lean kernel, and the full library axiom audit (125 theorems, 236
+declarations) reports only \texttt{propext}, \texttt{Classical.choice} and
+\texttt{Quot.sound}, with no \texttt{sorry}. We write every step of the
+argument out on paper. We also record three limitations, each of them
+kernel-checked: the argument uses only spatial $C^2$ smoothness, so it is
+kinematic and not specific to Navier--Stokes; the endpoint hypothesis is
+\emph{equivalent} to Beale--Kato--Majda finiteness, so the criterion moves the
+analytic difficulty rather than removing it; and at the pinned Mathlib, the
+repository's solution predicate requires joint real-analyticity rather than
+$C^\infty$ smoothness. An informal, unformalized shear-flow argument shows
+that, granting the classical uniqueness of smooth solutions, the
+repository's formal version of Statement~(B) is false as written. That formal
+statement should be corrected; doing so does not affect the results here. \textbf{This is not a proof of the Clay Millennium
+Navier--Stokes problem, and it does not prove global regularity for any class
+of data.} Kernel verification certifies the Lean statements as written. It
+does not certify their fidelity to the intended PDE notions.
+\end{abstract}
+
+\tableofcontents
+
+%==========================================================================
+\section{Scope and non-claims}\label{sec:scope}
+
+\paragraph{What this paper is.} It is an exposition of a small, completely
+formalized piece of classical vorticity kinematics. It gives the exact Lean
+statements, file and line references at a pinned commit, a complete
+human-readable proof that follows the Lean proof step by step, and
+reproduction instructions. The mathematics is classical: it is the identity
+(3.1)--(3.2) of DHY Lemma~1 and the ratio bound (2.2) of DHY
+Theorem~1~\cite{DHY2005}. \emph{No novelty is claimed for the mathematics.}
+The contribution is the machine-checked formalization, its tie to the
+repository's definition of a Navier--Stokes solution, and a precise account of
+what remains open.
+
+\paragraph{What this paper is not.}
+\begin{enumerate}
+  \item It is \textbf{not} a proof or a disproof of Fefferman's Statement~(B)~\cite{Fefferman2006} or of any other Clay Millennium statement.
+  \item It does \textbf{not} prove that any nonzero Navier--Stokes solution admits a vortex-line packet (Definition~\ref{def:packet}). It also does not prove that a packet with time-uniform constants and measurable dependence on time exists.
+  \item It does \textbf{not} prove the endpoint integrability hypothesis (Definition~\ref{def:endpoint}) for any nonzero solution. Proposition~\ref{prop:equiv} shows that this hypothesis is exactly as strong as finiteness of the Beale--Kato--Majda (BKM) integral.
+  \item It does \textbf{not} formalize the classical local existence theory or the BKM continuation theorem~\cite{BKM1984}. In the repository these appear only as the named, unproved proposition \lean{PeriodicMaximalSolutionWithBKM}.
+  \item It does \textbf{not} formalize DHY Theorem~2, which is specific to the Euler equations, or the degenerate and general cases covered by DHY Theorem~1.
+  \item A successful kernel check means that the Lean terms typecheck against the Lean definitions. It does \textbf{not} show that those definitions faithfully encode Fefferman's notions of a smooth periodic solution, or any physical statement. Section~\ref{sec:analytic} records a concrete fidelity issue of exactly this kind.
+\end{enumerate}
+
+%==========================================================================
+\section{The formal setting}\label{sec:setting}
+
+All declarations live in the repository~\cite{ClayRepo} at commit
+\texttt{\mainsha} on \texttt{main}. That commit is the merge of pull
+request~\#9, whose proof commit is \texttt{\proofsha}. File and line numbers
+below refer to that commit. In references of the form
+\emph{name (file:line)}, the file is relative to \lean{lean/Clay/}; the pull request carrying this paper does not
+change any Lean library file. Lean is version~4.16.0 and Mathlib is tag
+\texttt{v4.16.0} (revision
+\texttt{a6276f4c6097675b1cf5ebd49b1146b735f38c02})~\cite{Lean4,Mathlib2020}.
+
+\subsection{Space, derivatives and vorticity}
+Let $E=\R^3$ with the Euclidean norm (\leanu{E3 := EuclideanSpace ℝ (Fin 3)},
+\lean{lean/Clay/StatementB.lean}:35), and let $e_1,e_2,e_3$ be the standard
+basis (\declref{e}{StatementB.lean}{38}). In Lean the indices are
+$0,1,2$; we write $1,2,3$. For $f\colon E\to\R$ the partial derivative is
+defined through the Fr\'echet derivative,
+\[
+  \partial_j f(x) := Df(x)[e_j]
+\]
+(\declref{pd}{StatementB.lean}{41}).
+Mathlib's \lean{fderiv} returns $0$ at points where $f$ is not differentiable.
+Every use of $\partial_j$ below is at a point where differentiability has been
+proved, so this convention never enters. For $v\colon E\to E$,
+\[
+  \curl v=(\partial_2v_3-\partial_3v_2,\ \partial_3v_1-\partial_1v_3,\ \partial_1v_2-\partial_2v_1)
+\]
+(\declref{curl}{StatementB.lean}{53}),
+and $\div w=\sum_i\partial_iw_i$; the predicate $\div w\equiv 0$ is
+\declref{DivFree}{StatementB.lean}{50}.
+
+\subsection{Solutions, lifespans and the BKM integral}
+For $T\in\Ennr$ the lifespan is $[0,T)=\{t:0\le t,\ \mathrm{ofReal}(t)<T\}$
+(\declref{lifespanSet}{StatementB.lean}{82}). The predicate
+\declref{NSOn}{StatementB.lean}{65}, written
+$\mathrm{NSOn}(\nu,S,u_0,u,p)$, asserts the following.
+\begin{enumerate}
+  \item[(N1)] $(t,x)\mapsto u(t,x)$ and $(t,x)\mapsto p(t,x)$ satisfy \leanu{ContDiffOn ℝ ⊤} on $S\times\R^3$.
+  \item[(N2)] The momentum equation holds with the one-sided time derivative \lean{derivWithin} along $S$.
+  \item[(N3)] $\div u(t)=0$ for $t\in S$.
+  \item[(N4)] $u(0,\cdot)=u_0$.
+  \item[(N5)] $u(t)$ and $p(t)$ are $1$-periodic in each coordinate for $t\in S$.
+\end{enumerate}
+The vorticity supremum is
+$\Omega(t)=\sup_x|\curl u(t)(x)|\in\Ennr$
+(\declref{vortSup}{StatementB.lean}{95}), and
+\[
+  \mathrm{BKMIntegralFinite}(u,T)\ :\iff\ \int^{-}_{[0,T)}\Omega(t)\,dt<\infty
+\]
+(\declref{BKMIntegralFinite}{StatementB.lean}{98}),
+where $\int^{-}$ is the lower Lebesgue integral of a $\Ennr$-valued function.
+The quantifier \declref{ForAllFiniteSolutions}{StatementB.lean}{102}
+ranges over all $\nu>0$, all data $u_0$ satisfying \lean{SmoothPeriodicData},
+all $(u,p)$, and all finite $T$ with $\mathrm{NSOn}(\nu,[0,T),u_0,u,p)$.
+
+\subsection{A fidelity remark: \texorpdfstring{\leanu{⊤}}{top} means analytic at the pinned Mathlib}\label{sec:analytic}
+At the pinned Mathlib the smoothness index of \lean{ContDiff} and
+\lean{ContDiffOn} has type \leanu{WithTop ℕ∞}. Mathlib writes $\infty$ for
+$((\top:\mathbb{N}_\infty):\leanu{WithTop ℕ∞})$, which means $C^\infty$, and
+$\omega$ for $\top:\leanu{WithTop ℕ∞}$, which means real-analytic (Mathlib
+file \lean{Mathlib/Analysis/Calculus/ContDiff/Defs.lean}, ``Notations'').
+\lean{NSOn} and \lean{SmoothPeriodicData} both write a bare \leanu{⊤}, so the
+index is $\omega$. The paper-check file
+\lean{papers/spatial-bridge/PaperChecks.lean} proves this explicitly.
+\begin{itemize}
+  \item \lean{NSOn_velocity_analyticOn}: $\mathrm{NSOn}(\nu,S,u_0,u,p)$ implies that $(t,x)\mapsto u(t,x)$ is real-analytic within $S\times\R^3$ (\lean{AnalyticOn}).
+  \item \lean{smoothPeriodicData_analyticOn}: \lean{SmoothPeriodicData}$(u_0)$ implies that $u_0$ is real-analytic.
+  \item $((\top:\mathbb{N}_\infty):\leanu{WithTop ℕ∞})\neq\top$.
+\end{itemize}
+Fefferman's Statement~(B) asks for $C^\infty$ data and $C^\infty$ solutions on
+$\R^3\times[0,\infty)$. The repository's \lean{NSOn} is therefore a
+\emph{strictly stronger} hypothesis than smoothness, because it requires joint
+analyticity in $(t,x)$ up to and including $t=0$ within the time set. For the
+results of this paper the issue is harmless in one direction. Every theorem
+proved under \lean{NSOn} remains true, and Corollary~\ref{cor:C2} shows the
+spatial bridge needs only spatial $C^2$. The issue does, however, affect how the repository's
+\lean{FeffermanStatementB}, \lean{PeriodicMaximalSolutionWithBKM} and
+\lean{PeriodicBKMIntegrability} compare with their informal counterparts, as
+the following remark shows.
+
+\begin{remark}[Informal, \emph{not} formalized: a shear flow that is smooth but not time-analytic at $t=0$]\label{rem:shear}
+Fix $\nu>0$. Let
+\[
+  \varphi_0(r)=\sum_{k\in\mathbb{Z}}e^{-|k|}e^{2\pi ikr}=1+2\sum_{k\ge1}e^{-k}\cos(2\pi kr),
+\]
+and put $u_0(x)=(0,\varphi_0(x_1),0)$. The series converges for
+$|\operatorname{Im}r|<1/(2\pi)$, so $\varphi_0$ is real-analytic on all of
+$\R$, and $u_0$ is real-analytic, $1$-periodic and divergence-free, since
+$\div u_0=\partial_2\varphi_0(x_1)=0$.
+
+Let $\varphi(t,r)=\sum_ke^{-|k|-4\pi^2\nu k^2t}e^{2\pi ikr}$ for $t\ge0$,
+which solves $\varphi_t=\nu\varphi_{rr}$, and let
+$u(t,x)=(0,\varphi(t,x_1),0)$ with $p\equiv0$. Then
+$(u\cdot\nabla)u=u_2\,\partial_2u=0$, because $u_1=0$ and $u$ does not depend
+on $x_2$, and $\Delta u=(0,\varphi_{rr},0)$. So $(u,p)$ is a smooth periodic
+solution of the unforced equations on $[0,\infty)\times\R^3$.
+
+Now let $h(t)=\varphi(t,0)$. Every $t$-derivative series is dominated on
+$[0,\infty)$ by $\sum_k(4\pi^2\nu k^2)^ne^{-|k|}<\infty$, so the one-sided
+derivatives at $0$ are
+\[
+  h^{(n)}(0)=\sum_k(-4\pi^2\nu k^2)^ne^{-|k|}.
+\]
+All terms have the sign $(-1)^n$. Keeping only the term $k=2n$ and using
+$n!\le n^n$,
+\[
+  \frac{|h^{(n)}(0)|}{n!}\ \ge\ \frac{(4\pi^2\nu)^n(2n)^{2n}e^{-2n}}{n^n}
+  =\Bigl(\frac{16\pi^2\nu\,n}{e^{2}}\Bigr)^{n}.
+\]
+The $n$-th root tends to $\infty$, so the Taylor series of $h$ at $0$ has
+radius of convergence $0$. If $(t,x)\mapsto u(t,x)$ were analytic within
+$[0,\infty)\times\R^3$ at $(0,0)$, then so would be its restriction
+$t\mapsto u_2(t,0)=h(t)$ within $[0,\infty)$. The coefficients of a power
+series that represents $h$ on $[0,r)$ are forced to be $h^{(n)}(0)/n!$, so
+that series would have positive radius. This is a contradiction. Hence this
+solution does \emph{not} satisfy \lean{NSOn}$(\nu,[0,\infty),u_0,u,p)$,
+although $u_0$ satisfies \lean{SmoothPeriodicData}.
+
+Smooth periodic solutions with given data are unique. This is classical, by
+the energy method, and it is \emph{not} formalized. Assuming it, any
+\lean{NSOn} solution for this $u_0$, which is in particular smooth, would
+coincide with the shear flow above, which is impossible. Granting classical
+uniqueness, the formal \lean{FeffermanStatementB} is therefore
+\emph{false}. The same datum would make the formal
+\lean{PeriodicMaximalSolutionWithBKM} false as well, since that statement also
+requires \lean{NSOn} on $[0,T)$ with $T>0$, an interval containing $t=0$. The
+reduction \lean{feffermanStatementB_of_bkm} remains a correct implication, but
+the formal statements do not encode Fefferman's $C^\infty$ problem. None of
+this touches the results of this paper. We recommend replacing \leanu{⊤} by
+$\infty$, that is \leanu{((⊤ : ℕ∞) : WithTop ℕ∞)}, in \lean{NSOn} and
+\lean{SmoothPeriodicData}, in a separate, reviewed change. This paper does not
+make that change.
+\end{remark}
+
+%==========================================================================
+\section{Solution-linked vortex-line packets}\label{sec:packets}
+
+For a velocity $u$ and a time $t$ write $\omega(t,\cdot)=\curl u(t)$ and
+$N(t,\cdot)=|\omega(t,\cdot)|$. The normalized vorticity is
+\[
+  \xi(t,x)=N(t,x)^{-1}\omega(t,x)
+\]
+(\declref{direction}{Depletion/SolutionLinkedVortexLines.lean}{24}),
+with the convention $0^{-1}=0$, so that $\xi=0$ where $\omega=0$. If
+$\omega(t,x)\ne0$ then $|\xi(t,x)|=1$
+(\declref{norm_direction_of_nonzero}{Depletion/SolutionLinkedVortexLines.lean}{28}).
+Its divergence is $\div\xi=\sum_i\partial_i\xi_i$
+(\declref{directionDivergence}{Depletion/SolutionLinkedVortexLines.lean}{34}).
+
+\begin{definition}[Packet; \declref{Packet}{Depletion/SolutionLinkedVortexLines.lean}{56}]\label{def:packet}
+A \emph{packet} $P$ over $(u,T)$ consists of the following data:
+\begin{itemize}
+  \item maps $x,y\colon\R\to E$ (the peak and endpoint) and a curve $\gamma\colon\R\times\R\to E$;
+  \item a length $L\colon\R\to\R$;
+  \item constants $K\in\R_{\ge0}$ with $K\ge1$ and $C\in\R_{\ge0}$.
+\end{itemize}
+For every $t\in[0,T)$ the data must satisfy:
+\begin{enumerate}
+  \item[(P1)] $L(t)\ge0$, $\gamma(t,0)=x(t)$ and $\gamma(t,L(t))=y(t)$;
+  \item[(P2)] the near-maximum condition $\Omega(t)\le K\,N(t,x(t))$, in $\Ennr$;
+  \item[(P3)] if $\omega(t,x(t))\ne0$, then:
+    \begin{itemize}
+      \item[(a)] $L(t)>0$;
+      \item[(b)] $\omega(t,\gamma(t,s))\ne0$ for all $s\in[0,L(t)]$;
+      \item[(c)] $s\mapsto\gamma(t,s)$ has derivative $\xi(t,\gamma(t,s))$ within $[0,L(t)]$ at every $s\in[0,L(t)]$, so $\gamma(t,\cdot)$ is a unit-speed parametrization of a vortex line;
+      \item[(d)] $s\mapsto(\div\xi)(t,\gamma(t,s))$ is interval-integrable on $[0,L(t)]$;
+    \end{itemize}
+  \item[(P4)] the line control $\Lambda(t):=\bigl|\int_0^{L(t)}(\div\xi)(t,\gamma(t,s))\,ds\bigr|$ satisfies $\Lambda(t)\le C$ (\lean{lineControl}, line~46; set to $0$ off $[0,T)$).
+\end{enumerate}
+In addition the following maps must be Borel measurable on all of $\R$: $x$,
+$y$, $L$, $\Lambda$, and the endpoint magnitude
+\[
+  m(t):=\begin{cases}N(t,y(t)) & t\in[0,T),\\ 0 & \text{otherwise}\end{cases}
+\]
+(\declref{endpointMagnitude}{Depletion/SolutionLinkedVortexLines.lean}{39}).
+\end{definition}
+
+Every quantity in (P2)--(P4) and in $m$ is evaluated from the actual field
+$\curl u(t)$. There is no free magnitude or direction field that could be
+filled in independently of $u$. This is the difference from the legacy free
+interface \lean{DHYPacket} (\lean{lean/Clay/Gaps/DirectionAlignment.lean}:28),
+which is preserved unchanged. The constant $K$ is the reciprocal of DHY's
+near-maximum fraction. Condition (P3a) is an \emph{extra} restriction of this
+implementation: DHY do not exclude degenerate segments, and we do not claim
+that they do.
+
+\begin{definition}[Endpoint hypothesis and spatial comparison]\label{def:endpoint}
+For a packet $P$:
+\begin{itemize}
+  \item \declref{EndpointIntegralFinite}{Depletion/SolutionLinkedVortexLines.lean}{87} is the statement $\int^{-}_{[0,T)}m(t)\,dt<\infty$;
+  \item \declref{SpatialComparison}{Depletion/SolutionLinkedVortexLines.lean}{92} is the statement $N(t,x(t))\le e^{C}\,m(t)$ in $\Ennr$ for all $t\in[0,T)$;
+  \item \declref{SpatialBridgeObligation}{Depletion/SolutionLinkedVortexLines.lean}{101} is the statement that \lean{SpatialComparison} holds for every packet over every solution in \lean{ForAllFiniteSolutions}.
+\end{itemize}
+\end{definition}
+
+\begin{remark}[Nonvacuity, and its limit]
+The zero field is a solution (\lean{zero_NSOn}, line~204). It carries the
+packet \lean{zeroPacket} (line~164), which satisfies the comparison, the
+endpoint hypothesis and BKM finiteness (\lean{zeroPacket_BKMIntegralFinite},
+line~229). Conversely, if $L(t)=0$ then $\curl u(t)\equiv0$ everywhere
+(\declref{curl_eq_zero_of_length_eq_zero}{Depletion/SolutionLinkedVortexLines.lean}{117}),
+so a zero-length placeholder cannot certify a field with nonzero vorticity.
+The library contains \emph{no} packet over a nonzero solution. Nonvacuity is
+therefore established only for the zero solution.
+\end{remark}
+
+%==========================================================================
+\section{The spatial bridge: statements and complete proofs}\label{sec:proofs}
+
+The main results are the following two theorems.
+
+\begin{theorem}[\declref{spatialBridgeObligation_proved}{Depletion/ActualSpatialBridge.lean}{173}]\label{thm:bridge}
+\lean{SpatialBridgeObligation} holds. More generally
+(\declref{spatialComparison_of_NSOn}{Depletion/ActualSpatialBridge.lean}{166}),
+if $\mathrm{NSOn}(\nu,[0,T),u_0,u,p)$ holds for some $T\in\Ennr$, which may
+be infinite, then every packet $P$ over $(u,T)$ satisfies, for all
+$t\in[0,T)$,
+\[
+  |\omega(t,x(t))|\ \le\ e^{C}\,|\omega(t,y(t))|.
+\]
+\end{theorem}
+
+\begin{theorem}[\declref{bkmIntegralFinite_of_NSOn_and_endpoint}{Depletion/ActualSpatialBridge.lean}{179}]\label{thm:bkm}
+If $\mathrm{NSOn}(\nu,[0,T),u_0,u,p)$ holds and $P$ is a packet over $(u,T)$
+satisfying \lean{EndpointIntegralFinite}, then
+$\mathrm{BKMIntegralFinite}(u,T)$ holds.
+\end{theorem}
+
+The Lean statements, verbatim from the repository, are:
+\begin{leanblock}
+\kw{theorem} spatialComparison\_of\_NSOn\\
+\ \ \ \ \{ν : ℝ\} \{u0 : E3 → E3\} \{u : ℝ → E3 → E3\} \{p : ℝ → E3 → ℝ\} \{T : ℝ≥0∞\}\\
+\ \ \ \ (hsol : NSOn ν (lifespanSet T) u0 u p) (P : Packet u T) : SpatialComparison P\\[0.6ex]
+\kw{theorem} spatialBridgeObligation\_proved : SpatialBridgeObligation\\[0.6ex]
+\kw{theorem} bkmIntegralFinite\_of\_NSOn\_and\_endpoint\\
+\ \ \ \ \{ν : ℝ\} \{u0 : E3 → E3\} \{u : ℝ → E3 → E3\} \{p : ℝ → E3 → ℝ\} \{T : ℝ≥0∞\}\\
+\ \ \ \ (hsol : NSOn ν (lifespanSet T) u0 u p) (P : Packet u T)\\
+\ \ \ \ (hend : EndpointIntegralFinite P) : BKMIntegralFinite u T
+\end{leanblock}
+
+The proof is a chain of seven lemmas, each a named Lean theorem. We give every
+step.
+
+\subsection{Step 1: spatial \texorpdfstring{$C^2$}{C2} regularity from the solution hypothesis}
+\begin{lemma}[\declref{spatialC2_of_NSOn}{Depletion/ActualSpatialBridge.lean}{60}]\label{lem:C2}
+If $\mathrm{NSOn}(\nu,S,u_0,u,p)$ and $t\in S$, then each component
+$y\mapsto u(t,y)_a$ is $C^2$ on $E$.
+\end{lemma}
+\begin{proof}
+Let $\iota_t\colon E\to\R\times E$, $\iota_t(y)=(t,y)$. This map is the
+product of a constant map and the identity, so it is $C^{\top}$ (here $\top=\omega$; see Section~\ref{sec:analytic}); it maps $E$
+into $S\times E$ because $t\in S$. By (N1), $U(z)=u(z_1,z_2)$ is $C^{\top}$ on
+$S\times E$. The composition rule for \lean{ContDiffOn} then shows that
+$U\circ\iota_t=u(t,\cdot)$ is $C^{\top}$ on $\mathrm{univ}$, that is,
+$C^{\top}$ on $E$. A map into $E=\leanu{EuclideanSpace ℝ (Fin 3)}$ is
+$C^{n}$ if and only if each coordinate is (\lean{contDiff_piLp}). Finally
+$2\le\top$ lowers the index (\lean{ContDiff.of_le}). The case $t=0$ needs no
+separate treatment, because the composition is taken within $S\times E$.
+\end{proof}
+
+\subsection{Step 2: symmetry of mixed partials}
+\begin{lemma}[\declref{pd_pd_comm}{Depletion/ActualSpatialBridge.lean}{11}]\label{lem:schwarz}
+If $f\colon E\to\R$ is $C^2$, then $\partial_i(\partial_jf)(x)=\partial_j(\partial_if)(x)$ for all $i,j,x$.
+\end{lemma}
+\begin{proof}
+Since $f$ is $C^2$, $Df$ is differentiable at $x$. For a fixed vector $a$, the
+map $y\mapsto Df(y)[a]$ is the evaluation of the differentiable map $Df$ at a
+constant, so its derivative at $x$ in direction $b$ is $D^2f(x)[b][a]$
+(\lean{fderiv_clm_apply}). Hence
+$\partial_i(\partial_jf)(x)=D^2f(x)[e_i][e_j]$ and
+$\partial_j(\partial_if)(x)=D^2f(x)[e_j][e_i]$. Schwarz's theorem for $C^2$
+maps (\lean{ContDiffAt.isSymmSndFDerivAt}) gives
+$D^2f(x)[e_i][e_j]=D^2f(x)[e_j][e_i]$.
+\end{proof}
+
+\subsection{Step 3: the divergence of a curl vanishes}
+\begin{lemma}[\declref{div_curl_eq_zero}{Depletion/ActualSpatialBridge.lean}{24}]\label{lem:divcurl}
+If every component of $v\colon E\to E$ is $C^2$, then $\div\curl v\equiv0$.
+\end{lemma}
+\begin{proof}
+Fix $x$. Each $\partial_jv_a$ is differentiable at $x$, because $v_a$ is $C^2$.
+The derivative is linear, so for differentiable $f,g$ we have
+$\partial_i(f-g)(x)=\partial_if(x)-\partial_ig(x)$. Expanding the definition
+of $\curl$ gives
+\begin{align*}
+\div\curl v(x)
+&=\partial_1(\partial_2v_3-\partial_3v_2)+\partial_2(\partial_3v_1-\partial_1v_3)+\partial_3(\partial_1v_2-\partial_2v_1)\\
+&=\partial_1\partial_2v_3-\partial_1\partial_3v_2+\partial_2\partial_3v_1-\partial_2\partial_1v_3+\partial_3\partial_1v_2-\partial_3\partial_2v_1 .
+\end{align*}
+Lemma~\ref{lem:schwarz} applied to $v_3$, $v_2$ and $v_1$ gives
+$\partial_1\partial_2v_3=\partial_2\partial_1v_3$,
+$\partial_1\partial_3v_2=\partial_3\partial_1v_2$ and
+$\partial_2\partial_3v_1=\partial_3\partial_2v_1$. Substituting these and
+grouping terms,
+\[
+(\partial_2\partial_1v_3-\partial_2\partial_1v_3)
++(\partial_3\partial_1v_2-\partial_3\partial_1v_2)
++(\partial_3\partial_2v_1-\partial_3\partial_2v_1)=0 .
+\]
+In Lean the three substitutions are \lean{pd_pd_comm} at $(0,1)$, $(0,2)$ and
+$(1,2)$, and the final cancellation is \lean{ring}. Neither the momentum
+equation nor $\div u=0$ is used.
+\end{proof}
+
+\begin{lemma}[\declref{curl_differentiable_of_C2}{Depletion/ActualSpatialBridge.lean}{45}]\label{lem:curldiff}
+Under the hypothesis of Lemma~\ref{lem:divcurl}, $\curl v$ is differentiable on $E$.
+\end{lemma}
+\begin{proof}
+A map into $E$ is differentiable at $x$ if and only if each coordinate is
+(\lean{differentiableAt_piLp}). Each coordinate of $\curl v$ is a difference of
+two first partials $\partial_jv_a$, each differentiable at $x$ as in the
+previous proof.
+\end{proof}
+
+\subsection{Step 4: the product-rule identity for \texorpdfstring{$|\omega|$ and $\xi$}{|omega| and xi}}
+\begin{lemma}[\declref{norm_direction_derivative}{Depletion/ActualSpatialBridge.lean}{72}]\label{lem:prod}
+Let $w=\curl v$. Suppose that $w$ is differentiable at $x$, that $w(x)\ne0$,
+and that $\sum_i\partial_iw_i(x)=0$. Put $N=|w|$ and $\xi=N^{-1}w$. Then
+\[
+  DN(x)[\xi(x)]\;=\;-N(x)\,(\div\xi)(x).
+\]
+\end{lemma}
+\begin{proof}
+\emph{Differentiability.} The Euclidean norm is differentiable away from $0$,
+and $w(x)\ne0$, so $N$ is differentiable at $x$ (\lean{DifferentiableAt.norm}).
+Since $N(x)\ne0$, $N^{-1}$ is differentiable at $x$, and hence so is the
+product $\xi=N^{-1}w$, together with each coordinate $\xi_i$.
+
+\emph{A global factorization.} For every $y\in E$,
+\[
+  w_i(y)=N(y)\,\xi_i(y).
+\]
+If $w(y)=0$, both sides are $0$, because $\xi(y)=0^{-1}\cdot0=0$. If
+$w(y)\ne0$, then $N(y)\xi_i(y)=N(y)N(y)^{-1}w_i(y)=w_i(y)$. The factorization
+holds as an equality of \emph{functions}, which is what allows us to
+differentiate it.
+
+\emph{Product rule.} Differentiating at $x$ in the direction $e_i$ gives
+\[
+  \partial_iw_i(x)=N(x)\,\partial_i\xi_i(x)+\xi_i(x)\,\partial_iN(x).
+\]
+\emph{Summation.} Summing over $i=1,2,3$ and using the hypothesis $\sum_i\partial_iw_i(x)=0$:
+\[
+  0=N(x)\sum_i\partial_i\xi_i(x)+\sum_i\xi_i(x)\,DN(x)[e_i]
+   =N(x)\,(\div\xi)(x)+DN(x)\Bigl[\sum_i\xi_i(x)e_i\Bigr].
+\]
+The last equality uses linearity of $DN(x)$. Since $\xi(x)=\sum_i\xi_i(x)e_i$,
+this is $0=N(x)(\div\xi)(x)+DN(x)[\xi(x)]$, which rearranges to the claim.
+\end{proof}
+
+This is exactly DHY (3.1). Their computation is
+$0=\nabla\cdot(|\omega|\xi)=(\xi\cdot\nabla)|\omega|+(\nabla\cdot\xi)|\omega|$,
+and the term $DN(x)[\xi(x)]$ is the directional derivative
+$(\xi\cdot\nabla)|\omega|$.
+
+\subsection{Step 5: the logarithmic derivative along the vortex line}
+\begin{lemma}[\declref{logDerivativeAlong_of_spatialC2}{Depletion/ActualSpatialBridge.lean}{115}]\label{lem:log}
+Let $P$ be a packet over $(u,T)$, and suppose that every $u(t)$ with
+$t\in[0,T)$ has $C^2$ components. Let $t\in[0,T)$ with
+$\omega(t,x(t))\ne0$, and put $L=L(t)$, $\gamma=\gamma(t,\cdot)$. Then
+$f(s):=\log N(t,\gamma(s))$ has derivative $-(\div\xi)(t,\gamma(s))$ within
+$[0,L]$ at every $s\in[0,L]$. This is the predicate \lean{LogDerivativeAlong}
+(line~107).
+\end{lemma}
+\begin{proof}
+Fix $s\in[0,L]$ and write $z=\gamma(s)$. By (P3b), $\omega(t,z)\ne0$. By
+Lemma~\ref{lem:curldiff}, $\omega(t,\cdot)$ is differentiable at $z$, so
+$N(t,\cdot)$ is differentiable at $z$, as in the proof of
+Lemma~\ref{lem:prod}. By (P3c), $\gamma$ has derivative $\xi(t,z)$ within
+$[0,L]$ at $s$. The chain rule for a Fr\'echet-differentiable outer map
+composed with a within-differentiable curve
+(\lean{HasFDerivAt.comp_hasDerivWithinAt}) shows that $s\mapsto N(t,\gamma(s))$
+has derivative $DN(t,\cdot)(z)[\xi(t,z)]$ within $[0,L]$ at $s$. By
+Lemma~\ref{lem:divcurl}, $\div\omega(t,\cdot)=0$ at $z$. All hypotheses of
+Lemma~\ref{lem:prod} therefore hold at $z$, and the derivative equals
+$-N(t,z)(\div\xi)(t,z)$. Since $N(t,z)>0$, the chain rule for $\log$
+(\lean{HasDerivWithinAt.log}) gives
+\[
+  f'(s)=\frac{-N(t,z)\,(\div\xi)(t,z)}{N(t,z)}=-(\div\xi)(t,z)
+\]
+within $[0,L]$. The division is legitimate because $N(t,z)\ne0$; in Lean this
+step is \lean{field_simp} followed by \lean{ring}.
+\end{proof}
+
+\subsection{Step 6: integration and exponentiation}
+\begin{lemma}[\declref{spatialComparison_of_logDerivativeAlong}{Depletion/ActualSpatialBridge.lean}{135}]\label{lem:ftc}
+If $P$ satisfies \lean{LogDerivativeAlong}, then \lean{SpatialComparison}$(P)$ holds.
+\end{lemma}
+\begin{proof}
+Fix $t\in[0,T)$ and write $N_x=N(t,x(t))$, $N_y=N(t,y(t))$ and $L=L(t)$.
+
+\emph{Case $N_x=0$.} The left side of the comparison is $0$, and $0\le$
+anything in $\Ennr$.
+
+\emph{Case $N_x\ne0$.} Then $\omega(t,x(t))\ne0$, so (P3a) gives $L>0$. By
+(P3b) at $s=L$ and (P1), $\omega(t,y(t))=\omega(t,\gamma(t,L))\ne0$, so
+$N_y>0$ (\lean{endpoint_nonzero_of_peak_nonzero}, line~127). Let
+$f(s)=\log N(t,\gamma(t,s))$ and $g(s)=(\div\xi)(t,\gamma(t,s))$. We check the
+hypotheses of the fundamental theorem of calculus in the form
+\lean{intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le}:
+\begin{itemize}
+  \item $0\le L$;
+  \item $f$ is continuous on $[0,L]$, because a function with a derivative within a set at a point is continuous within that set at that point;
+  \item at each interior point $s\in(0,L)$, the set $[0,L]$ is a neighbourhood of $s$, so the within-derivative $-g(s)$ is a genuine derivative;
+  \item $-g$ is interval-integrable on $[0,L]$ by (P3d).
+\end{itemize}
+Therefore
+\[
+  \int_0^L(-g(s))\,ds=f(L)-f(0)=\log N_y-\log N_x ,
+\]
+using $\gamma(t,0)=x(t)$ and $\gamma(t,L)=y(t)$ from (P1). With
+$I:=\int_0^Lg(s)\,ds$ and $\int_0^L(-g)=-I$, this rearranges to
+\[
+  \log N_x=\log N_y+I .
+\]
+By (P4), $I\le|I|=\Lambda(t)\le C$, hence $\log N_x\le C+\log N_y$. Since
+$\exp$ is monotone, $\exp(\log a)=a$ for $a>0$, and
+$\exp(C+\log N_y)=e^{C}N_y$, we obtain
+\[
+  N_x\le e^{C}N_y .
+\]
+Finally we pass to $\Ennr$. Since $N_x$ and $N_y$ are nonnegative, the
+coercions satisfy $\|\cdot\|_+=\mathrm{ofReal}\|\cdot\|$. \lean{ENNReal.ofReal}
+is monotone, and $\mathrm{ofReal}(e^{C}N_y)=\mathrm{ofReal}(e^{C})\cdot\mathrm{ofReal}(N_y)$
+because $e^{C}\ge0$. Moreover $m(t)=N_y$ for $t\in[0,T)$. This gives the
+inequality required by \lean{SpatialComparison}.
+\end{proof}
+
+Only the upper bound $N_x\le e^{C}N_y$ is formalized. The reverse inequality
+$N_y\le e^{C}N_x$ of DHY (2.2) follows from the same identity, since
+$\log N_y=\log N_x-I\le\log N_x+C$, but it is not stated in the library.
+
+\subsection{Step 7: assembly}
+\begin{proof}[Proof of Theorem~\ref{thm:bridge}]
+By Lemma~\ref{lem:C2} with $S=[0,T)$, every slice $u(t)$ with $t\in[0,T)$ has
+$C^2$ components. Lemma~\ref{lem:log} then gives \lean{LogDerivativeAlong}$(P)$,
+and Lemma~\ref{lem:ftc} gives \lean{SpatialComparison}$(P)$. This proves
+\lean{spatialComparison_of_NSOn}. For \lean{spatialBridgeObligation_proved},
+we unfold \lean{ForAllFiniteSolutions}, introduce
+$\nu,\,\nu>0,\,u_0,u,p,T$, the data hypothesis, the hypothesis $T\ne\top$ and
+$h_{\rm sol}$, and apply the previous statement. The hypotheses $\nu>0$, the
+data hypothesis and $T\neq\top$ are not used.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:bkm}]
+This is \declref{bkmIntegralFinite_of_spatialComparison_and_endpoint}{Depletion/SolutionLinkedVortexLines.lean}{135}
+applied to the comparison from Theorem~\ref{thm:bridge}. Put
+$K'=K\cdot\mathrm{ofReal}(e^{C})$. Then $K'<\infty$, because $K\in\R_{\ge0}$
+and $e^{C}<\infty$. For $t\in[0,T)$, (P2) and the comparison give
+\[
+  \Omega(t)\le K\,N(t,x(t))\le K\,e^{C}m(t)=K'm(t).
+\]
+The function $K'm$ is measurable, because $m$ is measurable by the packet's
+measurability field. The monotonicity of the set lower integral,
+\lean{setLIntegral_mono}, requires measurability only of the majorant, and it
+gives $\int^{-}_{[0,T)}\Omega\le\int^{-}_{[0,T)}K'm$. Measurability of $m$
+also lets the constant come out of the integral (\lean{lintegral_const_mul}):
+$\int^{-}_{[0,T)}K'm=K'\int^{-}_{[0,T)}m$. The right side is a product of two
+finite elements of $\Ennr$, hence finite.
+\end{proof}
+
+\begin{corollary}[only spatial $C^2$ is used; \lean{spatialComparison_of_spatialC2} in \lean{PaperChecks.lean}]\label{cor:C2}
+Let $u\colon\R\to E\to E$ be any family whose slices $u(t)$, $t\in[0,T)$, have
+$C^2$ components. Then every packet over $(u,T)$ satisfies
+\lean{SpatialComparison}. No evolution equation, viscosity, incompressibility
+of $u$, periodicity or time regularity is needed.
+\end{corollary}
+\begin{proof}
+Compose Lemma~\ref{lem:log} with Lemma~\ref{lem:ftc}. The Lean term is
+\lean{spatialComparison_of_logDerivativeAlong P (logDerivativeAlong_of_spatialC2 P hC2)}.
+\end{proof}
+
+\begin{remark}
+Corollary~\ref{cor:C2} makes precise that the ``Navier--Stokes'' content of
+Theorem~\ref{thm:bridge} is only that solutions are spatially $C^2$. The
+statement is kinematic: it relates vorticity magnitudes \emph{at one time}
+along one vortex line. This agrees with DHY, whose Theorem~1 is stated for
+``any 3-D incompressible flow (Euler or Navier--Stokes)'', and whose
+Lemma~1 needs only $\omega(\cdot,t)\in C^1$.
+\end{remark}
+
+%==========================================================================
+\section{What the BKM consequence does and does not give}\label{sec:equiv}
+
+\begin{proposition}[\lean{endpointIntegralFinite_iff_bkm} in \lean{PaperChecks.lean}]\label{prop:equiv}
+For every packet $P$ over $(u,T)$, $\mathrm{BKMIntegralFinite}(u,T)$ implies
+\lean{EndpointIntegralFinite}$(P)$. If in addition
+$\mathrm{NSOn}(\nu,[0,T),u_0,u,p)$ holds, then the two statements are
+equivalent.
+\end{proposition}
+\begin{proof}
+For $t\in[0,T)$ we have $m(t)=N(t,y(t))\le\sup_zN(t,z)=\Omega(t)$, and for
+$t\notin[0,T)$ we have $m(t)=0\le\Omega(t)$. So $m\le\Omega$ pointwise on all
+of $\R$. Monotonicity of the lower Lebesgue integral for the restricted
+measure (\lean{lintegral_mono}) needs no measurability, and it gives
+$\int^{-}_{[0,T)}m\le\int^{-}_{[0,T)}\Omega<\infty$. The converse direction
+is Theorem~\ref{thm:bkm}.
+\end{proof}
+
+Proposition~\ref{prop:equiv} is the honest summary of the analytic content.
+\emph{Given} a packet, the vortex-line comparison converts the Clay-core
+quantity $\int\Omega$ into the endpoint quantity $\int m$, and back, with no
+loss. The criterion helps only when one has independent control of the
+vorticity at the far endpoint $y(t)$, as in the numerical scenarios DHY
+discuss, where $y(t)$ lies outside a collapsing tube. If $y(t)$ is chosen near
+the peak, the endpoint hypothesis is no easier than BKM itself. In the
+repository's terms, the Clay core \lean{PeriodicBKMIntegrability}
+(\lean{lean/Clay/StatementB.lean}:117) remains \emph{open}. Nothing here
+reduces it to a weaker or a checkable hypothesis for general data.
+
+%==========================================================================
+\section{Ledger: proved, assumed, and open}\label{sec:ledger}
+
+\subsection*{Kernel-checked in the library (commit \texttt{43653aa})}
+The following are proved in Lean with standard axioms only:
+\begin{itemize}
+  \item the ten named theorems of \lean{lean/Clay/Depletion/ActualSpatialBridge.lean} (Table~\ref{tab:decls});
+  \item the supporting theorems of \lean{SolutionLinkedVortexLines.lean} listed in the table;
+  \item the conditional reduction \lean{feffermanStatementB_of_bkm} (\lean{lean/Clay/StatementB.lean}:122), from the earlier monograph~\cite{ClayMonograph}.
+\end{itemize}
+
+\subsection*{Kernel-checked in this paper's check file (not part of the library audit)}
+\begin{itemize}
+  \item \lean{NSOn_velocity_analyticOn} and \lean{smoothPeriodicData_analyticOn} (Section~\ref{sec:analytic});
+  \item \lean{spatialComparison_of_spatialC2} (Corollary~\ref{cor:C2});
+  \item \lean{endpointIntegralFinite_of_bkm} and \lean{endpointIntegralFinite_iff_bkm} (Proposition~\ref{prop:equiv}).
+\end{itemize}
+The pull request's CI runs this file and prints \lean{#print axioms} for each declaration.
+
+\subsection*{Hypotheses carried by the theorems (assumed, not proved)}
+\begin{enumerate}
+  \item \textbf{All of \lean{NSOn}.} This means (N1)--(N5), including joint analyticity (Section~\ref{sec:analytic}). Only the spatial $C^2$ consequence of (N1) is used.
+  \item \textbf{All packet fields (P1)--(P4)} and the five measurability fields, for the specific packet supplied: near-maximality with a fixed $K$, nonvanishing along the segment, the unit-speed vortex-line tangent equation, integrability of $\div\xi$ along the segment, and the time-uniform bound $C$.
+  \item \textbf{\lean{EndpointIntegralFinite}} (Theorem~\ref{thm:bkm} only), a separate argument which by Proposition~\ref{prop:equiv} is as strong as BKM finiteness.
+\end{enumerate}
+
+\subsection*{Classical inputs \emph{not} formalized}
+\begin{enumerate}
+  \item Local existence and uniqueness of smooth periodic solutions, and the BKM continuation criterion~\cite{BKM1984}. These appear only as the named proposition \lean{PeriodicMaximalSolutionWithBKM} (\lean{lean/Clay/StatementB.lean}:109). The step from BKM finiteness to ``no blow-up'' therefore has no formal proof here. In particular Theorem~\ref{thm:bkm} concludes integral finiteness, \emph{not} regularity.
+  \item Existence of vortex-line packets for nonzero solutions: integral curves of $\xi$ through $x(t)$, their nonvanishing extent, a measurable choice of $x(t),y(t),L(t)$ in $t$, and time-uniform constants $K$ and $C$. None of this is proved for any nonzero solution.
+  \item The general and degenerate configurations of DHY Theorem~1 (for example $L(t)=0$ with nonzero vorticity), and the two-sided ratio bound (2.2).
+  \item DHY Theorem~2 and Lemmas~2--3. These use the Euler vorticity transport $\omega(X(\alpha,t),t)=\nabla_\alpha X\,\omega(\alpha,t_1)$, which fails for Navier--Stokes. None of them is imported.
+\end{enumerate}
+
+\subsection*{Open}
+The Clay core \lean{PeriodicBKMIntegrability} and Fefferman's Statement~(B)
+remain open. The fidelity issue of Section~\ref{sec:analytic} is unresolved:
+the formal \lean{FeffermanStatementB} requires analytic solutions, and by
+Remark~\ref{rem:shear} (informal, and conditional on classical uniqueness) it
+is false as written.
+
+%==========================================================================
+\section{Declaration index}\label{sec:index}
+Locations are given relative to \lean{lean/Clay/} at commit \texttt{\mainsha}.
+The CI script \lean{papers/spatial-bridge/check_refs.py} checks every
+\emph{file:line} pair printed in this paper: it confirms that the cited line
+declares the cited name.
+
+{\small
+\begin{longtable}{@{}p{0.47\textwidth}p{0.45\textwidth}@{}}
+\caption{Lean declarations used in this paper.}\label{tab:decls}\\
+\toprule
+Declaration & Location \\ \midrule
+\endfirsthead
+\toprule Declaration & Location \\ \midrule \endhead
+\multicolumn{2}{@{}l}{\emph{New in pull request \#9 (\lean{ActualSpatialBridge.lean}); ten named theorems}}\\
+\declref{pd_pd_comm}{Depletion/ActualSpatialBridge.lean}{11} & Lemma~\ref{lem:schwarz} \\
+\declref{div_curl_eq_zero}{Depletion/ActualSpatialBridge.lean}{24} & Lemma~\ref{lem:divcurl} \\
+\declref{curl_differentiable_of_C2}{Depletion/ActualSpatialBridge.lean}{45} & Lemma~\ref{lem:curldiff} \\
+\declref{spatialC2_of_NSOn}{Depletion/ActualSpatialBridge.lean}{60} & Lemma~\ref{lem:C2} \\
+\declref{norm_direction_derivative}{Depletion/ActualSpatialBridge.lean}{72} & Lemma~\ref{lem:prod} \\
+\declref{LogDerivativeAlong}{Depletion/ActualSpatialBridge.lean}{107} & definition (Prop), Lemma~\ref{lem:log} \\
+\declref{logDerivativeAlong_of_spatialC2}{Depletion/ActualSpatialBridge.lean}{115} & Lemma~\ref{lem:log} \\
+\declref{spatialComparison_of_logDerivativeAlong}{Depletion/ActualSpatialBridge.lean}{135} & Lemma~\ref{lem:ftc} \\
+\declref{spatialComparison_of_NSOn}{Depletion/ActualSpatialBridge.lean}{166} & Theorem~\ref{thm:bridge} \\
+\declref{spatialBridgeObligation_proved}{Depletion/ActualSpatialBridge.lean}{173} & Theorem~\ref{thm:bridge} \\
+\declref{bkmIntegralFinite_of_NSOn_and_endpoint}{Depletion/ActualSpatialBridge.lean}{179} & Theorem~\ref{thm:bkm} \\ \midrule
+\multicolumn{2}{@{}l}{\emph{From pull request \#8 (\lean{SolutionLinkedVortexLines.lean})}}\\
+\declref{direction}{Depletion/SolutionLinkedVortexLines.lean}{24} & $\xi$ \\
+\declref{norm_direction_of_nonzero}{Depletion/SolutionLinkedVortexLines.lean}{28} & $|\xi|=1$ \\
+\declref{directionDivergence}{Depletion/SolutionLinkedVortexLines.lean}{34} & $\div\xi$ \\
+\declref{endpointMagnitude}{Depletion/SolutionLinkedVortexLines.lean}{39} & $m$ \\
+\declref{lineControl}{Depletion/SolutionLinkedVortexLines.lean}{46} & $\Lambda$ \\
+\declref{Packet}{Depletion/SolutionLinkedVortexLines.lean}{56} & Definition~\ref{def:packet} \\
+\declref{EndpointIntegralFinite}{Depletion/SolutionLinkedVortexLines.lean}{87} & Definition~\ref{def:endpoint} \\
+\declref{SpatialComparison}{Depletion/SolutionLinkedVortexLines.lean}{92} & Definition~\ref{def:endpoint} \\
+\declref{SpatialBridgeObligation}{Depletion/SolutionLinkedVortexLines.lean}{101} & Definition~\ref{def:endpoint} \\
+\declref{curl_eq_zero_of_length_eq_zero}{Depletion/SolutionLinkedVortexLines.lean}{117} & zero-length rejection \\
+\declref{endpoint_nonzero_of_peak_nonzero}{Depletion/SolutionLinkedVortexLines.lean}{127} & Lemma~\ref{lem:ftc} \\
+\declref{bkmIntegralFinite_of_spatialComparison_and_endpoint}{Depletion/SolutionLinkedVortexLines.lean}{135} & Theorem~\ref{thm:bkm} \\
+\declref{zeroPacket}{Depletion/SolutionLinkedVortexLines.lean}{164} & nonvacuity (zero field) \\
+\declref{zero_NSOn}{Depletion/SolutionLinkedVortexLines.lean}{204} & nonvacuity (zero field) \\
+\declref{zeroPacket_BKMIntegralFinite}{Depletion/SolutionLinkedVortexLines.lean}{229} & nonvacuity (zero field) \\ \midrule
+\multicolumn{2}{@{}l}{\emph{Base definitions (\lean{StatementB.lean})}}\\
+\declref{pd}{StatementB.lean}{41} & $\partial_j$ \\
+\declref{DivFree}{StatementB.lean}{50} & $\div=0$ \\
+\declref{curl}{StatementB.lean}{53} & $\curl$ \\
+\declref{SmoothPeriodicData}{StatementB.lean}{60} & data class (Section~\ref{sec:analytic}) \\
+\declref{NSOn}{StatementB.lean}{65} & solution predicate \\
+\declref{FeffermanStatementB}{StatementB.lean}{77} & open target \\
+\declref{lifespanSet}{StatementB.lean}{82} & $[0,T)$ \\
+\declref{vortSup}{StatementB.lean}{95} & $\Omega$ \\
+\declref{BKMIntegralFinite}{StatementB.lean}{98} & BKM integral \\
+\declref{ForAllFiniteSolutions}{StatementB.lean}{102} & quantifier \\
+\declref{PeriodicMaximalSolutionWithBKM}{StatementB.lean}{109} & classical, \emph{not formalized} \\
+\declref{PeriodicBKMIntegrability}{StatementB.lean}{117} & Clay core, \emph{open} \\
+\declref{feffermanStatementB_of_bkm}{StatementB.lean}{122} & proved reduction \\
+\declref{DHYPacket}{Gaps/DirectionAlignment.lean}{28} & legacy free interface \\
+\bottomrule
+\end{longtable}}
+
+\paragraph{Axiom audit.} CI for the merge commit \texttt{43653aa} ran the
+library audit \lean{lean/AxiomReport.lean}, which iterates over every
+non-internal constant in the \lean{Clay} module tree and collects its axioms.
+It reported \texttt{AXSUMMARY 125 theorems, 236 declarations in Clay;
+nonstandard: 0}, and every row lists a subset of \texttt{propext},
+\texttt{Classical.choice} and \texttt{Quot.sound}. The workflow fails on any
+occurrence of \texttt{sorryAx} and on any nonstandard axiom. The count of 125
+includes compiler-generated equation and structure lemmas. Twelve of the 125
+rows are attributed to the new module: the ten named theorems above, the
+auxiliary \lean{LogDerivativeAlong.proof_1}, and the equation lemma
+\lean{Clay.StatementB.e.eq_1}, which Lean generates on demand in that
+module.
+
+%==========================================================================
+\section{Reproducibility}\label{sec:repro}
+\begin{itemize}
+  \item \textbf{Repository:} \url{https://github.com/BenFrohman/Clay-}.
+  \item \textbf{Library commit:} \texttt{\mainsha} (\texttt{main}; merge of pull request~\#9). The Lean files cited here are unchanged on the paper branch.
+  \item \textbf{Toolchain:} \texttt{leanprover/lean4:v4.16.0} (\lean{lean/lean-toolchain}).
+  \item \textbf{Mathlib:} \texttt{v4.16.0}, revision \texttt{a6276f4c6097675b1cf5ebd49b1146b735f38c02}, pinned in \lean{lean/lake-manifest.json} together with its transitive dependencies.
+  \item \textbf{CI:} the workflow \lean{.github/workflows/lean.yml} (Lean build, axiom audit, regressions and paper checks) and \lean{.github/workflows/paper-spatial-bridge.yml} (reference check and LaTeX build).
+\end{itemize}
+To reproduce, run:
+\begin{lstlisting}
+git clone https://github.com/BenFrohman/Clay- && cd Clay-
+git checkout 43653aab3b51269a71a713ccbc4d892869bbe497   # or the paper branch
+cd lean
+lake exe cache get          # prebuilt Mathlib for the pinned revision
+lake build                  # builds the Clay library
+lake env lean AxiomReport.lean | grep AXSUMMARY
+#   expected: AXSUMMARY 125 theorems, 236 declarations in Clay; nonstandard: 0
+lake env lean SolutionLinkedRegression.lean
+lake env lean ../papers/spatial-bridge/PaperChecks.lean   # paper branch only
+cd ../papers/spatial-bridge
+python3 check_refs.py       # every file:line in the paper names its declaration
+tectonic spatial_bridge.tex # builds spatial_bridge.pdf
+\end{lstlisting}
+In CI the clean library build takes about four minutes with the Mathlib cache.
+
+\paragraph{Acknowledgement of method.} The Lean development and this paper
+were prepared with AI-assisted tooling under the author's direction. The
+author is responsible for the content. All formal claims are those checked by
+the Lean kernel as described above.
+
+\bibliographystyle{plain}
+\bibliography{spatial_bridge}
+
+\end{document}

@@ -29,3 +29,10 @@ jobs:
           grep -q "nonstandard: 0" axiom-audit.log
       - name: Solution-linked packet regressions
         run: lake env lean SolutionLinkedRegression.lean
+      - name: Paper checks (papers/spatial-bridge)
+        run: |
+          set -o pipefail
+          lake env lean ../papers/spatial-bridge/PaperChecks.lean 2>&1 | tee paper-checks.log
+          if grep -q "sorryAx" paper-checks.log; then echo "sorryAx found"; exit 1; fi
+          if grep -q ": error" paper-checks.log; then echo "error in paper checks"; exit 1; fi
+          test "$(grep -c "depends on axioms: \[propext" paper-checks.log)" -ge 16

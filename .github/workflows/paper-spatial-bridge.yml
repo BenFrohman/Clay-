@@ -1,0 +1,41 @@
+name: Spatial-bridge paper (references and LaTeX build)
+
+on:
+  push:
+    paths:
+      - "papers/spatial-bridge/**"
+      - "lean/Clay/**"
+      - ".github/workflows/paper-spatial-bridge.yml"
+  pull_request:
+    paths:
+      - "papers/spatial-bridge/**"
+      - "lean/Clay/**"
+      - ".github/workflows/paper-spatial-bridge.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: papers/spatial-bridge
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check every cited file:line declares the cited Lean name
+        run: python3 check_refs.py
+      - name: Install tectonic
+        run: |
+          curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+          ./tectonic --version
+      - name: Compile LaTeX
+        run: |
+          mkdir -p build
+          ./tectonic -o build spatial_bridge.tex
+          test -s build/spatial_bridge.pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spatial-bridge-pdf
+          path: papers/spatial-bridge/build/spatial_bridge.pdf
