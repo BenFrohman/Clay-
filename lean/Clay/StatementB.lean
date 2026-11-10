@@ -29,7 +29,7 @@ noncomputable section
 namespace Clay.StatementB
 
 open MeasureTheory Set
-open scoped ENNReal NNReal
+open scoped ENNReal NNReal ContDiff
 
 /-- Euclidean ℝ³. -/
 abbrev E3 := EuclideanSpace ℝ (Fin 3)
@@ -58,14 +58,14 @@ def curl (v : E3 → E3) (x : E3) : E3 :=
 
 /-- Admissible data for Statement (B): smooth, divergence-free, periodic. -/
 def SmoothPeriodicData (u0 : E3 → E3) : Prop :=
-  ContDiff ℝ ⊤ u0 ∧ DivFree u0 ∧ IsPeriodic u0
+  ContDiff ℝ ∞ u0 ∧ DivFree u0 ∧ IsPeriodic u0
 
 /-- `(u,p)` is a smooth periodic unforced Navier–Stokes solution on the time set
 `S` with data `u0`: Fefferman (1), (2), (3), (10), (11) with `f ≡ 0`. -/
 def NSOn (ν : ℝ) (S : Set ℝ) (u0 : E3 → E3) (u : ℝ → E3 → E3) (p : ℝ → E3 → ℝ) :
     Prop :=
-  ContDiffOn ℝ ⊤ (fun z : ℝ × E3 => u z.1 z.2) (S ×ˢ univ) ∧
-  ContDiffOn ℝ ⊤ (fun z : ℝ × E3 => p z.1 z.2) (S ×ˢ univ) ∧
+  ContDiffOn ℝ ∞ (fun z : ℝ × E3 => u z.1 z.2) (S ×ˢ univ) ∧
+  ContDiffOn ℝ ∞ (fun z : ℝ × E3 => p z.1 z.2) (S ×ˢ univ) ∧
   (∀ t ∈ S, ∀ x i,
       derivWithin (fun s => u s x i) S t + ∑ j, u t x j * pd (fun y => u t y i) j x
         = ν * lap (fun y => u t y i) x - pd (p t) i x) ∧

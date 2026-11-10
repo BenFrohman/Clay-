@@ -17,28 +17,34 @@ import Clay
 noncomputable section
 namespace Clay.PaperChecks.SpatialBridge
 open Clay.StatementB Clay.Depletion.SolutionLinkedVortexLines MeasureTheory Set
-open scoped ENNReal NNReal
+open scoped ENNReal NNReal ContDiff
 
 /-! ## 1. Regularity class actually required by `NSOn` (paper, Section 2.3)
 
 At the pinned Mathlib, the smoothness index of `ContDiffOn` has type
-`WithTop ℕ∞`, and the bare `⊤` written in `NSOn` and `SmoothPeriodicData`
-is `⊤ : WithTop ℕ∞`, which Mathlib denotes `ω` (real-analytic), not
-`∞ = ((⊤ : ℕ∞) : WithTop ℕ∞)` (C^∞). The two are different indices. -/
+`WithTop ℕ∞`; `ω = (⊤ : WithTop ℕ∞)` is real-analytic and
+`∞ = ((⊤ : ℕ∞) : WithTop ℕ∞)` is C^∞. Versions of the library before the
+2026-11-09 correction wrote a bare `⊤` (that is, `ω`) in `NSOn` and
+`SmoothPeriodicData`. They now use `∞`, as Fefferman's statement requires.
+The checks below confirm the corrected index and that it is strictly weaker
+than `ω`. -/
 
-example : ((⊤ : ℕ∞) : WithTop ℕ∞) ≠ (⊤ : WithTop ℕ∞) := WithTop.coe_ne_top
+example : (∞ : WithTop ℕ∞) ≠ ω := WithTop.coe_ne_top
 
-/-- `NSOn` forces joint real-analyticity of the velocity on `S × ℝ³`
-(within the set). -/
-theorem NSOn_velocity_analyticOn {ν : ℝ} {S : Set ℝ} {u0 : E3 → E3}
+/-- `NSOn` requires joint C^∞ regularity of velocity and pressure. -/
+theorem NSOn_velocity_contDiffOn_infty {ν : ℝ} {S : Set ℝ} {u0 : E3 → E3}
     {u : ℝ → E3 → E3} {p : ℝ → E3 → ℝ} (h : NSOn ν S u0 u p) :
-    AnalyticOn ℝ (fun z : ℝ × E3 => u z.1 z.2) (S ×ˢ univ) :=
-  h.1.analyticOn
+    ContDiffOn ℝ ∞ (fun z : ℝ × E3 => u z.1 z.2) (S ×ˢ univ) :=
+  h.1
 
-/-- `SmoothPeriodicData` forces real-analytic initial data. -/
-theorem smoothPeriodicData_analyticOn {u0 : E3 → E3} (h : SmoothPeriodicData u0) :
-    AnalyticOn ℝ u0 univ :=
-  h.1.contDiffOn.analyticOn
+/-- `SmoothPeriodicData` requires C^∞ (not analytic) initial data. -/
+theorem smoothPeriodicData_contDiff_infty {u0 : E3 → E3} (h : SmoothPeriodicData u0) :
+    ContDiff ℝ ∞ u0 :=
+  h.1
+
+/-- C^∞ is strictly weaker than C^ω on `ℝ` (library witness). -/
+theorem contDiff_infty_ne_omega : ∃ f : ℝ → ℝ, ContDiff ℝ ∞ f ∧ ¬ ContDiff ℝ ω f :=
+  Clay.Notes.SmoothnessIndex.exists_contDiff_infty_not_omega
 
 /-! ## 2. The bridge needs only spatial C²  (paper, Corollary 4.4)
 
@@ -102,8 +108,9 @@ open Clay.StatementB Clay.Depletion.SolutionLinkedVortexLines
 #print axioms spatialBridgeObligation_proved
 #print axioms bkmIntegralFinite_of_NSOn_and_endpoint
 #print axioms bkmIntegralFinite_of_spatialComparison_and_endpoint
-#print axioms Clay.PaperChecks.SpatialBridge.NSOn_velocity_analyticOn
-#print axioms Clay.PaperChecks.SpatialBridge.smoothPeriodicData_analyticOn
+#print axioms Clay.PaperChecks.SpatialBridge.NSOn_velocity_contDiffOn_infty
+#print axioms Clay.PaperChecks.SpatialBridge.smoothPeriodicData_contDiff_infty
+#print axioms Clay.PaperChecks.SpatialBridge.contDiff_infty_ne_omega
 #print axioms Clay.PaperChecks.SpatialBridge.spatialComparison_of_spatialC2
 #print axioms Clay.PaperChecks.SpatialBridge.endpointIntegralFinite_of_bkm
 #print axioms Clay.PaperChecks.SpatialBridge.endpointIntegralFinite_iff_bkm

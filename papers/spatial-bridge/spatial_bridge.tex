@@ -44,7 +44,8 @@ for Smooth Periodic Navier--Stokes Fields}}
 \small ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}\quad|\quad
 \href{mailto:frohmanbenjamin@gmail.com}{\texttt{frohmanbenjamin@gmail.com}}\\
 \small Repository: \href{https://github.com/BenFrohman/Clay-}{\lean{https://github.com/BenFrohman/Clay-}}}
-\date{November 9, 2026 (America/Chicago, UTC$-6$). Preprint; not peer reviewed.}
+\date{November 9, 2026 (America/Chicago, UTC$-6$); revised the same day for the
+smoothness-index correction (Section~\ref{sec:analytic}). Preprint; not peer reviewed.}
 
 \begin{document}
 \maketitle
@@ -66,19 +67,21 @@ identity for $|\omega|$ and $\xi$, a logarithmic chain rule along the curve,
 and the fundamental theorem of calculus. As a consequence the library proves
 that finiteness of the time integral of the endpoint vorticity implies
 finiteness of the Beale--Kato--Majda integral. All of the theorems are checked
-by the Lean kernel, and the full library axiom audit (125 theorems, 236
-declarations) reports only \texttt{propext}, \texttt{Classical.choice} and
+by the Lean kernel, and the full library axiom audit (133 theorems, 244
+declarations after the correction below) reports only \texttt{propext}, \texttt{Classical.choice} and
 \texttt{Quot.sound}, with no \texttt{sorry}. We write every step of the
 argument out on paper. We also record three limitations, each of them
 kernel-checked: the argument uses only spatial $C^2$ smoothness, so it is
 kinematic and not specific to Navier--Stokes; the endpoint hypothesis is
 \emph{equivalent} to Beale--Kato--Majda finiteness, so the criterion moves the
-analytic difficulty rather than removing it; and at the pinned Mathlib, the
-repository's solution predicate requires joint real-analyticity rather than
-$C^\infty$ smoothness. An informal, unformalized shear-flow argument shows
-that, granting the classical uniqueness of smooth solutions, the
-repository's formal version of Statement~(B) is false as written. That formal
-statement should be corrected; doing so does not affect the results here. \textbf{This is not a proof of the Clay Millennium
+analytic difficulty rather than removing it; and earlier versions of the
+repository's solution predicate and data class, written with a bare
+\texttt{⊤}, required joint real-analyticity rather than $C^\infty$ smoothness
+at the pinned Mathlib. An informal, unformalized shear-flow argument shows
+that, granting the classical uniqueness of smooth solutions, that earlier
+formal version of Statement~(B) was false as written. The repository now uses
+the $C^\infty$ index $\infty$; the full library still builds with the same
+proofs of the results here and the same axioms. \textbf{This is not a proof of the Clay Millennium
 Navier--Stokes problem, and it does not prove global regularity for any class
 of data.} Kernel verification certifies the Lean statements as written. It
 does not certify their fidelity to the intended PDE notions.
@@ -116,7 +119,9 @@ what remains open.
 All declarations live in the repository~\cite{ClayRepo} at commit
 \texttt{\mainsha} on \texttt{main}. That commit is the merge of pull
 request~\#9, whose proof commit is \texttt{\proofsha}. File and line numbers
-below refer to that commit. In references of the form
+below refer to that commit; the later smoothness-index correction
+(Section~\ref{sec:analytic}) edits only the index on the same lines, so every
+cited \emph{file:line} is unchanged. In references of the form
 \emph{name (file:line)}, the file is relative to \lean{lean/Clay/}; the pull request carrying this paper does not
 change any Lean library file. Lean is version~4.16.0 and Mathlib is tag
 \texttt{v4.16.0} (revision
@@ -148,7 +153,7 @@ For $T\in\Ennr$ the lifespan is $[0,T)=\{t:0\le t,\ \mathrm{ofReal}(t)<T\}$
 \declref{NSOn}{StatementB.lean}{65}, written
 $\mathrm{NSOn}(\nu,S,u_0,u,p)$, asserts the following.
 \begin{enumerate}
-  \item[(N1)] $(t,x)\mapsto u(t,x)$ and $(t,x)\mapsto p(t,x)$ satisfy \leanu{ContDiffOn ℝ ⊤} on $S\times\R^3$.
+  \item[(N1)] $(t,x)\mapsto u(t,x)$ and $(t,x)\mapsto p(t,x)$ satisfy \leanu{ContDiffOn ℝ ∞} on $S\times\R^3$ (jointly $C^\infty$; see Section~\ref{sec:analytic}).
   \item[(N2)] The momentum equation holds with the one-sided time derivative \lean{derivWithin} along $S$.
   \item[(N3)] $\div u(t)=0$ for $t\in S$.
   \item[(N4)] $u(0,\cdot)=u_0$.
@@ -166,30 +171,42 @@ The quantifier \declref{ForAllFiniteSolutions}{StatementB.lean}{102}
 ranges over all $\nu>0$, all data $u_0$ satisfying \lean{SmoothPeriodicData},
 all $(u,p)$, and all finite $T$ with $\mathrm{NSOn}(\nu,[0,T),u_0,u,p)$.
 
-\subsection{A fidelity remark: \texorpdfstring{\leanu{⊤}}{top} means analytic at the pinned Mathlib}\label{sec:analytic}
+\subsection{The smoothness index, and a correction}\label{sec:analytic}
 At the pinned Mathlib the smoothness index of \lean{ContDiff} and
 \lean{ContDiffOn} has type \leanu{WithTop ℕ∞}. Mathlib writes $\infty$ for
 $((\top:\mathbb{N}_\infty):\leanu{WithTop ℕ∞})$, which means $C^\infty$, and
 $\omega$ for $\top:\leanu{WithTop ℕ∞}$, which means real-analytic (Mathlib
-file \lean{Mathlib/Analysis/Calculus/ContDiff/Defs.lean}, ``Notations'').
-\lean{NSOn} and \lean{SmoothPeriodicData} both write a bare \leanu{⊤}, so the
-index is $\omega$. The paper-check file
-\lean{papers/spatial-bridge/PaperChecks.lean} proves this explicitly.
+file \lean{Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean}, scoped
+notation \lean{ContDiff}).
+
+\paragraph{Correction (November 9, 2026).} Versions of the repository up to
+and including commit \texttt{1849c26} wrote a bare \leanu{⊤} in \lean{NSOn},
+\lean{SmoothPeriodicData}, and in the unasserted propositions
+\lean{reversedHolderClaim} and \lean{spikeObstruction}. That \leanu{⊤} is
+$\omega$, so those earlier formal statements, including
+\lean{FeffermanStatementB}, \lean{PeriodicMaximalSolutionWithBKM} and
+\lean{PeriodicBKMIntegrability}, were statements about analytic data and
+analytic solutions, not Fefferman's $C^\infty$ statement. The repository now
+writes $\infty$ in all four places. After the change the full library builds;
+all 125 previously audited theorems check unchanged in name and axioms, and
+only the proof of \lean{spatialC2_of_NSOn} needed a one-term edit (the bound
+$2\le\infty$ instead of $2\le\omega$). Theorems that take \lean{NSOn} as a
+hypothesis now assume less and are therefore more general. The library module
+\lean{Clay/Notes/SmoothnessIndex.lean} and the paper-check file
+\lean{papers/spatial-bridge/PaperChecks.lean} kernel-check the following.
 \begin{itemize}
-  \item \lean{NSOn_velocity_analyticOn}: $\mathrm{NSOn}(\nu,S,u_0,u,p)$ implies that $(t,x)\mapsto u(t,x)$ is real-analytic within $S\times\R^3$ (\lean{AnalyticOn}).
-  \item \lean{smoothPeriodicData_analyticOn}: \lean{SmoothPeriodicData}$(u_0)$ implies that $u_0$ is real-analytic.
-  \item $((\top:\mathbb{N}_\infty):\leanu{WithTop ℕ∞})\neq\top$.
+  \item $\infty\neq\omega$ in \leanu{WithTop ℕ∞}.
+  \item \lean{NSOn_velocity_contDiffOn_infty} and \lean{smoothPeriodicData_contDiff_infty}: the corrected predicates require $C^\infty$ (index $\infty$).
+  \item \lean{exists_contDiff_infty_not_omega}: the function \lean{expNegInvGlue} ($e^{-1/x}$ for $x>0$, $0$ otherwise) is $C^\infty$ on $\R$ but not analytic at $0$. So the earlier index was a strictly stronger requirement.
+  \item \lean{smoothPeriodicData_of_analytic}: analytic divergence-free periodic data remain admissible.
 \end{itemize}
 Fefferman's Statement~(B) asks for $C^\infty$ data and $C^\infty$ solutions on
-$\R^3\times[0,\infty)$. The repository's \lean{NSOn} is therefore a
-\emph{strictly stronger} hypothesis than smoothness, because it requires joint
-analyticity in $(t,x)$ up to and including $t=0$ within the time set. For the
-results of this paper the issue is harmless in one direction. Every theorem
-proved under \lean{NSOn} remains true, and Corollary~\ref{cor:C2} shows the
-spatial bridge needs only spatial $C^2$. The issue does, however, affect how the repository's
-\lean{FeffermanStatementB}, \lean{PeriodicMaximalSolutionWithBKM} and
-\lean{PeriodicBKMIntegrability} compare with their informal counterparts, as
-the following remark shows.
+$\R^3\times[0,\infty)$, which is what the corrected \lean{NSOn} and
+\lean{SmoothPeriodicData} now say. A kernel check confirms only that the Lean
+terms typecheck against these definitions; it does not by itself certify that
+the definitions are a faithful encoding (Section~\ref{sec:scope}). The
+following remark, kept for the record, explains why the earlier analytic
+version was not merely stronger but, granting classical uniqueness, false.
 
 \begin{remark}[Informal, \emph{not} formalized: a shear flow that is smooth but not time-analytic at $t=0$]\label{rem:shear}
 Fix $\nu>0$. Let
@@ -233,16 +250,15 @@ Smooth periodic solutions with given data are unique. This is classical, by
 the energy method, and it is \emph{not} formalized. Assuming it, any
 \lean{NSOn} solution for this $u_0$, which is in particular smooth, would
 coincide with the shear flow above, which is impossible. Granting classical
-uniqueness, the formal \lean{FeffermanStatementB} is therefore
-\emph{false}. The same datum would make the formal
+uniqueness, the earlier (analytic) formal \lean{FeffermanStatementB} was therefore
+\emph{false}. The same datum made the earlier formal
 \lean{PeriodicMaximalSolutionWithBKM} false as well, since that statement also
 requires \lean{NSOn} on $[0,T)$ with $T>0$, an interval containing $t=0$. The
-reduction \lean{feffermanStatementB_of_bkm} remains a correct implication, but
-the formal statements do not encode Fefferman's $C^\infty$ problem. None of
-this touches the results of this paper. We recommend replacing \leanu{⊤} by
-$\infty$, that is \leanu{((⊤ : ℕ∞) : WithTop ℕ∞)}, in \lean{NSOn} and
-\lean{SmoothPeriodicData}, in a separate, reviewed change. This paper does not
-make that change.
+reduction \lean{feffermanStatementB_of_bkm} was and remains a correct
+implication. With the corrected index $\infty$ this obstruction disappears: the
+shear flow above is $C^\infty$ on $[0,\infty)\times\R^3$, so it is an
+\lean{NSOn} solution for its datum. This remark is informal and is not
+formalized.
 \end{remark}
 
 %==========================================================================
@@ -361,13 +377,13 @@ $y\mapsto u(t,y)_a$ is $C^2$ on $E$.
 \end{lemma}
 \begin{proof}
 Let $\iota_t\colon E\to\R\times E$, $\iota_t(y)=(t,y)$. This map is the
-product of a constant map and the identity, so it is $C^{\top}$ (here $\top=\omega$; see Section~\ref{sec:analytic}); it maps $E$
-into $S\times E$ because $t\in S$. By (N1), $U(z)=u(z_1,z_2)$ is $C^{\top}$ on
+product of a constant map and the identity, so it is $C^{\infty}$; it maps $E$
+into $S\times E$ because $t\in S$. By (N1), $U(z)=u(z_1,z_2)$ is $C^{\infty}$ on
 $S\times E$. The composition rule for \lean{ContDiffOn} then shows that
-$U\circ\iota_t=u(t,\cdot)$ is $C^{\top}$ on $\mathrm{univ}$, that is,
-$C^{\top}$ on $E$. A map into $E=\leanu{EuclideanSpace ℝ (Fin 3)}$ is
+$U\circ\iota_t=u(t,\cdot)$ is $C^{\infty}$ on $\mathrm{univ}$, that is,
+$C^{\infty}$ on $E$. A map into $E=\leanu{EuclideanSpace ℝ (Fin 3)}$ is
 $C^{n}$ if and only if each coordinate is (\lean{contDiff_piLp}). Finally
-$2\le\top$ lowers the index (\lean{ContDiff.of_le}). The case $t=0$ needs no
+$2\le\infty$ lowers the index (\lean{ContDiff.of_le}). The case $t=0$ needs no
 separate treatment, because the composition is taken within $S\times E$.
 \end{proof}
 
@@ -624,17 +640,18 @@ reduces it to a weaker or a checkable hypothesis for general data.
 %==========================================================================
 \section{Ledger: proved, assumed, and open}\label{sec:ledger}
 
-\subsection*{Kernel-checked in the library (commit \texttt{43653aa})}
+\subsection*{Kernel-checked in the library (commit \texttt{43653aa}, rechecked after the smoothness-index correction)}
 The following are proved in Lean with standard axioms only:
 \begin{itemize}
   \item the ten named theorems of \lean{lean/Clay/Depletion/ActualSpatialBridge.lean} (Table~\ref{tab:decls});
   \item the supporting theorems of \lean{SolutionLinkedVortexLines.lean} listed in the table;
-  \item the conditional reduction \lean{feffermanStatementB_of_bkm} (\lean{lean/Clay/StatementB.lean}:122), from the earlier monograph~\cite{ClayMonograph}.
+  \item the conditional reduction \lean{feffermanStatementB_of_bkm} (\lean{lean/Clay/StatementB.lean}:122), from the earlier monograph~\cite{ClayMonograph};
+  \item the smoothness-index checks of \lean{lean/Clay/Notes/SmoothnessIndex.lean} (Section~\ref{sec:analytic}).
 \end{itemize}
 
 \subsection*{Kernel-checked in this paper's check file (not part of the library audit)}
 \begin{itemize}
-  \item \lean{NSOn_velocity_analyticOn} and \lean{smoothPeriodicData_analyticOn} (Section~\ref{sec:analytic});
+  \item \lean{NSOn_velocity_contDiffOn_infty}, \lean{smoothPeriodicData_contDiff_infty} and \lean{contDiff_infty_ne_omega} (Section~\ref{sec:analytic});
   \item \lean{spatialComparison_of_spatialC2} (Corollary~\ref{cor:C2});
   \item \lean{endpointIntegralFinite_of_bkm} and \lean{endpointIntegralFinite_iff_bkm} (Proposition~\ref{prop:equiv}).
 \end{itemize}
@@ -642,7 +659,7 @@ The pull request's CI runs this file and prints \lean{#print axioms} for each de
 
 \subsection*{Hypotheses carried by the theorems (assumed, not proved)}
 \begin{enumerate}
-  \item \textbf{All of \lean{NSOn}.} This means (N1)--(N5), including joint analyticity (Section~\ref{sec:analytic}). Only the spatial $C^2$ consequence of (N1) is used.
+  \item \textbf{All of \lean{NSOn}.} This means (N1)--(N5), including joint $C^\infty$ regularity (Section~\ref{sec:analytic}). Only the spatial $C^2$ consequence of (N1) is used.
   \item \textbf{All packet fields (P1)--(P4)} and the five measurability fields, for the specific packet supplied: near-maximality with a fixed $K$, nonvanishing along the segment, the unit-speed vortex-line tangent equation, integrability of $\div\xi$ along the segment, and the time-uniform bound $C$.
   \item \textbf{\lean{EndpointIntegralFinite}} (Theorem~\ref{thm:bkm} only), a separate argument which by Proposition~\ref{prop:equiv} is as strong as BKM finiteness.
 \end{enumerate}
@@ -657,10 +674,11 @@ The pull request's CI runs this file and prints \lean{#print axioms} for each de
 
 \subsection*{Open}
 The Clay core \lean{PeriodicBKMIntegrability} and Fefferman's Statement~(B)
-remain open. The fidelity issue of Section~\ref{sec:analytic} is unresolved:
-the formal \lean{FeffermanStatementB} requires analytic solutions, and by
-Remark~\ref{rem:shear} (informal, and conditional on classical uniqueness) it
-is false as written.
+remain open. The fidelity issue of Section~\ref{sec:analytic} is corrected in
+the library: the formal \lean{FeffermanStatementB} now asks for $C^\infty$
+solutions of $C^\infty$ data. Earlier versions required analytic solutions and,
+by Remark~\ref{rem:shear} (informal, and conditional on classical uniqueness),
+were false as written.
 
 %==========================================================================
 \section{Declaration index}\label{sec:index}
@@ -727,7 +745,10 @@ library audit \lean{lean/AxiomReport.lean}, which iterates over every
 non-internal constant in the \lean{Clay} module tree and collects its axioms.
 It reported \texttt{AXSUMMARY 125 theorems, 236 declarations in Clay;
 nonstandard: 0}, and every row lists a subset of \texttt{propext},
-\texttt{Classical.choice} and \texttt{Quot.sound}. The workflow fails on any
+\texttt{Classical.choice} and \texttt{Quot.sound}. After the smoothness-index
+correction a full local build and the same audit report \texttt{AXSUMMARY 133
+theorems, 244 declarations in Clay; nonstandard: 0}; the 125 earlier rows are
+unchanged and the 8 new rows belong to \lean{Clay.Notes.SmoothnessIndex}. The workflow fails on any
 occurrence of \texttt{sorryAx} and on any nonstandard axiom. The count of 125
 includes compiler-generated equation and structure lemmas. Twelve of the 125
 rows are attributed to the new module: the ten named theorems above, the
@@ -739,7 +760,7 @@ module.
 \section{Reproducibility}\label{sec:repro}
 \begin{itemize}
   \item \textbf{Repository:} \url{https://github.com/BenFrohman/Clay-}.
-  \item \textbf{Library commit:} \texttt{\mainsha} (\texttt{main}; merge of pull request~\#9). The Lean files cited here are unchanged on the paper branch.
+  \item \textbf{Library commit:} \texttt{\mainsha} (\texttt{main}; merge of pull request~\#9). The Lean files cited here are unchanged on the paper branch, except for the smoothness-index correction of Section~\ref{sec:analytic}.
   \item \textbf{Toolchain:} \texttt{leanprover/lean4:v4.16.0} (\lean{lean/lean-toolchain}).
   \item \textbf{Mathlib:} \texttt{v4.16.0}, revision \texttt{a6276f4c6097675b1cf5ebd49b1146b735f38c02}, pinned in \lean{lean/lake-manifest.json} together with its transitive dependencies.
   \item \textbf{CI:} the workflow \lean{.github/workflows/lean.yml} (Lean build, axiom audit, regressions and paper checks) and \lean{.github/workflows/paper-spatial-bridge.yml} (reference check and LaTeX build).
@@ -752,7 +773,8 @@ cd lean
 lake exe cache get          # prebuilt Mathlib for the pinned revision
 lake build                  # builds the Clay library
 lake env lean AxiomReport.lean | grep AXSUMMARY
-#   expected: AXSUMMARY 125 theorems, 236 declarations in Clay; nonstandard: 0
+#   expected at 43653aa: AXSUMMARY 125 theorems, 236 declarations; nonstandard: 0
+#   expected after the smoothness-index correction: 133 theorems, 244 declarations
 lake env lean SolutionLinkedRegression.lean
 lake env lean ../papers/spatial-bridge/PaperChecks.lean   # paper branch only
 cd ../papers/spatial-bridge

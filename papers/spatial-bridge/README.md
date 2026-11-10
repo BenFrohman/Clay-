@@ -14,9 +14,11 @@ It documents the library theorems merged in pull request #9
 Navier–Stokes problem.** Read the paper's Section 6 ("Ledger") for exactly what is
 proved, what is assumed and what remains open.
 
-The paper also records a statement-fidelity issue: at the pinned Mathlib
-the bare `⊤` in `NSOn`/`SmoothPeriodicData` is `ω` (real-analytic), not
-`∞` (C^∞). See Section 2.3 and `PaperChecks.lean`.
+The paper also records a statement-fidelity issue, now corrected: at the
+pinned Mathlib the bare `⊤` that earlier versions wrote in
+`NSOn`/`SmoothPeriodicData` is `ω` (real-analytic), not `∞` (C^∞). The library
+now writes `∞` (2026-11-09 correction). See Section 2.3, `PaperChecks.lean` and
+`lean/Clay/Notes/SmoothnessIndex.lean`.
 
 ## Files
 
@@ -32,7 +34,7 @@ the bare `⊤` in `NSOn`/`SmoothPeriodicData` is `ω` (real-analytic), not
 ```bash
 cd lean
 lake exe cache get && lake build
-lake env lean AxiomReport.lean | grep AXSUMMARY   # 125 theorems, 236 declarations; nonstandard: 0
+lake env lean AxiomReport.lean | grep AXSUMMARY   # 133 theorems, 244 declarations; nonstandard: 0
 lake env lean ../papers/spatial-bridge/PaperChecks.lean
 cd ../papers/spatial-bridge
 python3 check_refs.py

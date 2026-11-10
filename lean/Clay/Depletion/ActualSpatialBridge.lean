@@ -5,7 +5,7 @@ import Clay.Depletion.SolutionLinkedVortexLines
 noncomputable section
 namespace Clay.Depletion.SolutionLinkedVortexLines
 open Clay.StatementB MeasureTheory Set
-open scoped ENNReal NNReal
+open scoped ENNReal NNReal ContDiff
 
 /-- Equality of actual mixed spatial partial derivatives under C2 regularity. -/
 theorem pd_pd_comm (f : E3 → ℝ) (hf : ContDiff ℝ 2 f)
@@ -60,13 +60,13 @@ joint smoothness to the time slice. No regularity supplement is assumed. -/
 theorem spatialC2_of_NSOn {ν : ℝ} {S : Set ℝ} {u0 : E3 → E3}
     {u : ℝ → E3 → E3} {p : ℝ → E3 → ℝ} (hsol : NSOn ν S u0 u p)
     {t : ℝ} (ht : t ∈ S) : ∀ a : Fin 3, ContDiff ℝ 2 (fun y => u t y a) := by
-  have hs : ContDiff ℝ ⊤ (u t) := by
-    have hemb : ContDiff ℝ ⊤ (fun x : E3 => (t, x)) := contDiff_const.prod contDiff_id
+  have hs : ContDiff ℝ ∞ (u t) := by
+    have hemb : ContDiff ℝ ∞ (fun x : E3 => (t, x)) := contDiff_const.prod contDiff_id
     have h := hsol.1.comp hemb.contDiffOn (s := univ)
       (fun x _ => show (t,x) ∈ S ×ˢ (univ : Set E3) from ⟨ht, mem_univ x⟩)
     simpa only [Function.comp_def, contDiffOn_univ] using h
   intro a
-  exact ((contDiff_piLp 2).mp hs a).of_le (by simp)
+  exact ((contDiff_piLp 2).mp hs a).of_le (WithTop.coe_le_coe.mpr le_top)
 
 /-- Product-rule identity for the actual norm and actual normalized curl. -/
 theorem norm_direction_derivative (v : E3 → E3) (x : E3)

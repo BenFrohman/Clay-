@@ -17,7 +17,7 @@ noncomputable section
 namespace Clay.Gaps.MissingInputs
 
 open MeasureTheory Set Clay.StatementB
-open scoped ENNReal NNReal
+open scoped ENNReal NNReal ContDiff
 
 /-- Former opaque `bkmIntegralFinite`, now concrete: the open Clay core
 `PeriodicBKMIntegrability`. NOT PROVED. -/
@@ -48,7 +48,7 @@ def czGivesBMONotLinf : Prop :=
 a peak of height `M` on measure `δ` costs only `δ M⁶`. True; the smooth bump
 construction is not formalized here. -/
 def spikeObstruction : Prop :=
-  ¬ ∃ C : ℝ≥0, ∀ f : E3 → ℝ, ContDiff ℝ ⊤ f → IsPeriodic f →
+  ¬ ∃ C : ℝ≥0, ∀ f : E3 → ℝ, ContDiff ℝ ∞ f → IsPeriodic f →
     (⨆ x, (‖f x‖₊ : ℝ≥0∞)) ≤ C * (∫⁻ x in unitCube, (‖f x‖₊ : ℝ≥0∞) ^ 6) ^ ((1 : ℝ) / 6)
 
 /-- OPEN. The uniform vorticity ceiling the holographic heuristic asserts:
