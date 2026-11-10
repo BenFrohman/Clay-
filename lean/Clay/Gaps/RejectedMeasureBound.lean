@@ -13,13 +13,13 @@ noncomputable section
 namespace Clay.Gaps.RejectedMeasureBound
 
 open Clay.StatementB Clay.Gaps.MissingInputs
-open scoped ENNReal NNReal
+open scoped ENNReal NNReal ContDiff
 
 /-- The rejected reversed-Hölder claim, stated concretely: a constant `c > 0`
 with `c ‖f‖_∞⁴ ≤ ∫_{𝕋³} |f|⁶` for all smooth periodic `f`. False (scaling
 `f ↦ λ f`, `λ → 0`); the refutation is not formalized here, so it is not used. -/
 def reversedHolderClaim : Prop :=
-  ∃ c : ℝ≥0, 0 < c ∧ ∀ f : E3 → ℝ, ContDiff ℝ ⊤ f → IsPeriodic f →
+  ∃ c : ℝ≥0, 0 < c ∧ ∀ f : E3 → ℝ, ContDiff ℝ ∞ f → IsPeriodic f →
     c * (⨆ x, (‖f x‖₊ : ℝ≥0∞)) ^ 4 ≤ ∫⁻ x in unitCube, (‖f x‖₊ : ℝ≥0∞) ^ 6
 
 /-- Deprecated: the old placeholder, literally `False`. -/

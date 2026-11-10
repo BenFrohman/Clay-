@@ -79,6 +79,20 @@ that endpoint integral finite for arbitrary solutions remain open. This is not
 a global regularity proof and does not transfer Euler-only Theorem 2 to NS.
 See [proved/unproved scope](docs/SOLUTION_LINKED_VORTEX_LINES.md).
 
+## Correction: smoothness index (2026-11-09)
+
+In the pinned Mathlib, the smoothness index `⊤` in `ContDiff ℝ ⊤` means
+real-analytic (`ω`), not infinitely differentiable (`∞`). Up to commit
+`1849c26`, `SmoothPeriodicData` and `NSOn` (and the unasserted
+`reversedHolderClaim` and `spikeObstruction`) used that bare `⊤`. So the earlier
+formal `FeffermanStatementB` was a statement about analytic data and analytic
+solutions, not Fefferman's C^∞ statement. They now use `∞`. The full library
+still builds with the same proofs and axioms (all earlier theorems unchanged;
+one proof needed `2 ≤ ∞` in place of `2 ≤ ω`), including the spatial-bridge
+results. [`SmoothnessIndex.lean`](lean/Clay/Notes/SmoothnessIndex.lean)
+kernel-checks that `∞ ≠ ω` and gives a C^∞ function that is not analytic.
+Earlier archived versions and paper text describe the old analytic statement.
+
 ## Build
 
 ```
