@@ -139,3 +139,7 @@ certificates**. Hashes certify neither mathematical meaning nor novelty.
 See [AUTHORS.md](AUTHORS.md), [NOTICE](NOTICE), [LICENSE](LICENSE) and
 [SECURITY.md](SECURITY.md). The existing Apache-2.0 grant is unchanged; dependency
 licenses and third-party notices remain applicable.
+
+## Citation
+
+Cite this work with [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository" button). Zenodo DOI: [10.5281/zenodo.23940667](https://doi.org/10.5281/zenodo.23940667).
