@@ -5,9 +5,11 @@ authors:
   - family-names: "Frohman"
     given-names: "Benjamin Stanley"
     alias: "B.S. Frohman"
+    affiliation: "Independent Researcher, Texas, United States"
     orcid: "https://orcid.org/0009-0006-7068-3718"
-doi: 10.5281/zenodo.23940667
+doi: 10.5281/zenodo.24097853
 url: "https://github.com/BenFrohman/Clay-"
 repository-code: "https://github.com/BenFrohman/Clay-"
+version: "1.4.0"
 license: Apache-2.0
-date-released: "2026-10-07"
+date-released: "2026-11-09"

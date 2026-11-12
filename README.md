@@ -108,7 +108,7 @@ CI (`.github/workflows/lean.yml`) runs these on every push and fails on `sorryAx
 ---
 ## Archival DOI & Cryptographic Provenance
 
-- **Zenodo DOI (all versions):** [10.5281/zenodo.23653012](https://doi.org/10.5281/zenodo.23653012). This concept DOI resolves to the latest archived version. A previously archived paper version has DOI [10.5281/zenodo.23940667](https://doi.org/10.5281/zenodo.23940667). Current repository changes are not automatically a new Zenodo publication. The v1.0.0 snapshot (commit `00fee0f`) has its own version DOI, 10.5281/zenodo.23653013.
+- **Zenodo DOI (this version, v1.4.0):** [10.5281/zenodo.24097853](https://doi.org/10.5281/zenodo.24097853). Concept DOI (all versions): [10.5281/zenodo.23653012](https://doi.org/10.5281/zenodo.23653012). A previously archived paper version is [10.5281/zenodo.23940667](https://doi.org/10.5281/zenodo.23940667) (v1.3.0). Current repository changes are not automatically a new Zenodo publication. The v1.0.0 snapshot (commit `00fee0f`) has its own version DOI, 10.5281/zenodo.23653013.
 - **Author:** Frohman, Benjamin Stanley (ORCID: [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718))
 - **License:** Apache License, Version 2.0 (`Copyright (c) 2026 Benjamin Stanley Frohman`)
 - **Earliest Commit Provenance:** `9e61806681bfce3f0edee28293d22a6a711f0780` (2026-10-07 06:16:45 AM CDT (UTC-5))
@@ -142,4 +142,4 @@ licenses and third-party notices remain applicable.
 
 ## Citation
 
-Cite this work with [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository" button). Zenodo DOI: [10.5281/zenodo.23940667](https://doi.org/10.5281/zenodo.23940667).
+Cite this work with [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository" button). Zenodo DOI (v1.4.0): [10.5281/zenodo.24097853](https://doi.org/10.5281/zenodo.24097853).
