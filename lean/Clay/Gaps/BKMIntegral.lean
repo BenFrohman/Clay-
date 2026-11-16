@@ -1,10 +1,17 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-Named open obligation, now concrete (formerly opaque `M`, `dataBound`,
-`initialHs`). Not a theorem.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
 -/
 
 import Clay.StatementB
+
+/-!
+# lean.Clay.Gaps.BKMIntegral
+
+Named open obligation, now concrete (formerly opaque `M`, `dataBound`,
+`initialHs`). Not a theorem.
+-/
 
 noncomputable section
 

@@ -1,13 +1,20 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Mathlib.Tactic.Ring
+
+/-!
+# lean.Clay.Gaps.ConditionalRiccati
+
 Algebraic rearrangement on Int (closed by `ring`).
 The minus sign is a hypothesis. Does not inhabit StatementB. No sorry.
 `CorrectedMaxRate` is an integer inequality, not a differential max-rate law.
 `rate` is an Int variable; no trajectory or PDE interpretation is constructed.
 Any link to an analytical vorticity estimate is an additional, unproved input.
 -/
-
-import Mathlib.Tactic.Ring
 
 namespace Clay.Gaps.ConditionalRiccati
 

@@ -1,5 +1,14 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Clay.StatementB
+
+/-!
+# lean.Clay.Tether
+
 Geometric core, concrete. Π_u(u) = 0 is proved for the pointwise projection
 perpendicular to the local velocity (the Aug 10 "Frohmanian Symplectic Tether"
 form). Not an a priori estimate on the vorticity maximum. Does not mention
@@ -7,8 +16,6 @@ vortex direction. Strictly geometric; no regularity claim.
 SCHEMATIC: `Tether.B` and `OrthProj.kills` are data, not derived from `NSOn`;
 only `perpProj_self` and `tetherProj_self` are theorems about actual fields.
 -/
-
-import Clay.StatementB
 
 noncomputable section
 

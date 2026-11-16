@@ -1,16 +1,21 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman.
-Licensed under the Apache License, Version 2.0. See LICENSE.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
 
+import Clay.Gaps.MissingInputs
+
+/-!
+# lean.Clay.Gaps.StretchingIntegral
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
 Next analytic boundary, history-free. Concrete, not asserted.
 Not implied by Tether.bracket_vanishes_on_energy.
-
 Beale--Kato--Majda can be read through the stretching factor
 α = ξ · ∇u · ξ, ξ = ω/|ω|. Finiteness of ∫ ‖α‖_∞ is the slot the clock was
 standing in for. This file does not prove it.
 -/
-
-import Clay.Gaps.MissingInputs
 
 noncomputable section
 

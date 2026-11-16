@@ -1,10 +1,17 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-Open obligations, concrete. Not sorry. Not theorems of Navier-Stokes.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
 -/
 
 import Clay.StatementB
 import Clay.Gaps.MissingInputs
+
+/-!
+# lean.Clay.Gaps
+
+Open obligations, concrete. Not sorry. Not theorems of Navier-Stokes.
+-/
 
 noncomputable section
 

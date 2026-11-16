@@ -1,9 +1,16 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-The driver is a definition, not a theorem about Navier-Stokes solutions.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
 -/
 
 import Mathlib.MeasureTheory.Integral.IntervalIntegral
+
+/-!
+# lean.Clay.Gaps.HistoryClock
+
+The driver is a definition, not a theorem about Navier-Stokes solutions.
+-/
 
 noncomputable section
 

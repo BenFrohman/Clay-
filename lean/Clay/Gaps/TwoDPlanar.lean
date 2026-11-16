@@ -1,12 +1,19 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Clay.StatementB
+
+/-!
+# lean.Clay.Gaps.TwoDPlanar
+
 Real replacement for the `rfl` model in `TwoDClock.lean`: for a planar
 (2½D-free) velocity field `v = (v₁(x₁,x₂), v₂(x₁,x₂), 0)` on ℝ³, the vorticity
 is parallel to `e₃`, i.e. its direction is constant wherever `ω ≠ 0`.
 No differentiability hypothesis is needed. Not a regularity statement.
 -/
-
-import Clay.StatementB
 
 noncomputable section
 

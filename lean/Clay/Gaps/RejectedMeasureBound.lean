@@ -1,12 +1,19 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Clay.Gaps.MissingInputs
+
+/-!
+# lean.Clay.Gaps.RejectedMeasureBound
+
 Rejected route. The inequality ∫|ω|⁶ ≥ c M⁴ with c depending only on energy
 and viscosity is not asserted. A lemma := sorry of that type would be
 sorryAx of a false statement.
 Spike: a peak of height M on a set of measure δ contributes order δ M⁶.
 -/
-
-import Clay.Gaps.MissingInputs
 
 noncomputable section
 
