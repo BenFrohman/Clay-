@@ -1,0 +1,14 @@
+{
+  "semantics_file": "Clay/Semantics.lean",
+  "semantics_module": "Clay.Semantics",
+  "paper_path": "../paper/Clay_Technical_Monograph_2026.tex",
+  "paper_sha256": "b6c6fe6a0715d1db63848211bd076199112cd100ac49d4d221e36c7d46d798b0",
+  "main_theorems": [
+    "Clay.StatementB.feffermanStatementB_of_bkm"
+  ],
+  "lock_region_sha256": "d7dd0e59254f63c48f7c0c5ba8e7582c25200f670a5b7b9fbf3eff2b6d4f886d",
+  "draft_dirs": [],
+  "lean_roots": [
+    "Clay"
+  ]
+}
