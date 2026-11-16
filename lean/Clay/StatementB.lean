@@ -2,9 +2,14 @@
 Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Benjamin Stanley Frohman
+-/
+
+import Mathlib
+
+/-!
+# lean.Clay.StatementB
 
 Fefferman's Statement (B), stated precisely. NOT PROVED HERE.
-
 Source: C. L. Fefferman, "Existence and smoothness of the Navier–Stokes
 equation", official Clay Mathematics Institute problem description (2000),
 Statement (B): "(Existence and smoothness of Navier–Stokes solutions in ℝ³/ℤ³.)
@@ -14,15 +19,12 @@ functions p(x,t), uᵢ(x,t) on ℝ³ × [0,∞) that satisfy (1), (2), (3), (10)
 Here (1) is the momentum equation, (2) incompressibility, (3) the initial
 condition, (8)/(10) periodicity with period 1 in each coordinate, and (11)
 smoothness on ℝ³ × [0,∞).
-
 What is proved in this file is only a reduction: Statement (B) follows from two
 named Props, the classical local theory with the Beale–Kato–Majda (1984)
 continuation criterion (`PeriodicMaximalSolutionWithBKM`, not formalized here)
 and the open Clay core `PeriodicBKMIntegrability`. Mirrors the chain in
 BenFrohman/periodic-ns-classical-continuation.
 -/
-
-import Mathlib
 
 noncomputable section
 

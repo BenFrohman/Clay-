@@ -1,5 +1,13 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Mathlib.Data.Real.Basic
+
+/-!
+# lean.Clay.Notes.NotBlowup
 
 Two elementary arithmetic identities, used as a worked illustration (not a theorem about
 Navier–Stokes solutions). If the vorticity sup-norm is a constant `M`, the BKM integral over
@@ -8,8 +16,6 @@ linearly in `T`. So linear growth of the history does not, by itself, signal BKM
 Both statements hold by `rfl`; they are definitions unfolded, not analysis.
 This does not prove or disprove Fefferman (C) or (D).
 -/
-
-import Mathlib.Data.Real.Basic
 
 namespace Clay.Notes.NotBlowup
 

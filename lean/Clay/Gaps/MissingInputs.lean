@@ -1,7 +1,15 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman.
-Licensed under the Apache License, Version 2.0. See LICENSE.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
 
+import Clay.StatementB
+
+/-!
+# lean.Clay.Gaps.MissingInputs
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
 Inputs the Section 10 bootstrap does not have, stated as precise Props about
 smooth periodic Navier–Stokes solutions on 𝕋³ (see `Clay.StatementB`).
 Statement (B) is open. None of these Props is asserted.
@@ -9,8 +17,6 @@ Proved here: `holographicNotAZFCBound → bkmIntegralFinite`, and
 `bkmIntegralFinite → (local theory) → Statement (B)`.
 The former `:= True` placeholders have been removed; git history keeps them.
 -/
-
-import Clay.StatementB
 
 noncomputable section
 

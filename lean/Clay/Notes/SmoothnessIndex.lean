@@ -1,9 +1,17 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-Authors: Frohman, Benjamin Stanley
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Clay.StatementB
+import Clay.Gaps.MissingInputs
+import Clay.Gaps.RejectedMeasureBound
+
+/-!
+# lean.Clay.Notes.SmoothnessIndex
 
 Smoothness index used in `Clay.StatementB` (correction of 2026-11-09).
-
 At the pinned Mathlib the index of `ContDiff`/`ContDiffOn` has type `WithTop ℕ∞`.
 Mathlib's scoped notation (`open scoped ContDiff`) is
 * `∞ = ((⊤ : ℕ∞) : WithTop ℕ∞)`: infinitely differentiable (C^∞);
@@ -14,10 +22,6 @@ so those statements were analytic-regularity statements, not Fefferman's C^∞
 statement. They now use `∞`. This file kernel-checks that the definitions use
 `∞`, and that `∞` is a genuinely weaker requirement than `ω`.
 -/
-
-import Clay.StatementB
-import Clay.Gaps.MissingInputs
-import Clay.Gaps.RejectedMeasureBound
 
 noncomputable section
 

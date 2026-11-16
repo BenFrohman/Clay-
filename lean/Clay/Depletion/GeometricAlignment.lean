@@ -1,10 +1,17 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-Conditional depletion, concrete. Not a closure of Statement (B).
-Same content as `Clay.Gaps.DirectionAlignment`; kept as its own namespace.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
 -/
 
 import Clay.Gaps.DirectionAlignment
+
+/-!
+# lean.Clay.Depletion.GeometricAlignment
+
+Conditional depletion, concrete. Not a closure of Statement (B).
+Same content as `Clay.Gaps.DirectionAlignment`; kept as its own namespace.
+-/
 
 noncomputable section
 

@@ -1,11 +1,18 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Mathlib.Data.Real.Basic
+
+/-!
+# lean.Clay.Gaps.TwoDClock
+
 SCHEMATIC MODEL ONLY (rfl). The 2D fact is the type of the theorems; not a
 constructed solution or Beltrami field. The real kernel-checked planar statement
 is `Clay.Gaps.TwoDPlanar.curl_planar` (vorticity parallel to e₃).
 -/
-
-import Mathlib.Data.Real.Basic
 
 namespace Clay.Gaps.TwoDClock
 

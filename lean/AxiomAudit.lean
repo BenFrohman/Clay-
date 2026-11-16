@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
 import Clay.Gaps
 import Clay.Tether
 import Clay.Gaps.HistoryClock
@@ -8,6 +14,13 @@ import Clay.Depletion.GeometricAlignment
 import Clay.Gaps.BKMIntegral
 import Clay.Gaps.TwoDClock
 import Clay.Gaps.TwoDPlanar
+
+/-!
+# lean.AxiomAudit
+
+Machine-checked Lean 4 module.
+-/
+
 open Clay
 #print axioms StatementB.feffermanStatementB_of_bkm
 #print axioms StatementB.bkmIntegralFinite_of_vortSup_le

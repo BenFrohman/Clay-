@@ -1,18 +1,22 @@
 /-
-Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
-Authors: Frohman, Benjamin Stanley
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Clay
+
+/-!
+# papers.spatial-bridge.PaperChecks
 
 Kernel checks for the claims made in
 `papers/spatial-bridge/spatial_bridge.tex`. Run from `lean/`:
-
     lake env lean ../papers/spatial-bridge/PaperChecks.lean
-
 This file adds no declaration to the `Clay` library and is not part of the
 library axiom audit; it only re-checks statements the paper relies on and
 prints their axioms. Every `example`/`theorem` below must elaborate without
 `sorry`.
 -/
-import Clay
 
 noncomputable section
 namespace Clay.PaperChecks.SpatialBridge

@@ -24,3 +24,9 @@ import Clay.Notes.SmoothnessIndex
 import Clay.Depletion.SolutionLinkedVortexLines
 
 import Clay.Depletion.ActualSpatialBridge
+
+/-!
+# lean.Clay
+
+Machine-checked Lean 4 module.
+-/
