@@ -9,7 +9,7 @@ import Clay.Depletion.SolutionLinkedVortexLines
 /-!
 # lean.Clay.Depletion.ActualSpatialBridge
 
-/- Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
+Machine-checked Lean 4 module.
 -/
 
 noncomputable section
