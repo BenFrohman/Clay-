@@ -6,7 +6,7 @@
   "main_theorems": [
     "Clay.StatementB.feffermanStatementB_of_bkm"
   ],
-  "lock_region_sha256": "d7dd0e59254f63c48f7c0c5ba8e7582c25200f670a5b7b9fbf3eff2b6d4f886d",
+  "lock_region_sha256": "5b966315d342fa7913f74cb8fb0d8270d160c0de259c1691c4e66581865bf6af",
   "draft_dirs": [],
   "lean_roots": [
     "Clay"

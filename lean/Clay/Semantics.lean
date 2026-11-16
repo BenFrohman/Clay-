@@ -207,8 +207,11 @@ theorem intended_correspondence : formal_claim ↔ paper_claim := by
         rw [hset]
         exact (sol_iff ν _ u0 u p).2 hs
       have h1 := hbkm ν hν u0 u p (ENNReal.ofReal T) ((data_iff u0).2 hd) ENNReal.ofReal_ne_top hs'
-      unfold Clay.StatementB.BKMIntegralFinite at h1
-      rw [hset] at h1
+      have heq : (∫⁻ t in Ico 0 T, pVortSup u t) =
+          ∫⁻ t in Clay.StatementB.lifespanSet (ENNReal.ofReal T), Clay.StatementB.vortSup u t := by
+        rw [hset]
+        rfl
+      rw [heq]
       exact h1
     obtain ⟨u, p, hs⟩ := h hmax hint ν hν u0 ((data_iff u0).1 hd)
     exact ⟨u, p, (sol_iff ν _ u0 u p).2 hs⟩
