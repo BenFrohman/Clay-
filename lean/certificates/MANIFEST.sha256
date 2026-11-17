@@ -1,0 +1,16 @@
+# Kernel certificate manifest
+# source commit: 2c1dc357f3ea52e245b9e28c2219f058c68bf18d
+# lean-toolchain: leanprover/lean4:v4.16.0
+# Mathlib: a6276f4c6097675b1cf5ebd49b1146b735f38c02 (lake-manifest.json; inputRev v4.16.0)
+# CI run: https://github.com/BenFrohman/Clay-/actions/runs/44001431257
+# rebuild: git clone https://github.com/BenFrohman/Clay-.git && cd Clay- && git checkout 2c1dc357f3ea52e245b9e28c2219f058c68bf18d && cd lean && lake exe cache get && lake build && python3 certificates/tools/sorry_scan.py && python3 certificates/tools/gen_audit.py /tmp/KernelCertificateAudit.lean /tmp/modules.txt && lake env lean /tmp/KernelCertificateAudit.lean > /tmp/axioms.raw.txt && python3 certificates/tools/check_audit.py /tmp/axioms.raw.txt | tail -n 1
+# verify: cd lean/certificates && sha256sum -c MANIFEST.sha256
+37cb498e9dd2aed5fc7d25e8d9fa83ed5dfdfcf00d187995af8a85f37417a693  CERTIFICATE.md
+03d1aad08e5183aa079398099fa190a82348263a29f99d7f8d29fd2a785bc7f8  KernelCertificateAudit.lean.txt
+b9df03984e92e831a1dd4ac3caa8c1165aa86497eb0b75a3f690b1e1ef55e926  axioms.raw.txt
+4bd756f8b237dba779906017ad05736b18fb07230907c1bc88f5181feb8fbfa2  axioms.txt
+138557145dc45e8a71e9f5fc9fa8f232addf6d4ce7ac968b581b00af43461070  build.log
+a18bd9c1f0312aa49a30b7be4dac97f4443b6cc07fe1166eadfca997ff7cf347  environment.txt
+fa68d53506eeec908205251b645cb6040f6cc61a6a24192fee47792debc5e30c  leanchecker.txt
+abc4161499ec38c63629ff6bd7b051b040bd02e4401fd933db0fd268e07a3a0a  modules.txt
+9b85b0ee3f0a18eb953d28397112eb8f6b8a9cfde48c10f7510bd6ce1ee07f1e  sorry-scan.txt
