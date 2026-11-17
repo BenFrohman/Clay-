@@ -1,16 +1,10 @@
 name: Spatial-bridge paper (references and LaTeX build)
 
 on:
+  # Path filters are omitted because `paper` is a required status check on main.
+  # A path-filtered skip leaves that check unreported and blocks the pull request.
   push:
-    paths:
-      - "papers/spatial-bridge/**"
-      - "lean/Clay/**"
-      - ".github/workflows/paper-spatial-bridge.yml"
   pull_request:
-    paths:
-      - "papers/spatial-bridge/**"
-      - "lean/Clay/**"
-      - ".github/workflows/paper-spatial-bridge.yml"
   workflow_dispatch:
 
 permissions:
