@@ -1,0 +1,25 @@
+checker: lean4checker tag v4.16.0 (803320ef4a0948d44e56927b2d1c60c3e8c6e4e4), Main.lean prefix match -> exact match
+  patch: 81c81
+  patch: <         if target.isPrefixOf m then
+  patch: ---
+  patch: >         if target == m then
+Clay: OK (1 module replayed)
+Clay.Depletion.ActualSpatialBridge: OK (1 module replayed)
+Clay.Depletion.GeometricAlignment: OK (1 module replayed)
+Clay.Depletion.SolutionLinkedVortexLines: OK (1 module replayed)
+Clay.Gaps: OK (1 module replayed)
+Clay.Gaps.BKMIntegral: OK (1 module replayed)
+Clay.Gaps.ConditionalRiccati: OK (1 module replayed)
+Clay.Gaps.DirectionAlignment: OK (1 module replayed)
+Clay.Gaps.HistoryClock: OK (1 module replayed)
+Clay.Gaps.MissingInputs: OK (1 module replayed)
+Clay.Gaps.RejectedMeasureBound: OK (1 module replayed)
+Clay.Gaps.StretchingIntegral: OK (1 module replayed)
+Clay.Gaps.TwoDClock: OK (1 module replayed)
+Clay.Gaps.TwoDPlanar: OK (1 module replayed)
+Clay.Notes.NotBlowup: OK (1 module replayed)
+Clay.Notes.SmoothnessIndex: OK (1 module replayed)
+Clay.Semantics: OK (1 module replayed)
+Clay.StatementB: OK (1 module replayed)
+Clay.Tether: OK (1 module replayed)
+RESULT: 19 of 19 modules replayed through the kernel, 0 failures

@@ -1,0 +1,42 @@
+import Lean
+import «Clay»
+import «Clay».«Depletion».«ActualSpatialBridge»
+import «Clay».«Depletion».«GeometricAlignment»
+import «Clay».«Depletion».«SolutionLinkedVortexLines»
+import «Clay».«Gaps»
+import «Clay».«Gaps».«BKMIntegral»
+import «Clay».«Gaps».«ConditionalRiccati»
+import «Clay».«Gaps».«DirectionAlignment»
+import «Clay».«Gaps».«HistoryClock»
+import «Clay».«Gaps».«MissingInputs»
+import «Clay».«Gaps».«RejectedMeasureBound»
+import «Clay».«Gaps».«StretchingIntegral»
+import «Clay».«Gaps».«TwoDClock»
+import «Clay».«Gaps».«TwoDPlanar»
+import «Clay».«Notes».«NotBlowup»
+import «Clay».«Notes».«SmoothnessIndex»
+import «Clay».«Semantics»
+import «Clay».«StatementB»
+import «Clay».«Tether»
+
+open Lean Elab Command
+
+/-- Prints `#print axioms`-style lines for every theorem declared in the listed modules. -/
+elab "#kernel_certificate_audit" : command => do
+  let env ← getEnv
+  let mods : Array Name := #[`«Clay», `«Clay».«Depletion».«ActualSpatialBridge», `«Clay».«Depletion».«GeometricAlignment», `«Clay».«Depletion».«SolutionLinkedVortexLines», `«Clay».«Gaps», `«Clay».«Gaps».«BKMIntegral», `«Clay».«Gaps».«ConditionalRiccati», `«Clay».«Gaps».«DirectionAlignment», `«Clay».«Gaps».«HistoryClock», `«Clay».«Gaps».«MissingInputs», `«Clay».«Gaps».«RejectedMeasureBound», `«Clay».«Gaps».«StretchingIntegral», `«Clay».«Gaps».«TwoDClock», `«Clay».«Gaps».«TwoDPlanar», `«Clay».«Notes».«NotBlowup», `«Clay».«Notes».«SmoothnessIndex», `«Clay».«Semantics», `«Clay».«StatementB», `«Clay».«Tether»]
+  for m in mods do
+    match env.getModuleIdx? m with
+    | none => IO.println s!"MODULE NOT LOADED {m}"
+    | some i =>
+      for n in (env.header.moduleData[i.toNat]!).constNames do
+        match env.find? n with
+        | some (.thmInfo _) =>
+          if !n.isInternal then
+            let ax ← collectAxioms n
+            let axs := ", ".intercalate (ax.toList.map toString)
+            if ax.isEmpty then IO.println s!"'{n}' does not depend on any axioms [module {m}]"
+            else IO.println s!"'{n}' depends on axioms: [{axs}] [module {m}]"
+        | _ => pure ()
+
+#kernel_certificate_audit
